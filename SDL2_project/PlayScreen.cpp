@@ -15,12 +15,30 @@ PlayScreen::PlayScreen()
 	mBottomBarBackground->Scale(Vector2D(Graphics::Instance()->SCREEN_WIDTH / imageSize, (Graphics::Instance()->SCREEN_WIDTH / imageSize) * scaleValue));
 	float imageHeight = imageSize * (Graphics::Instance()->SCREEN_WIDTH / imageSize) * scaleValue;
 	mBottomBarBackground->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT - imageHeight * 0.5f));
-	//SetHighScore(30000);
 
 	// Blinker varialbles initializing
 	mBlinkTimer = 0.0f;
 	mBlinkInterval = 0.5f;
 	m1UPVisible = true;
+
+	// Life
+	mLifes = new GameEntity();
+	mLifes->Parent(mScoreBoard);
+	mLifes->Pos(Vector2D(0.0f, 0.0f));
+
+	for (int i = 0; i < MAX_LIFE_TEXTURES; i++)
+	{
+		mLifeTextures[i] = new Texture("heart.png");
+		mLifeTextures[i]->Parent(mLifes);
+		mLifeTextures[i]->Scale(VECTOR2D_ONE * 0.8f);
+		mLifeTextures[i]->Pos(mScoreBoard->mPlayerOne->Pos() + Vector2D(60.0f * (i % 3) + 120.0f, 70.0f * (i / 3)));
+	}
+
+	mTotalLifes = 3;
+
+	// test
+	SetHighScore(55555);
+	SetPlayerScore(11111);
 }
 
 PlayScreen::~PlayScreen()
@@ -33,6 +51,16 @@ PlayScreen::~PlayScreen()
 
 	delete mBottomBarBackground;
 	mBottomBarBackground = nullptr;
+
+	// Life
+	delete mLifes;
+	mLifes = nullptr;
+
+	for (int i = 0; i < MAX_LIFE_TEXTURES; i++)
+	{
+		delete mLifeTextures[i];
+		mLifeTextures[i] = nullptr;
+	}
 }
 
 void PlayScreen::SetHighScore(int score)
@@ -59,7 +87,13 @@ void PlayScreen::Update()
 void PlayScreen::Render()
 {
 	// Blinker applying
-	if (m1UPVisible)
-		mScoreBoard->Render();
+	//if (m1UPVisible)
+	//	mScoreBoard->Render();
+	mScoreBoard->Render();
 	mBottomBarBackground->Render();
+
+	for (int i = 0; i < MAX_LIFE_TEXTURES && i < mTotalLifes; i++)
+	{
+		mLifeTextures[i]->Render();
+	}
 }

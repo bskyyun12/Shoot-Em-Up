@@ -1,7 +1,5 @@
 #include "ScoreBoard.h"
 
-
-
 ScoreManager::ScoreManager()
 {
 	Score(0);
@@ -60,8 +58,6 @@ void ScoreManager::Score(int score)
 	}
 }
 
-
-
 ScoreBoard::ScoreBoard()
 {
 	//Top Bar Entities
@@ -81,7 +77,7 @@ ScoreBoard::ScoreBoard()
 	mHighScoreBoard->Parent(mTopBar);
 
 	mPlayerOne->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * -0.35f, 0.0f));
-	mPlayerTwo->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.35f, 0.0f));
+	mPlayerTwo->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.27f, 0.0f));
 	mHighScore->Pos(Vector2D(0.0f, 0.0f));
 	mPlayerOneScoreBoard->Pos(mPlayerOne->Pos(local) + Vector2D(0.0f, 32.0f));
 	mPlayerTwoScoreBoard->Pos(mPlayerTwo->Pos(local) + Vector2D(0.0f, 32.0f));

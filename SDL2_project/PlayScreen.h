@@ -15,9 +15,16 @@ private:
 	ScoreBoard* mScoreBoard = nullptr;
 	Texture* mBottomBarBackground = nullptr;
 
+	// Blinker
 	float mBlinkTimer;
 	float mBlinkInterval;
 	bool m1UPVisible;
+
+	// Life
+	static const int MAX_LIFE_TEXTURES = 3;
+	GameEntity* mLifes = nullptr;
+	Texture* mLifeTextures[MAX_LIFE_TEXTURES];
+	int mTotalLifes;
 
 public:
 
