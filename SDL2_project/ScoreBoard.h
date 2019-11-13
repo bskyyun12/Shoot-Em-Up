@@ -27,15 +27,15 @@ class ScoreBoard : public GameEntity
 {
 private:
 
+public:
+	ScoreBoard();
+	~ScoreBoard();
+
 	//Top Bar Entities
 	GameEntity* mTopBar = nullptr;
 	Texture* mPlayerOne = nullptr;
 	Texture* mPlayerTwo = nullptr;
 	Texture* mHighScore = nullptr;
-
-public:
-	ScoreBoard();
-	~ScoreBoard();
 
 	ScoreManager* mPlayerOneScoreBoard = nullptr;
 	ScoreManager* mPlayerTwoScoreBoard = nullptr;

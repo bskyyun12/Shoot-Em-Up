@@ -25,6 +25,7 @@ public:
 	~PlayScreen();
 
 	void SetHighScore(int score);
+	void SetPlayerScore(int score);
 
 	void Update();
 

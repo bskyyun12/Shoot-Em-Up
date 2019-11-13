@@ -15,7 +15,12 @@ PlayScreen::PlayScreen()
 	mBottomBarBackground->Scale(Vector2D(Graphics::Instance()->SCREEN_WIDTH / imageSize, (Graphics::Instance()->SCREEN_WIDTH / imageSize) * scaleValue));
 	float imageHeight = imageSize * (Graphics::Instance()->SCREEN_WIDTH / imageSize) * scaleValue;
 	mBottomBarBackground->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT - imageHeight * 0.5f));
-	SetHighScore(30000);
+	//SetHighScore(30000);
+
+	// Blinker varialbles initializing
+	mBlinkTimer = 0.0f;
+	mBlinkInterval = 0.5f;
+	m1UPVisible = true;
 }
 
 PlayScreen::~PlayScreen()
@@ -35,13 +40,26 @@ void PlayScreen::SetHighScore(int score)
 	mScoreBoard->mHighScoreBoard->Score(score);
 }
 
+void PlayScreen::SetPlayerScore(int score)
+{
+	mScoreBoard->mPlayerOneScoreBoard->Score(score);
+}
+
 void PlayScreen::Update()
 {
-
+	// Blinker logic
+	mBlinkTimer += mTimer->DeltaTime();
+	if (mBlinkTimer >= mBlinkInterval)
+	{
+		m1UPVisible = !m1UPVisible;
+		mBlinkTimer = 0.0f;
+	}
 }
 
 void PlayScreen::Render()
 {
-	mScoreBoard->Render();
+	// Blinker applying
+	if (m1UPVisible)
+		mScoreBoard->Render();
 	mBottomBarBackground->Render();
 }
