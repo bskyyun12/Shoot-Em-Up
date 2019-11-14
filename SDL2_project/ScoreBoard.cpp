@@ -53,7 +53,7 @@ void ScoreManager::Score(int score)
 			// store each number of score 1, 2, 3, 4 -> in this way we can save memory since same text shares same cache
 			mScores.push_back(new Texture(str.substr(i, 1), Graphics::Instance()->FONT, 32, { 230, 230, 230 }));
 			mScores[i]->Parent(this); // 1, 2, 3, 4 ->Parent(this)
-			mScores[i]->Pos(Vector2D(-32.0f * (lastIndex - i), 0.0f)); // start with last number and next one will be futher left then the previous one
+			mScores[i]->Pos(Vector2D(-32.0f * (lastIndex - i) + (lastIndex * 32 * 0.5f), 0.0f)); // start with last number and next one will be futher left then the previous one
 		}
 	}
 }
