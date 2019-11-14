@@ -56,6 +56,17 @@ void AudioManager::ResumeMusic()
 	}
 }
 
+void AudioManager::MusicVolume(int volume)
+{
+	if (volume > MIX_MAX_VOLUME)
+		volume = MIX_MAX_VOLUME;
+
+	else if (volume < 0)
+		volume = 0;
+
+	Mix_VolumeMusic(volume);
+}
+
 void AudioManager::PlaySFX(std::string fileName, int loops, int channel)
 {
 	Mix_PlayChannel(channel, mAssetManager->GetSFX(fileName), loops);

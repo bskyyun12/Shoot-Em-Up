@@ -32,6 +32,8 @@ public:
 	BackgroundScroll();
 	~BackgroundScroll();
 
+	static bool mScroll;
+
 	void ResetBackgroundPos(Texture* background);
 
 	void Update();

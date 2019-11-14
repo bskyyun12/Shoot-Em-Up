@@ -16,7 +16,9 @@ public:
 	static void Release();
 
 	//----------------------------------------------------------------------------------------------
-	//Sets the BGM to play using the provided file, loops = -1 is infinite looping (default: -1)
+	//Sets the BGM to play using the provided file, 
+	//loops = -1 is infinite looping (default: -1)
+	//loops = 0 is no looping, just once
 	//-----------------------------------------------------------------------------------------------
 	void PlayMusic(std::string filename, int loops = -1);
 	//-------------------------------------------------------
@@ -27,6 +29,13 @@ public:
 	//Resumes paused BGM
 	//-------------------------
 	void ResumeMusic();
+
+	//---------------------------------------------------------------------------
+	//Music volume, from 0 to MIX_MAX_VOLUME(128).
+	//Values greater than MIX_MAX_VOLUME will use MIX_MAX_VOLUME.
+	//- 1 does not set the volume, but does return the current volume setting.
+	//---------------------------------------------------------------------------
+	void MusicVolume(int volume);
 
 	//--------------------------------------------------
 	//Plays a sound effect from the file provided

@@ -2,14 +2,15 @@
 #include "AnimatedTexture.h"
 #include "InputManager.h"
 #include "ScoreBoard.h"
+#include "AudioManager.h"
 
 class StartScreen : public GameEntity
 {
 protected:
 
-	// Timer
 	Timer* mTimer = nullptr;
 	InputManager* mInputManager = nullptr;
+	AudioManager* mAudioManager = nullptr;
 
 	//Top Bar
 	ScoreBoard* mScoreBoard = nullptr;

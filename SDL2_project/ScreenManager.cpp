@@ -54,14 +54,16 @@ void ScreenManager::Update()
 		{
 			currentScreen = play;
 			mStartScreen->ResetAnimation();
+			mPlayScreen->StartNewGame();
 		}
 		break;
 	case play:
 		mBackgroundScroll->Update();
 		mPlayScreen->Update();
-		if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN))
+		if (mInputManager->KeyPressed(SDL_SCANCODE_ESCAPE))
 		{
 			currentScreen = start;
+			mStartScreen->ResetAnimation();
 		}
 		break;
 	default:

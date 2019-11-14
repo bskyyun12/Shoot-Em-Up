@@ -2,9 +2,9 @@
 
 StartScreen::StartScreen()
 {
-	// Timer
 	mTimer = Timer::Instance();
 	mInputManager = InputManager::Instance();
+	mAudioManager = AudioManager::Instance();
 
 	//Top Bar
 	mScoreBoard = new ScoreBoard();
@@ -65,6 +65,10 @@ StartScreen::StartScreen()
 
 StartScreen::~StartScreen()
 {
+	mTimer = nullptr;
+	mInputManager = nullptr;
+	mAudioManager = nullptr;
+
 	//Freeing Top Bar
 	delete mScoreBoard;
 	mScoreBoard = nullptr;
@@ -106,6 +110,9 @@ void StartScreen::ResetAnimation()
 	mAnimationDone = false;
 
 	Pos(mAnimationStartPos);
+
+	mAudioManager->PlayMusic("Audios/intro_bmg.wav");
+	mAudioManager->MusicVolume(70);
 }
 
 int StartScreen::SelectMode()
