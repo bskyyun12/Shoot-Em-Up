@@ -148,6 +148,12 @@ void PlayScreen::Update()
 		m1UPVisible = !m1UPVisible;
 		mBlinkTimer = 0.0f;
 	}
+
+	// test purpose
+	if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN))
+	{
+		StartNextLevel();
+	}
 }
 
 void PlayScreen::Render()

@@ -20,21 +20,21 @@ Level::Level(int stage)
 	mStageNumber->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.65f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
 	mStageLabelOnScreen = 0.0f;
-	mStageLabelOffScreen = 1.5f;
+	mStageLabelOffScreen = 1.2f;
 
 	mReadyLabel = new Texture("READY!", Graphics::Instance()->FONT, 64, { 255, 20, 147 });
 	mReadyLabel->Parent(this);
 	mReadyLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
 	mReadyLabelOnScreen = mStageLabelOffScreen;
-	mReadyLabelOffScreen = mReadyLabelOnScreen + 1.0f;
+	mReadyLabelOffScreen = mReadyLabelOnScreen + 1.1f;
 
 	mGoLabel = new Texture("GO!!", Graphics::Instance()->FONT, 64, { 255, 20, 147 });
 	mGoLabel->Parent(this);
 	mGoLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
 	mGoLabelOnScreen = mReadyLabelOffScreen;
-	mGoLabelOffScreen = mGoLabelOnScreen + 1.0f;
+	mGoLabelOffScreen = mGoLabelOnScreen + 1.1f;
 
 	mAudioManager->PlayMusic("Audios/ready_set_go.wav", 0);
 }
@@ -61,6 +61,7 @@ void Level::StartStage()
 {
 	BackgroundScroll::mScroll = true;
 	mStageStarted = true;
+	mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
 }
 
 void Level::Update()
