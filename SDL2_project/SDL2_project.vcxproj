@@ -141,6 +141,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="PlayScreen.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayScreen.cpp" />

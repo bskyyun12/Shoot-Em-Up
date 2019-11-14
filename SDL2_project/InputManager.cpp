@@ -20,6 +20,9 @@ void InputManager::Release()
 
 InputManager::InputManager() 
 {
+	mMouseState = SDL_GetMouseState(&mMouseXPos, &mMouseYPos);
+	mPrevMouseState = mMouseState;
+
 	mKeyboardState = SDL_GetKeyboardState(&mKeyLength);
 	//Setting mPrevKeyboardState to be the same length as mKeyboardState
 	mPrevKeyboardState = new Uint8[mKeyLength];

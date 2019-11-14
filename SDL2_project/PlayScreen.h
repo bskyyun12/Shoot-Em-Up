@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "AudioManager.h"
 #include "BackgroundScroll.h"
+#include "Level.h"
 
 class PlayScreen : public GameEntity
 {
@@ -24,16 +25,17 @@ private:
 	// Life
 	static const int MAX_LIFE_TEXTURES = 3;
 	GameEntity* mLives = nullptr;
-	Texture* mLifeTextures[MAX_LIFE_TEXTURES];
+	Texture* mLifeTextures[MAX_LIFE_TEXTURES] = { nullptr };
 	int mTotalLives;
 
 	// level
+	Level* mLevel = nullptr;
 	float mLevelStartTimer;
 	float mLevelStartDelay;
 	bool mGameStarted;
 	bool mLevelStarted;
 	int mCurrentStage;
-
+	                      
 private:
 
 	void StartNextLevel();

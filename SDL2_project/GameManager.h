@@ -22,7 +22,7 @@ private:
 
 	Timer* mTimer = nullptr;
 
-	SDL_Event mEvents;
+	SDL_Event mEvents = {0};
 
 	// STEP 2 : Create new instance
 	ScreenManager* mScreenManager = nullptr;

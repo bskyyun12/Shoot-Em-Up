@@ -8,9 +8,14 @@ private:
 
 	std::vector<Texture*> mScores;
 
+	int mFontSize;
+
+	SDL_Color mColor = { 0, 0, 0, 0 };
+
 public:
 
 	ScoreManager();
+	ScoreManager(SDL_Color color, int fontSize);
 	~ScoreManager();
 
 	void Score(int score);

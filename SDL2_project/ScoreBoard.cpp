@@ -1,8 +1,13 @@
 #include "ScoreBoard.h"
 
-ScoreManager::ScoreManager()
+ScoreManager::ScoreManager() : ScoreManager({ 230, 230, 230 }, 32)
+{}
+
+ScoreManager::ScoreManager(SDL_Color color, int fontSize)
 {
+	mColor = color;
 	Score(0);
+	mFontSize = fontSize;
 }
 
 ScoreManager::~ScoreManager()
@@ -37,7 +42,7 @@ void ScoreManager::Score(int score)
 	{
 		for (int i = 0; i < 2; i++)
 		{
-			mScores.push_back(new Texture("0", Graphics::Instance()->FONT, 32, { 230, 230, 230 }));
+			mScores.push_back(new Texture("0", Graphics::Instance()->FONT, 32, mColor));
 			mScores[i]->Parent(this);
 			mScores[i]->Pos(Vector2D(-32.0f * i, 0.0f));
 		}
@@ -51,9 +56,9 @@ void ScoreManager::Score(int score)
 		for (int i = 0; i <= lastIndex; i++)
 		{
 			// store each number of score 1, 2, 3, 4 -> in this way we can save memory since same text shares same cache
-			mScores.push_back(new Texture(str.substr(i, 1), Graphics::Instance()->FONT, 32, { 230, 230, 230 }));
+			mScores.push_back(new Texture(str.substr(i, 1), Graphics::Instance()->FONT, mFontSize, mColor));
 			mScores[i]->Parent(this); // 1, 2, 3, 4 ->Parent(this)
-			mScores[i]->Pos(Vector2D(-32.0f * (lastIndex - i) + (lastIndex * 32 * 0.5f), 0.0f)); // start with last number and next one will be futher left then the previous one
+			mScores[i]->Pos(Vector2D(-(float)mFontSize * (lastIndex - i) + (lastIndex * mFontSize * 0.5f), 0.0f)); // start with last number and next one will be futher left then the previous one
 		}
 	}
 }
