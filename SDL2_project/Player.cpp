@@ -44,6 +44,7 @@ Player::~Player()
 
 void Player::HandleMovement()
 {
+	//Hello
 	// save player's position before player moves
 	Vector2D prevPlayerPos = Pos(local);
 
