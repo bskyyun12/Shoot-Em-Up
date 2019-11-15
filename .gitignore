@@ -13,10 +13,12 @@
 *.userprefs
 
 # Build results
+[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
 x86/
+x64/Debug/Team3.exe
 bld/
 [Bb]in/
 [Oo]bj/
