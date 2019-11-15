@@ -54,6 +54,11 @@ struct Vector2D
 
 		return *this;
 	}
+
+	Vector2D operator -() const
+	{
+		return Vector2D(-x, -y);
+	}
 };
 
 inline Vector2D operator +(const Vector2D& v1, const Vector2D& v2)
@@ -103,7 +108,7 @@ inline Vector2D Lerp(Vector2D& start_vec, Vector2D& end_vec, float time)
 const Vector2D VECTOR2D_ZERO = { 0.0f, 0.0f };
 const Vector2D VECTOR2D_ONE = { 1.0f, 1.0f };
 const Vector2D VECTOR2D_UP = { 0.0f, -1.0f };
-const Vector2D VECTOR2D_Down = { 0.0f, 1.0f };
+const Vector2D VECTOR2D_DOWN = { 0.0f, 1.0f };
 const Vector2D VECTOR2D_RIGHT = { 1.0f, 0.0f };
 const Vector2D VECTOR2D_LEFT = { -1.0f, 0.0f };
 

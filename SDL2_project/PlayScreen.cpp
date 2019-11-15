@@ -6,7 +6,7 @@ PlayScreen::PlayScreen()
 	mInputManager = InputManager::Instance();
 	mAudioManager = AudioManager::Instance();
 	mScoreBoard = new ScoreBoard();
-	mStartLabel = new Texture("START!", Graphics::Instance()->FONT, 64, { 255, 20, 147 });
+	mStartLabel = new Texture("START!", Graphics::Instance()->FONT_Emulogic, 64, { 255, 20, 147 });
 	mStartLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
 	// BottomBar                                                           
@@ -44,6 +44,9 @@ PlayScreen::PlayScreen()
 	mGameStarted = true;
 	mLevelStarted = false;
 	mCurrentStage = 0;
+
+	// Player
+	mPlayer = nullptr;
 }
 
 PlayScreen::~PlayScreen()
@@ -59,6 +62,9 @@ PlayScreen::~PlayScreen()
 
 	delete mLevel;
 	mLevel = nullptr;
+
+	delete mPlayer;
+	mPlayer = nullptr;
 
 	// BottomBar
 	//delete mBottomBarBackground;
@@ -97,17 +103,28 @@ void PlayScreen::StartNextLevel()
 	mLevelStartTimer = 0.0f;
 	mLevelStarted = true;
 
+	// Create new Level
 	delete mLevel;
-	mLevel = new Level(mCurrentStage);
+	mLevel = new Level(mCurrentStage, mPlayer);
 }
 
 void PlayScreen::StartNewGame()
 {
+	// Create new Player
+	delete mPlayer;
+	mPlayer = new Player();
+	mPlayer->Parent(this);
+	mPlayer->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
+	mPlayer->Active(false);
+
 	BackgroundScroll::mScroll = false;
 	SetHighScore(55555);
-	SetLives(2);
+	SetLives(mPlayer->Lives());
+	SetPlayerScore(mPlayer->Score());
 	mGameStarted = false;
+	mLevelStarted = false;
 	mAudioManager->PlayMusic("Audios/drums.wav", 0);
+	mAudioManager->MusicVolume(10);
 	mCurrentStage = 0;
 }
 
@@ -124,21 +141,21 @@ void PlayScreen::Update()
 				StartNextLevel();
 			}
 		}
-		// here do something after game starts before level starts(currently for 1 seconds)
+		// here do something between game starts and level starts(currently for 1 seconds = mLevelStartDelay)
 	}
 	else
 	{
-		// test 1 - game enter music start
+		// if music is done, game starts
 		if (!Mix_PlayingMusic())
-		{
 			mGameStarted = true;
-			//BackgroundScroll::mScroll = true;
-		}
 	}
 
-	if (mGameStarted && mLevelStarted)
+	if (mGameStarted)
 	{
-		mLevel->Update();
+		if (mLevelStarted)
+			mLevel->Update();
+
+		mPlayer->Update();
 	}
 
 	// Blinker logic
@@ -175,9 +192,12 @@ void PlayScreen::Render()
 		}
 	}
 
-	if (mGameStarted && mLevelStarted)
+	if (mGameStarted)
 	{
-		mLevel->Render();
+		mPlayer->Render();
+
+		if (mLevelStarted)
+			mLevel->Render();
 	}
 
 	// BottomBar

@@ -1,35 +1,35 @@
 #include "Level.h"
 
-Level::Level(int stage)
+Level::Level(int stage, Player* player)
 {
 	mTimer = Timer::Instance();
 	mAudioManager = AudioManager::Instance();
 
-	mStage = stage;
+	mCurrentStage = stage;
 	mStageStarted = false;
 
 	mLabelTimer = 0.0f;
 
-	mStageLabel = new Texture("STAGE", Graphics::Instance()->FONT, 64, { 255, 20, 147 });
+	mStageLabel = new Texture("STAGE", Graphics::Instance()->FONT_Emulogic, 64, { 255, 20, 147 });
 	mStageLabel->Parent(this);
 	mStageLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.45f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
 	mStageNumber = new ScoreManager({ 255, 20, 147 }, 64);
-	mStageNumber->Score(mStage);
+	mStageNumber->Score(mCurrentStage);
 	mStageNumber->Parent(this);
 	mStageNumber->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.65f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
 	mStageLabelOnScreen = 0.0f;
 	mStageLabelOffScreen = 1.2f;
 
-	mReadyLabel = new Texture("READY!", Graphics::Instance()->FONT, 64, { 255, 20, 147 });
+	mReadyLabel = new Texture("READY!", Graphics::Instance()->FONT_Emulogic, 64, { 255, 20, 147 });
 	mReadyLabel->Parent(this);
 	mReadyLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
 	mReadyLabelOnScreen = mStageLabelOffScreen;
 	mReadyLabelOffScreen = mReadyLabelOnScreen + 1.1f;
 
-	mGoLabel = new Texture("GO!!", Graphics::Instance()->FONT, 64, { 255, 20, 147 });
+	mGoLabel = new Texture("GO!!", Graphics::Instance()->FONT_Emulogic, 64, { 255, 20, 147 });
 	mGoLabel->Parent(this);
 	mGoLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
@@ -37,6 +37,10 @@ Level::Level(int stage)
 	mGoLabelOffScreen = mGoLabelOnScreen + 1.1f;
 
 	mAudioManager->PlayMusic("Audios/ready_set_go.wav", 0);
+
+	// Player
+	mPlayer = player;
+	mPlayer->Active(false);
 }
 
 Level::~Level()
@@ -55,6 +59,8 @@ Level::~Level()
 
 	delete mGoLabel;
 	mGoLabel = nullptr;
+
+	mPlayer = nullptr;
 }
 
 void Level::StartStage()
@@ -62,6 +68,7 @@ void Level::StartStage()
 	BackgroundScroll::mScroll = true;
 	mStageStarted = true;
 	mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
+	mPlayer->Active(true);
 }
 
 void Level::Update()
@@ -72,12 +79,12 @@ void Level::Update()
 		// wait until stage label is gone
 		if (mLabelTimer >= mStageLabelOffScreen)
 		{
-			// if stage is not 1, wait until mStageLabelOffScreen (stage 10 -> StartStage)
-			if (mStage > 1)
+			// Display STAGE and start game directly
+			if (mCurrentStage > 1)
 			{
 				StartStage();
 			}
-			// if stage is 1, wait until mGoLabelOffScreen (stage 1 -> ready -> go -> StartStage)
+			// Display STAGE READY GO and start game
 			else
 			{
 				if (mLabelTimer >= mGoLabelOffScreen)
