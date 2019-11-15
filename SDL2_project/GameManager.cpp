@@ -41,6 +41,8 @@ GameManager::GameManager()
 	mScreenManager = ScreenManager::Instance();
 
 	// STEP 3 : Create new instance
+
+	mInputManager->InitialiseJoysticks();
 }
 
 GameManager::~GameManager()
@@ -69,7 +71,7 @@ GameManager::~GameManager()
 
 void GameManager::EarlyUpdate() 
 {
-	mInputManager->Update();
+	//mInputManager->Update();
 }
 
 void GameManager::Update() 
@@ -107,6 +109,7 @@ void GameManager::Run()
 	while (!mQuit)
 	{
 		mTimer->Update();
+		mInputManager->Update();
 
 		while (SDL_PollEvent(&mEvents) != 0)
 		{

@@ -3,6 +3,10 @@
 
 #include <SDL.h>
 #include "MathHelper.h"
+#include <vector>
+
+using std::vector;
+using std::pair;
 
 class InputManager {
 
@@ -51,10 +55,43 @@ public:
 	//-------------------------------------------------------------------------------------------------
 	void UpdatePrevInput();
 
+#pragma region Gamepad Input
+
+	void InitialiseJoysticks();
+	bool JoysticksInitialiased()
+	{
+		return m_bJoysticksInitialised;
+	}
+
+	int xValue(int joy, int stick);
+	int yValue(int joy, int stick);
+
+	bool GetButtonState(int joy, int buttonNumber)
+	{
+		return m_buttonStates[joy][buttonNumber];
+	}
+
+	void CleanJoysticks();
+
+	// Handle joysticks events
+	void OnJoystickAxisMove(SDL_Event& event);
+	void OnJoystickButtonDown(SDL_Event& event);
+	void OnJoystickButtonUp(SDL_Event& event);
+
+	const int m_joystickDeadZone = 10000;
+
+#pragma endregion
+
 private:
 	
 	InputManager();
 	~InputManager();
+
+	// Gamepad Input
+	vector<SDL_Joystick*> m_joysticks;
+	bool m_bJoysticksInitialised;
+	vector<pair<Vector2D*, Vector2D*>> m_joystickValues;
+	vector<vector<bool>> m_buttonStates;
 
 };
 

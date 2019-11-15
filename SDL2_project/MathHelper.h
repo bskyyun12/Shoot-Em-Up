@@ -10,6 +10,26 @@ struct Vector2D
 	float x;
 	float y;
 
+	float GetX()
+	{
+		return x;
+	}
+
+	float GetY()
+	{
+		return y;
+	}
+
+	void SetX(float _x)
+	{
+		x = _x;
+	}
+
+	void SetY(float _y)
+	{
+		y = _y;
+	}
+
 	Vector2D(float _x = 0.0f, float _y = 0.0f)
 		: x(_x), y(_y) {}
 

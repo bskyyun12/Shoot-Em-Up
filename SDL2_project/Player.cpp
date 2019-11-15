@@ -1,4 +1,8 @@
 #include "Player.h"
+#include <iostream>
+
+using std::cout;
+using std::endl;
 
 Player::Player()
 {
@@ -24,7 +28,6 @@ Player::Player()
 	}
 	mFireTimer = 0.0f;
 	mFireRate = 0.5f;
-	//hiiiii
 }
 
 Player::~Player()
@@ -45,7 +48,6 @@ Player::~Player()
 
 void Player::HandleMovement()
 {
-	//Helloadfaf
 	// save player's position before player moves
 	Vector2D prevPlayerPos = Pos(local);
 
@@ -54,18 +56,114 @@ void Player::HandleMovement()
 	{
 		Translate(VECTOR2D_RIGHT * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
-	else if (mInputManager->KeyDown(SDL_SCANCODE_LEFT))
+
+	if (mInputManager->KeyDown(SDL_SCANCODE_LEFT))
 	{
 		Translate(VECTOR2D_LEFT * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
-	else if (mInputManager->KeyDown(SDL_SCANCODE_UP))
+	
+	if (mInputManager->KeyDown(SDL_SCANCODE_UP))
 	{
 		Translate(VECTOR2D_UP * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
-	else if (mInputManager->KeyDown(SDL_SCANCODE_DOWN))
+	
+	if (mInputManager->KeyDown(SDL_SCANCODE_DOWN))
 	{
 		Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
+
+	if (mInputManager->KeyDown(SDL_SCANCODE_RCTRL)) // Shoot
+	{
+		HandleFiring();
+	}
+
+#pragma region Gamepad Input
+
+	if (mInputManager->JoysticksInitialiased())
+	{
+
+#pragma region Joysticks
+
+		// left stick move
+		if (mInputManager->xValue(0, 1) > 0 || mInputManager->xValue(0, 1) < 0 ||
+			mInputManager->yValue(0, 1) > 0 || mInputManager->yValue(0, 1) < 0)
+		{
+			cout << "LeftStickMove" << endl;
+			Translate(Vector2D(mInputManager->xValue(0, 1), mInputManager->yValue(0, 1)).Normalized() * mMoveSpeed * mTimer->DeltaTime(), world);
+		}
+
+		// right stick move
+		if (mInputManager->xValue(0, 2) > 0 || mInputManager->xValue(0, 2) < 0 ||
+			mInputManager->yValue(0, 2) > 0 || mInputManager->yValue(0, 2) < 0)
+		{
+			cout << "RightStickMove" << endl;
+			Translate(Vector2D(mInputManager->xValue(0, 2), mInputManager->yValue(0, 2)).Normalized() * mMoveSpeed * mTimer->DeltaTime(), world);
+		}
+
+#pragma endregion
+
+#pragma region Buttons
+
+		if (InputManager::Instance()->GetButtonState(0, 0)) // Green (A) button
+		{
+			
+		}
+
+		if (InputManager::Instance()->GetButtonState(0, 1)) // Red (B) button
+		{
+			
+		}
+
+		if (InputManager::Instance()->GetButtonState(0, 2)) // Blue (X) button
+		{
+			HandleFiring(); // Shoot
+		}
+
+		if (InputManager::Instance()->GetButtonState(0, 3)) // Yellow (Y) button
+		{
+			
+		}
+
+		if (InputManager::Instance()->GetButtonState(0, 4)) // LB button
+		{
+			
+		}
+
+		if (InputManager::Instance()->GetButtonState(0, 5)) // RB button
+		{
+			
+		}
+
+		if (InputManager::Instance()->GetButtonState(0, 6)) // Back/Select button
+		{
+			
+		}
+
+		if (InputManager::Instance()->GetButtonState(0, 7)) // Start button
+		{
+			
+		}
+
+		if (InputManager::Instance()->GetButtonState(0, 8)) // Left Stick button
+		{
+			
+		}
+
+		if (InputManager::Instance()->GetButtonState(0, 9)) // Right Stick button
+		{
+			
+		}
+
+		if (InputManager::Instance()->GetButtonState(0, 10)) // XBOX button
+		{
+			
+		}
+
+#pragma endregion
+
+	}
+
+#pragma endregion
 
 	// Set Player Move Bounds
 	if (
@@ -118,7 +216,8 @@ void Player::Update()
 	if (Active())
 	{
 		HandleMovement();
-		HandleFiring();
+		// Shoot with RCTRL or controller X button
+		//HandleFiring();
 	}
 
 	// bullet

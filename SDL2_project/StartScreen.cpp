@@ -1,4 +1,5 @@
 #include "StartScreen.h"
+#include "InputManager.h"
 
 StartScreen::StartScreen()
 {
@@ -161,6 +162,17 @@ void StartScreen::Update()
 			ChangeSeletedMode(1);
 		}
 		else if (mInputManager->KeyPressed(SDL_SCANCODE_DOWN))
+		{
+			ChangeSeletedMode(2);
+		}
+
+		if (mInputManager->yValue(0, 1) < 0 || mInputManager->yValue(0, 2) < 0 ||
+			mInputManager->xValue(0, 1) < 0 || mInputManager->xValue(0, 2) < 0)
+		{
+			ChangeSeletedMode(1);
+		}
+		else if (mInputManager->yValue(0, 1) > 0 || mInputManager->yValue(0, 2) > 0 ||
+				 mInputManager->xValue(0, 1) > 0 || mInputManager->xValue(0, 2) > 0)
 		{
 			ChangeSeletedMode(2);
 		}
