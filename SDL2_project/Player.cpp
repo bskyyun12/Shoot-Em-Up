@@ -24,6 +24,7 @@ Player::Player()
 	}
 	mFireTimer = 0.0f;
 	mFireRate = 0.5f;
+	// heelloo
 }
 
 Player::~Player()
