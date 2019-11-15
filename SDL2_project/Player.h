@@ -1,6 +1,7 @@
 #pragma once
 #include "AnimatedTexture.h"
 #include "InputManager.h"
+#include "Bullet.h"
 
 class Player : public GameEntity
 {
@@ -19,10 +20,19 @@ private:
 	// player texture
 	Texture* mPlayer = nullptr;
 	
+	// bullet
+	static const int MAX_BULLETS = 5;
+	Bullet* mBullets[MAX_BULLETS] = { nullptr };
+	float mFireTimer;
+	float mFireRate;
+
 private:
 
 	// Player movemonet logic
 	void HandleMovement();
+
+	// bullet fire logic
+	void HandleFiring();
 
 public:
 

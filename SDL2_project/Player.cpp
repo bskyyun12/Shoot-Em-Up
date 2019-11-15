@@ -16,6 +16,14 @@ Player::Player()
 	mPlayer = new Texture("Jump (32x32).png");
 	mPlayer->Scale(VECTOR2D_ONE * 2);	// scale up to 64x64
 	mPlayer->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
+
+	// bullet
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		mBullets[i] = new Bullet();
+	}
+	mFireTimer = 0.0f;
+	mFireRate = 0.5f;
 }
 
 Player::~Player()
@@ -25,6 +33,13 @@ Player::~Player()
 
 	delete mPlayer;
 	mPlayer = nullptr;
+
+	// bullet
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		delete mBullets[i];
+		mBullets[i] = nullptr;
+	}
 }
 
 void Player::HandleMovement()
@@ -35,30 +50,48 @@ void Player::HandleMovement()
 	// Player Input
 	if (mInputManager->KeyDown(SDL_SCANCODE_RIGHT))
 	{
-		Translate(VECTOR2D_RIGHT * mMoveSpeed * mTimer->DeltaTime());
+		Translate(VECTOR2D_RIGHT * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
 	else if (mInputManager->KeyDown(SDL_SCANCODE_LEFT))
 	{
-		Translate(VECTOR2D_LEFT * mMoveSpeed * mTimer->DeltaTime());
+		Translate(VECTOR2D_LEFT * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
 	else if (mInputManager->KeyDown(SDL_SCANCODE_UP))
 	{
-		Translate(VECTOR2D_UP * mMoveSpeed * mTimer->DeltaTime());
+		Translate(VECTOR2D_UP * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
 	else if (mInputManager->KeyDown(SDL_SCANCODE_DOWN))
 	{
-		Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime());
+		Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
 
 	// Set Player Move Bounds
 	if (
-		Pos(local).x < mBoundsOffset ||
-		Pos(local).x > Graphics::Instance()->SCREEN_WIDTH - mBoundsOffset ||
-		Pos(local).y < mBoundsOffset + 90.0f ||
-		Pos(local).y > Graphics::Instance()->SCREEN_HEIGHT - mBoundsOffset
+		Pos().x < mBoundsOffset ||
+		Pos().x > Graphics::Instance()->SCREEN_WIDTH - mBoundsOffset ||
+		Pos().y < mBoundsOffset + 90.0f ||
+		Pos().y > Graphics::Instance()->SCREEN_HEIGHT - mBoundsOffset
 		)
 	{
 		Pos(prevPlayerPos);	// set position back to previous position
+	}
+}
+
+void Player::HandleFiring()
+{
+	mFireTimer += mTimer->DeltaTime();
+	if (mFireTimer > mFireRate)
+	{
+		for (int i = 0; i < MAX_BULLETS; i++)
+		{
+			if (!mBullets[i]->Active())
+			{
+				Vector2D pos = Pos();
+				mBullets[i]->Fire(pos);
+				break;
+			}
+		}
+		mFireTimer = 0.0f;
 	}
 }
 
@@ -79,14 +112,27 @@ void Player::AddScore(int score)
 
 void Player::Update()
 {
-	// player won't move during stage preparation
+	// player won't do anything during stage preparation
 	if (Active())
 	{
 		HandleMovement();
+		HandleFiring();
+	}
+
+	// bullet
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		mBullets[i]->Update();
 	}
 }
 
 void Player::Render()
 {
+	// bullet
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		mBullets[i]->Render();
+	}
+
 	mPlayer->Render();
 }

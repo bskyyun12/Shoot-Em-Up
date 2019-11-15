@@ -92,8 +92,9 @@ public:
 
 	//---------------------------------------------------------------
 	//Translates the GameEntity's lcoal position by the given amount 
+	//space : default is local, if rotating is not needed, set it to world
 	//---------------------------------------------------------------
-	void Translate(Vector2D vec);
+	void Translate(Vector2D vec, SPACE space = local);
 	//------------------------------------------------------
 	//Rotates the GameEntity's locally by the given amount  
 	//------------------------------------------------------

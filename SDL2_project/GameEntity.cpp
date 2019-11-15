@@ -131,9 +131,16 @@ GameEntity* GameEntity::Parent()
 	return mParent;
 }
 
-void GameEntity::Translate(Vector2D vec)
+void GameEntity::Translate(Vector2D vec, SPACE space)
 {
-	mPos += vec;
+	if (space == world)
+	{
+		mPos += vec;
+	}
+	else
+	{
+		mPos += RotateVector(vec, Rotation());
+	}
 }
 
 void GameEntity::Rotate(float amount) 
