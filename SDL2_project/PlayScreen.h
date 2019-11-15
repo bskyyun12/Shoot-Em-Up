@@ -1,9 +1,4 @@
 #pragma once
-#include "Timer.h"
-#include "ScoreBoard.h"
-#include "InputManager.h"
-#include "AudioManager.h"
-#include "BackgroundScroll.h"
 #include "Level.h"
 
 class PlayScreen : public GameEntity
@@ -35,7 +30,10 @@ private:
 	bool mGameStarted;
 	bool mLevelStarted;
 	int mCurrentStage;
-	                      
+	                    
+	// Player
+	Player* mPlayer = nullptr;
+
 private:
 
 	void StartNextLevel();

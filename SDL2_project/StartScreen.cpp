@@ -25,8 +25,8 @@ StartScreen::StartScreen()
 
 	//Play Mode Entities
 	mPlayModes = new GameEntity(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
-	mOnePlayerMode = new Texture("1 Player", Graphics::Instance()->FONT, 32, { 230, 230, 230 });
-	mTwoPlayerMode = new Texture("2 Players", Graphics::Instance()->FONT, 32, { 230, 230, 230 });
+	mOnePlayerMode = new Texture("1 Player", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
+	mTwoPlayerMode = new Texture("2 Players", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
 	mCursor = new AnimatedTexture("ship_80x48.png", 0, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
 	mSelectMode = 1;
 
@@ -46,9 +46,9 @@ StartScreen::StartScreen()
 
 	//Bottom Bar Entities
 	mBottomBar = new GameEntity(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.7f));
-	mNamco = new Texture("namcot", Graphics::Instance()->FONT, 36, { 200, 0, 0 });
-	mDates = new Texture("1981 1985 NAMCO LTD.", Graphics::Instance()->FONT, 32, { 230, 230, 230 });
-	mRights = new Texture("ALL RIGHTS RESERVED", Graphics::Instance()->FONT, 32, { 200, 0, 0 });
+	mNamco = new Texture("namcot", Graphics::Instance()->FONT_Emulogic, 36, { 200, 0, 0 });
+	mDates = new Texture("1981 1985 NAMCO LTD.", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
+	mRights = new Texture("ALL RIGHTS RESERVED", Graphics::Instance()->FONT_Emulogic, 32, { 200, 0, 0 });
 
 	mNamco->Parent(mBottomBar);
 	mDates->Parent(mBottomBar);
@@ -112,7 +112,7 @@ void StartScreen::ResetAnimation()
 	Pos(mAnimationStartPos);
 
 	mAudioManager->PlayMusic("Audios/intro_bmg.wav");
-	mAudioManager->MusicVolume(70);
+	mAudioManager->MusicVolume(10);
 }
 
 int StartScreen::SelectMode()

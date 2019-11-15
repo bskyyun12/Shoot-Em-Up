@@ -1,10 +1,9 @@
 #pragma once
-#include "InputManager.h"
 #include "Timer.h"
-#include "Texture.h"
 #include "ScoreBoard.h"
 #include "BackgroundScroll.h"
 #include "AudioManager.h"
+#include "Player.h"
 
 class Level : public GameEntity
 {
@@ -13,7 +12,7 @@ public:
 	Timer* mTimer = nullptr;
 	AudioManager* mAudioManager = nullptr;
 
-	int mStage;
+	int mCurrentStage;
 	bool mStageStarted;
 
 	float mLabelTimer;
@@ -31,13 +30,16 @@ public:
 	float mGoLabelOnScreen;
 	float mGoLabelOffScreen;
 
+	// Player - currently using this just to make it active
+	Player* mPlayer = nullptr;
+
 private:
 
 	void StartStage();
 
 public:
 
-	Level(int stage);
+	Level(int stage, Player* player);
 	~Level();
 
 	void Update();

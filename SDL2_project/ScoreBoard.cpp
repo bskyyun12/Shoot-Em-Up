@@ -42,7 +42,7 @@ void ScoreManager::Score(int score)
 	{
 		for (int i = 0; i < 2; i++)
 		{
-			mScores.push_back(new Texture("0", Graphics::Instance()->FONT, 32, mColor));
+			mScores.push_back(new Texture("0", Graphics::Instance()->FONT_Emulogic, 32, mColor));
 			mScores[i]->Parent(this);
 			mScores[i]->Pos(Vector2D(-32.0f * i, 0.0f));
 		}
@@ -56,7 +56,7 @@ void ScoreManager::Score(int score)
 		for (int i = 0; i <= lastIndex; i++)
 		{
 			// store each number of score 1, 2, 3, 4 -> in this way we can save memory since same text shares same cache
-			mScores.push_back(new Texture(str.substr(i, 1), Graphics::Instance()->FONT, mFontSize, mColor));
+			mScores.push_back(new Texture(str.substr(i, 1), Graphics::Instance()->FONT_Emulogic, mFontSize, mColor));
 			mScores[i]->Parent(this); // 1, 2, 3, 4 ->Parent(this)
 			mScores[i]->Pos(Vector2D(-(float)mFontSize * (lastIndex - i) + (lastIndex * mFontSize * 0.5f), 0.0f)); // start with last number and next one will be futher left then the previous one
 		}
@@ -67,9 +67,9 @@ ScoreBoard::ScoreBoard()
 {
 	//Top Bar Entities
 	mTopBar = new GameEntity(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, 40.0f));
-	mPlayerOne = new Texture("1UP", Graphics::Instance()->FONT, 32, { 0, 200, 0 });
-	mPlayerTwo = new Texture("2UP", Graphics::Instance()->FONT, 32, { 0, 0, 200 });
-	mHighScore = new Texture("High Score", Graphics::Instance()->FONT, 32, { 200, 0, 0 });
+	mPlayerOne = new Texture("1UP", Graphics::Instance()->FONT_Emulogic, 32, { 0, 200, 0 });
+	mPlayerTwo = new Texture("2UP", Graphics::Instance()->FONT_Emulogic, 32, { 0, 0, 200 });
+	mHighScore = new Texture("High Score", Graphics::Instance()->FONT_Emulogic, 32, { 200, 0, 0 });
 	mPlayerOneScoreBoard = new ScoreManager();
 	mPlayerTwoScoreBoard = new ScoreManager();
 	mHighScoreBoard = new ScoreManager();

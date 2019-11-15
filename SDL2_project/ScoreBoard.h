@@ -14,8 +14,12 @@ private:
 
 public:
 
+	// Default color : white / Default fontSize : 32
 	ScoreManager();
-	ScoreManager(SDL_Color color, int fontSize);
+
+	// color : pass rgb color(t.e { 255, 20, 147 })
+	// fontsize : 32 is default
+	ScoreManager(SDL_Color color, int fontSize = 32);
 	~ScoreManager();
 
 	void Score(int score);
