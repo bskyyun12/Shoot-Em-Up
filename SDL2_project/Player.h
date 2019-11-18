@@ -2,6 +2,7 @@
 #include "AnimatedTexture.h"
 #include "InputManager.h"
 #include "Bullet.h"
+#include "Rocket.h"
 
 class Player : public GameEntity
 {
@@ -25,6 +26,12 @@ private:
 	Bullet* mBullets[MAX_BULLETS] = { nullptr };
 	float mFireTimer;
 	float mFireRate;
+
+	//rocket
+	static const int MAX_ROCKETS = 2;
+	Rocket* mRockets[MAX_ROCKETS] = { nullptr };
+	float mRocketFireTimer;
+	float mRocketFireRate;
 
 private:
 

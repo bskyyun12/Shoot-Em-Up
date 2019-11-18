@@ -27,7 +27,7 @@ PlayScreen::PlayScreen()
 	mLives = new GameEntity();
 	mLives->Parent(mScoreBoard);
 	mLives->Pos(Vector2D(0.0f, 0.0f));
-		
+
 	for (int i = 0; i < MAX_LIFE_TEXTURES; i++)
 	{
 		mLifeTextures[i] = new Texture("heart.png");
@@ -118,14 +118,26 @@ void PlayScreen::StartNewGame()
 	mPlayer->Active(false);
 
 	BackgroundScroll::mScroll = false;
+
 	SetHighScore(55555);
 	SetLives(mPlayer->Lives());
 	SetPlayerScore(mPlayer->Score());
+
 	mGameStarted = false;
 	mLevelStarted = false;
+	mLevelStartTimer = 0.0f;
+	mCurrentStage = 0;
+
 	mAudioManager->PlayMusic("Audios/drums.wav", 0);
 	mAudioManager->MusicVolume(10);
-	mCurrentStage = 0;
+}
+
+bool PlayScreen::GameOver()
+{
+	if (!mLevelStarted)
+		return false;
+
+	return (mLevel->State() == Level::gameover);
 }
 
 void PlayScreen::Update()
@@ -153,7 +165,13 @@ void PlayScreen::Update()
 	if (mGameStarted)
 	{
 		if (mLevelStarted)
+		{
 			mLevel->Update();
+			if (mLevel->State() == Level::finished)
+			{
+				mLevelStarted = false;
+			}
+		}
 
 		mPlayer->Update();
 	}
@@ -167,10 +185,10 @@ void PlayScreen::Update()
 	}
 
 	// test purpose
-	if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN))
-	{
-		StartNextLevel();
-	}
+	//if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN))
+	//{
+	//	StartNextLevel();
+	//}
 }
 
 void PlayScreen::Render()

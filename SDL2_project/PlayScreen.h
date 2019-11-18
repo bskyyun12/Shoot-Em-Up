@@ -49,6 +49,8 @@ public:
 	void SetPlayerScore(int score);
 	void SetLives(int lives);
 
+	bool GameOver();
+
 	void Update();
 
 	void Render();

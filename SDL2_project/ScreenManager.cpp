@@ -60,7 +60,7 @@ void ScreenManager::Update()
 	case play:
 		mBackgroundScroll->Update();
 		mPlayScreen->Update();
-		if (mInputManager->KeyPressed(SDL_SCANCODE_ESCAPE))
+		if (mPlayScreen->GameOver())
 		{
 			currentScreen = start;
 			mStartScreen->ResetAnimation();

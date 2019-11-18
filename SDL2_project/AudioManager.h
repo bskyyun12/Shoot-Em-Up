@@ -37,6 +37,8 @@ public:
 	//---------------------------------------------------------------------------
 	void MusicVolume(int volume);
 
+	void SFXVolume(int channel, int volume);
+
 	//--------------------------------------------------
 	//Plays a sound effect from the file provided
 	//plays if for the given loops (default: 0)

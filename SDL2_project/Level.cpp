@@ -4,12 +4,14 @@ Level::Level(int stage, Player* player)
 {
 	mTimer = Timer::Instance();
 	mAudioManager = AudioManager::Instance();
+	mAudioManager->PlayMusic("Audios/ready_set_go.wav", 0);
 
 	mCurrentStage = stage;
 	mStageStarted = false;
 
 	mLabelTimer = 0.0f;
 
+	// StageLabel
 	mStageLabel = new Texture("STAGE", Graphics::Instance()->FONT_Emulogic, 64, { 255, 20, 147 });
 	mStageLabel->Parent(this);
 	mStageLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.45f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
@@ -22,6 +24,7 @@ Level::Level(int stage, Player* player)
 	mStageLabelOnScreen = 0.0f;
 	mStageLabelOffScreen = 1.2f;
 
+	// ReadyLabel
 	mReadyLabel = new Texture("READY!", Graphics::Instance()->FONT_Emulogic, 64, { 255, 20, 147 });
 	mReadyLabel->Parent(this);
 	mReadyLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
@@ -29,6 +32,7 @@ Level::Level(int stage, Player* player)
 	mReadyLabelOnScreen = mStageLabelOffScreen;
 	mReadyLabelOffScreen = mReadyLabelOnScreen + 1.1f;
 
+	// GoLabel
 	mGoLabel = new Texture("GO!!", Graphics::Instance()->FONT_Emulogic, 64, { 255, 20, 147 });
 	mGoLabel->Parent(this);
 	mGoLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
@@ -36,11 +40,22 @@ Level::Level(int stage, Player* player)
 	mGoLabelOnScreen = mReadyLabelOffScreen;
 	mGoLabelOffScreen = mGoLabelOnScreen + 1.1f;
 
-	mAudioManager->PlayMusic("Audios/ready_set_go.wav", 0);
+	// GameOverLabel
+	mGameOverLabel = new Texture("GAME OVER!", Graphics::Instance()->FONT_Emulogic, 64, { 255, 20, 147 });
+	mGameOverLabel->Parent(this);
+	mGameOverLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
+
+	mGameOver = false;
+	mGameOverDelay = 6.0f;
+	mGameOverTimer = 0.0f;
+	mGameOverLabelOnScreen = 1.0f;
+
+	mCurrentState = running;
 
 	// Player
 	mPlayer = player;
 	mPlayer->Active(false);
+
 }
 
 Level::~Level()
@@ -60,6 +75,9 @@ Level::~Level()
 	delete mGoLabel;
 	mGoLabel = nullptr;
 
+	delete mGameOverLabel;
+	mGameOverLabel = nullptr;
+
 	mPlayer = nullptr;
 }
 
@@ -69,29 +87,66 @@ void Level::StartStage()
 	mStageStarted = true;
 	mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
 	mPlayer->Active(true);
+	mLabelTimer = 0.0f;
+}
+
+void Level::HandleStartLabels()
+{
+	mLabelTimer += mTimer->DeltaTime();
+	// wait until stage label is gone
+	if (mLabelTimer >= mStageLabelOffScreen)
+	{
+		// Display STAGE and start game directly
+		if (mCurrentStage > 1)
+		{
+			StartStage();
+		}
+		// Display STAGE READY GO and start game
+		else
+		{
+			if (mLabelTimer >= mGoLabelOffScreen)
+			{
+				StartStage();
+			}
+		}
+	}
+}
+
+Level::LEVEL_STATES Level::State()
+{
+	return mCurrentState;
 }
 
 void Level::Update()
 {
+
 	if (!mStageStarted)
 	{
-		mLabelTimer += mTimer->DeltaTime();
-		// wait until stage label is gone
-		if (mLabelTimer >= mStageLabelOffScreen)
+		HandleStartLabels();
+	}
+	else
+	{
+		// gameover labels
+		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
 		{
-			// Display STAGE and start game directly
-			if (mCurrentStage > 1)
-			{
-				StartStage();
-			}
-			// Display STAGE READY GO and start game
-			else
-			{
-				if (mLabelTimer >= mGoLabelOffScreen)
-				{
-					StartStage();
-				}
-			}
+			mGameOver = true;
+		}
+
+		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
+		{
+			mCurrentState = finished;
+		}
+	}
+
+	if (mGameOver)
+	{
+		// todo: play gameover sound
+		mPlayer->Active(false);
+
+		mGameOverTimer += mTimer->DeltaTime();
+		if (mGameOverTimer >= mGameOverDelay)
+		{
+			mCurrentState = gameover;
 		}
 	}
 }
@@ -112,6 +167,17 @@ void Level::Render()
 		else if (mLabelTimer > mGoLabelOnScreen && mLabelTimer < mGoLabelOffScreen)
 		{
 			mGoLabel->Render();
+		}
+	}
+	else
+	{
+		if (mGameOver)
+		{
+			// wait 1 sec and display GAME OVER
+			if (mGameOverTimer >= mGameOverLabelOnScreen)
+			{
+				mGameOverLabel->Render();
+			}
 		}
 	}
 }

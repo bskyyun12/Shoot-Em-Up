@@ -28,6 +28,14 @@ Player::Player()
 	}
 	mFireTimer = 0.0f;
 	mFireRate = 0.5f;
+
+	// rocket
+	for (int i = 0; i < MAX_ROCKETS; i++)
+	{
+		mRockets[i] = new Rocket();
+	}
+	mRocketFireTimer = 0.0f;
+	mRocketFireRate = 2.5f;
 }
 
 Player::~Player()
@@ -43,6 +51,13 @@ Player::~Player()
 	{
 		delete mBullets[i];
 		mBullets[i] = nullptr;
+	}
+
+	// rocket
+	for (int i = 0; i < MAX_ROCKETS; i++)
+	{
+		delete mRockets[i];
+		mRockets[i] = nullptr;
 	}
 }
 
@@ -168,7 +183,7 @@ void Player::HandleMovement()
 	// Set Player Move Bounds
 	if (
 		Pos().x < mBoundsOffset ||
-		Pos().x > Graphics::Instance()->SCREEN_WIDTH - mBoundsOffset ||
+		Pos().x > 950.0f ||
 		Pos().y < mBoundsOffset + 90.0f ||
 		Pos().y > Graphics::Instance()->SCREEN_HEIGHT - mBoundsOffset
 		)
@@ -192,6 +207,21 @@ void Player::HandleFiring()
 			}
 		}
 		mFireTimer = 0.0f;
+	}
+
+	mRocketFireTimer += mTimer->DeltaTime();
+	if (mRocketFireTimer > mRocketFireRate)
+	{
+		// rocket
+		for (int i = 0; i < MAX_ROCKETS; i++)
+		{
+			if (!mRockets[i]->Active())
+			{
+				Vector2D pos = Pos();
+				mRockets[i]->CreatePath(pos, i);
+			}
+		}
+		mRocketFireTimer = 0.0f;
 	}
 }
 
@@ -225,6 +255,12 @@ void Player::Update()
 	{
 		mBullets[i]->Update();
 	}
+
+	// Rocket
+	for (int i = 0; i < MAX_ROCKETS; i++)
+	{
+		mRockets[i]->Update();
+	}
 }
 
 void Player::Render()
@@ -233,6 +269,12 @@ void Player::Render()
 	for (int i = 0; i < MAX_BULLETS; i++)
 	{
 		mBullets[i]->Render();
+	}
+
+	// Rocket
+	for (int i = 0; i < MAX_ROCKETS; i++)
+	{
+		mRockets[i]->Render();
 	}
 
 	mPlayer->Render();

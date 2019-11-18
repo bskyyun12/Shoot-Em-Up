@@ -12,7 +12,8 @@ Bullet::Bullet()
 	mBullet->Parent(this);
 	mBullet->Pos(VECTOR2D_ZERO);
 	//Rotate(-45); // bullet will be fired with -45 angle
-	Reload();
+
+	Active(false);
 }
 
 Bullet::~Bullet()
@@ -28,7 +29,8 @@ void Bullet::Fire(Vector2D pos)
 {
 	Pos(pos);
 	Active(true);
-	mAudioManager->PlaySFX("Audios/bullet.wav");
+	mAudioManager->PlaySFX("Audios/bullet.wav", 0, 1);
+	mAudioManager->SFXVolume(1, 80);
 }
 
 void Bullet::Reload()
@@ -55,7 +57,5 @@ void Bullet::Update()
 void Bullet::Render()
 {
 	if (Active())
-	{
 		mBullet->Render();
-	}
 }

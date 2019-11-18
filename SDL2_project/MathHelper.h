@@ -4,6 +4,7 @@
 
 #define PI 3.14159265
 #define DEG_TO_RAD PI / 180.0f
+#define RAD_TO_DEG 180.0f / PI
 
 struct Vector2D
 {
@@ -96,6 +97,11 @@ inline Vector2D operator *(const Vector2D& vec, const float& value)
 	return Vector2D(vec.x * value, vec.y * value);
 }
 
+inline Vector2D operator *(const float& value, const Vector2D& vec)
+{
+	return Vector2D(value * vec.x, value * vec.y);
+}
+
 inline bool operator ==(const Vector2D& v1, const Vector2D& v2)
 {
 	return v1.x == v2.x && v1.y == v2.y;
@@ -131,6 +137,30 @@ const Vector2D VECTOR2D_UP = { 0.0f, -1.0f };
 const Vector2D VECTOR2D_DOWN = { 0.0f, 1.0f };
 const Vector2D VECTOR2D_RIGHT = { 1.0f, 0.0f };
 const Vector2D VECTOR2D_LEFT = { -1.0f, 0.0f };
+
+struct BezierCurve
+{
+	Vector2D p0;
+	Vector2D p1;
+	Vector2D p2;
+	Vector2D p3;
+
+	Vector2D CalculateCurvePoint(float t)
+	{
+		float tt = t * t;
+		float ttt = tt * t;
+		float u = 1.0f - t;
+		float uu = u * u;
+		float uuu = uu * u;
+
+		Vector2D point = (uuu * p0) + (3 * uu * t * p1) + (3 * u * tt * p2) + (ttt * p3);
+		point.x = (float)round(point.x);
+		point.y = (float)round(point.y);
+
+		return point;
+	} 
+
+};
 
 #endif // !_MATHHELPER_H
 
