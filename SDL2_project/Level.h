@@ -4,7 +4,6 @@
 #include "BackgroundScroll.h"
 #include "AudioManager.h"
 #include "Player.h"
-#include "NormalBullet.h"
 
 class Level : public GameEntity
 {
