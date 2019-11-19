@@ -21,12 +21,13 @@ private:
 
 public:
 
-	BackgroundScroll();
+	BackgroundScroll(std::string path, int backgroundAmount);
 	~BackgroundScroll();
 
 	static bool mScroll;
 
-	void AddBackground(std::string path, bool scroll = true);
+	void AddBackgroundImage(std::string path, bool scroll = true);
+	void SetBackground(std::string path, int backgroundAmount);
 
 	void ResetBackgroundPos(Texture* background);
 

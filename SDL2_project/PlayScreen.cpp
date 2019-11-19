@@ -47,6 +47,9 @@ PlayScreen::PlayScreen()
 
 	// Player
 	mPlayer = nullptr;
+
+	// background
+	mBackgroundScroll = new BackgroundScroll("Backgrounds/demon/demon_woods", 4);
 }
 
 PlayScreen::~PlayScreen()
@@ -66,10 +69,6 @@ PlayScreen::~PlayScreen()
 	delete mPlayer;
 	mPlayer = nullptr;
 
-	// BottomBar
-	//delete mBottomBarBackground;
-	//mBottomBarBackground = nullptr;
-
 	// Life
 	delete mLives;
 	mLives = nullptr;
@@ -79,6 +78,10 @@ PlayScreen::~PlayScreen()
 		delete mLifeTextures[i];
 		mLifeTextures[i] = nullptr;
 	}
+
+	// Background
+	delete mBackgroundScroll;
+	mBackgroundScroll = nullptr;
 }
 
 void PlayScreen::SetHighScore(int score)
@@ -96,6 +99,11 @@ void PlayScreen::SetLives(int lives)
 	mTotalLives = lives;
 }
 
+int PlayScreen::GetCurrentStageNum()
+{
+	return mCurrentStage;
+}
+
 void PlayScreen::StartNextLevel()
 {
 	// test 3 - increse stage level and create new level instance
@@ -106,6 +114,22 @@ void PlayScreen::StartNextLevel()
 	// Create new Level
 	delete mLevel;
 	mLevel = new Level(mCurrentStage, mPlayer);
+
+	// background change
+	switch (mCurrentStage)
+	{
+	case 1:
+		mBackgroundScroll->SetBackground("Backgrounds/demon/demon_woods", 4);
+		break;
+	case 2:
+		mBackgroundScroll->SetBackground("Backgrounds/forest", 5);
+		break;
+	case 3:
+		mBackgroundScroll->SetBackground("Backgrounds/demon/demon_woods", 4);
+		break;
+	default:
+		break;
+	}
 }
 
 void PlayScreen::StartNewGame()
@@ -128,7 +152,7 @@ void PlayScreen::StartNewGame()
 	mLevelStartTimer = 0.0f;
 	mCurrentStage = 0;
 
-	mAudioManager->PlayMusic("Audios/drums.wav", 0);
+	mAudioManager->PlayMusic("Audios/playSceneStartDrum.wav", 0);
 	mAudioManager->MusicVolume(10);
 }
 
@@ -138,6 +162,14 @@ bool PlayScreen::GameOver()
 		return false;
 
 	return (mLevel->State() == Level::gameover);
+}
+
+bool PlayScreen::Victory()
+{
+	if (!mLevelStarted)
+		return false;
+
+	return (mLevel->State() == Level::victory);
 }
 
 void PlayScreen::Update()
@@ -166,6 +198,7 @@ void PlayScreen::Update()
 	{
 		if (mLevelStarted)
 		{
+			mBackgroundScroll->Update();
 			mLevel->Update();
 			if (mLevel->State() == Level::finished)
 			{
@@ -174,6 +207,8 @@ void PlayScreen::Update()
 		}
 
 		mPlayer->Update();
+
+
 	}
 
 	// Blinker logic
@@ -201,25 +236,21 @@ void PlayScreen::Render()
 	{
 		mStartLabel->Render();
 	}
-	else
-	{
-		mScoreBoard->Render();
-		for (int i = 0; i < MAX_LIFE_TEXTURES && i < mTotalLives; i++)
-		{
-			mLifeTextures[i]->Render();
-		}
-	}
 
 	if (mGameStarted)
 	{
-		mPlayer->Render();
-
 		if (mLevelStarted)
+		{
+			mBackgroundScroll->Render();
 			mLevel->Render();
+			mScoreBoard->Render();
+			for (int i = 0; i < MAX_LIFE_TEXTURES && i < mTotalLives; i++)
+			{
+				mLifeTextures[i]->Render();
+			}
+			mPlayer->Render();
+		}
 	}
-
-	// BottomBar
-	//mBottomBarBackground->Render();
 
 
 }

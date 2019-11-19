@@ -34,6 +34,9 @@ private:
 	// Player
 	Player* mPlayer = nullptr;
 
+	// background
+	BackgroundScroll* mBackgroundScroll = nullptr;
+
 private:
 
 	void StartNextLevel();
@@ -49,7 +52,11 @@ public:
 	void SetPlayerScore(int score);
 	void SetLives(int lives);
 
+	int GetCurrentStageNum();
+
 	bool GameOver();
+
+	bool Victory();
 
 	void Update();
 
