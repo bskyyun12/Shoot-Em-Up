@@ -16,7 +16,8 @@ public:
 	{
 		running, 
 		finished, 
-		gameover
+		gameover,
+		victory
 	};
 
 private:
@@ -24,7 +25,7 @@ private:
 	Timer* mTimer = nullptr;
 	AudioManager* mAudioManager = nullptr;
 
-	int mCurrentStage;
+	int mCurrentStage = 1;
 	bool mStageStarted;
 
 	float mLabelTimer;
@@ -55,6 +56,11 @@ private:
 	float mGameOverDelay;
 	float mGameOverTimer;
 	float mGameOverLabelOnScreen;
+
+	// Victory
+	bool mVictory;
+	float mVictoryDelay;
+	float mVictoryTimer;
 
 	LEVEL_STATES mCurrentState;
 

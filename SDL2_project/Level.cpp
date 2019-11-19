@@ -50,6 +50,11 @@ Level::Level(int stage, Player* player, Player2* player2)
 	mGameOverTimer = 0.0f;
 	mGameOverLabelOnScreen = 1.0f;
 
+	// Victory
+	mVictory = false;
+	mVictoryDelay = 6.0f;
+	mVictoryTimer = 0.0f;
+
 	mCurrentState = running;
 
 	// Player
@@ -138,18 +143,24 @@ void Level::Update()
 	}
 	else
 	{
-		// gameover labels
+		// labels test
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
 		{
 			mGameOver = true;
 		}
+		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_V))
+		{
+			mVictory = true;
+		}
 
+		// condition needs to be changed -> if all enemies have died,
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
 		{
+			mAudioManager->PauseMusic();
 			mCurrentState = finished;
 		}
-	}
 
+<<<<<<< HEAD
 	if (mGameOver)
 	{
 		// todo: play gameover sound
@@ -158,11 +169,33 @@ void Level::Update()
 		{
 			mPlayer2->Active(false);
 		}
-
-		mGameOverTimer += mTimer->DeltaTime();
-		if (mGameOverTimer >= mGameOverDelay)
+=======
+		if (mGameOver)
 		{
-			mCurrentState = gameover;
+			// todo: play gameover sound
+			mPlayer->Active(false);
+			mPlayer2->Active(false);
+>>>>>>> 4021099d50391d3f70967bcc70d085086e06a2b8
+
+			mGameOverTimer += mTimer->DeltaTime();
+			if (mGameOverTimer >= mGameOverDelay)
+			{
+				mCurrentState = gameover;
+			}
+		}
+
+		// Victory
+		if (mVictory)
+		{
+			// todo: play victory sound
+
+			// here do somthing before game ends
+
+			mVictoryTimer += mTimer->DeltaTime();
+			if (mVictoryTimer >= mVictoryDelay)
+			{
+				mCurrentState = victory;
+			}
 		}
 	}
 }

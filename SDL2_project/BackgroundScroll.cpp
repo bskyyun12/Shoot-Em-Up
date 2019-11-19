@@ -1,9 +1,11 @@
 #include "BackgroundScroll.h"
+#include <iostream>
 
 bool BackgroundScroll::mScroll = true;
 
-BackgroundScroll::BackgroundScroll()
+BackgroundScroll::BackgroundScroll(std::string path, int backgroundAmount)
 {
+
 	// Timer
 	mTimer = Timer::Instance();
 
@@ -12,12 +14,7 @@ BackgroundScroll::BackgroundScroll()
 	mBackgroundEndPos = Vector2D(-Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f);
 	mScrollSpeed = 0.8f;
 
-	AddBackground("Backgrounds/demon/demon_woods1.png", false);
-	AddBackground("Backgrounds/demon/demon_woods2.png");
-	AddBackground("Backgrounds/demon/demon_woods3.png");
-	AddBackground("Backgrounds/demon/demon_woods4.png");
-	//AddBackground("Backgrounds/5.png");
-
+	SetBackground(path, backgroundAmount);
 }
 
 BackgroundScroll::~BackgroundScroll()
@@ -32,7 +29,7 @@ BackgroundScroll::~BackgroundScroll()
 	}
 }
 
-void BackgroundScroll::AddBackground(std::string path, bool scroll)
+void BackgroundScroll::AddBackgroundImage(std::string path, bool scroll)
 {
 	mTempTex1 = new Texture(path);
 	mTempTex1->Scale(Vector2D((float)Graphics::Instance()->SCREEN_WIDTH / mTempTex1->ScaledDimensions().x, (float)Graphics::Instance()->SCREEN_HEIGHT / mTempTex1->ScaledDimensions().y));
@@ -46,6 +43,27 @@ void BackgroundScroll::AddBackground(std::string path, bool scroll)
 		mTempTex2->Pos(Vector2D(mTempTex1->Pos().x + Graphics::Instance()->SCREEN_WIDTH, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 		mTempTex2->Parent(mTempTex1);
 		mBackgrounds.push_back(mTempTex2);
+	}
+}
+
+void BackgroundScroll::SetBackground(std::string path, int backgroundAmount)
+{
+	for (int i = 0; i < mBackgrounds.size(); i++)
+	{
+		delete mBackgrounds[i];
+		mBackgrounds[i] = nullptr;
+	}
+	mBackgrounds.clear();
+
+	for (int i = 0; i < backgroundAmount; i++)
+	{
+		std::string tempPath = "";
+		tempPath.append(path + std::to_string(i) + ".png");
+
+		if (i == 0)
+			AddBackgroundImage(tempPath, false);
+		else
+			AddBackgroundImage(tempPath);
 	}
 }
 

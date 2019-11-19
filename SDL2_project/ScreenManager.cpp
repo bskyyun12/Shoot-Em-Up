@@ -23,7 +23,6 @@ ScreenManager::ScreenManager()
 
 	mStartScreen = new StartScreen();
 	mPlayScreen = new PlayScreen();
-	mBackgroundScroll = new BackgroundScroll();
 
 	currentScreen = start;
 }
@@ -37,9 +36,6 @@ ScreenManager::~ScreenManager()
 
 	delete mPlayScreen;
 	mPlayScreen = nullptr;
-
-	delete mBackgroundScroll;
-	mBackgroundScroll = nullptr;
 }
 
 
@@ -48,7 +44,6 @@ void ScreenManager::Update()
 	switch (currentScreen)
 	{
 	case start:
-		mBackgroundScroll->Update();
 		mStartScreen->Update();
 		if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN))
 		{
@@ -58,13 +53,21 @@ void ScreenManager::Update()
 		}
 		break;
 	case play:
-		mBackgroundScroll->Update();
 		mPlayScreen->Update();
+
 		if (mPlayScreen->GameOver())
 		{
 			currentScreen = start;
 			mStartScreen->ResetAnimation();
 		}
+		else if (mPlayScreen->Victory())
+		{
+			currentScreen = ending;
+			mStartScreen->ResetAnimation();
+		}
+		break;
+	case ending:
+
 		break;
 	default:
 		break;
@@ -76,12 +79,13 @@ void ScreenManager::Render()
 	switch (currentScreen)
 	{
 	case start:
-		mBackgroundScroll->Render();
 		mStartScreen->Render();
 		break;
 	case play:
-		mBackgroundScroll->Render();
 		mPlayScreen->Render();
+		break;
+	case ending:
+
 		break;
 	default:
 		break;

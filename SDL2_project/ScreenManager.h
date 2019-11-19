@@ -10,7 +10,8 @@ private:
 	enum SCREENS
 	{
 		start,
-		play
+		play,
+		ending
 	};
 
 	static ScreenManager* sInstance;
@@ -19,7 +20,8 @@ private:
 
 	StartScreen* mStartScreen = nullptr;
 	PlayScreen* mPlayScreen = nullptr;
-	BackgroundScroll* mBackgroundScroll = nullptr;
+	//EndingScreen* mEndingScreen = nullptr;
+	
 
 	SCREENS currentScreen;
 

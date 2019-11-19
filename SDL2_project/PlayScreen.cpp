@@ -51,10 +51,17 @@ PlayScreen::PlayScreen()
 
 	// Player
 	mPlayer = nullptr;
+<<<<<<< HEAD
 	if (mPlayer2 != nullptr)
 	{
 		mPlayer2 = nullptr;
 	}
+=======
+	mPlayer2 = nullptr;
+
+	// background
+	mBackgroundScroll = new BackgroundScroll("Backgrounds/demon/demon_woods", 4);
+>>>>>>> 4021099d50391d3f70967bcc70d085086e06a2b8
 }
 
 PlayScreen::~PlayScreen()
@@ -80,10 +87,6 @@ PlayScreen::~PlayScreen()
 		mPlayer2 = nullptr;
 	}
 
-	// BottomBar
-	//delete mBottomBarBackground;
-	//mBottomBarBackground = nullptr;
-
 	// Life
 	delete mLives;
 	mLives = nullptr;
@@ -93,6 +96,10 @@ PlayScreen::~PlayScreen()
 		delete mLifeTextures[i];
 		mLifeTextures[i] = nullptr;
 	}
+
+	// Background
+	delete mBackgroundScroll;
+	mBackgroundScroll = nullptr;
 }
 
 void PlayScreen::SetHighScore(int score)
@@ -110,6 +117,11 @@ void PlayScreen::SetLives(int lives)
 	mTotalLives = lives;
 }
 
+int PlayScreen::GetCurrentStageNum()
+{
+	return mCurrentStage;
+}
+
 void PlayScreen::StartNextLevel()
 {
 	// test 3 - increse stage level and create new level instance
@@ -119,6 +131,24 @@ void PlayScreen::StartNextLevel()
 
 	// Create new Level
 	delete mLevel;
+	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2);
+
+	// background change
+	switch (mCurrentStage)
+	{
+	case 1:
+		mBackgroundScroll->SetBackground("Backgrounds/demon/demon_woods", 4);
+		break;
+	case 2:
+		mBackgroundScroll->SetBackground("Backgrounds/forest", 5);
+		break;
+	case 3:
+		mBackgroundScroll->SetBackground("Backgrounds/demon/demon_woods", 4);
+		break;
+	default:
+		break;
+	}
+
 	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2);
 }
 
@@ -158,7 +188,7 @@ void PlayScreen::StartNewGame(int mSelectMode)
 	mLevelStartTimer = 0.0f;
 	mCurrentStage = 0;
 
-	mAudioManager->PlayMusic("Audios/drums.wav", 0);
+	mAudioManager->PlayMusic("Audios/playSceneStartDrum.wav", 0);
 	mAudioManager->MusicVolume(10);
 }
 
@@ -168,6 +198,14 @@ bool PlayScreen::GameOver()
 		return false;
 
 	return (mLevel->State() == Level::gameover);
+}
+
+bool PlayScreen::Victory()
+{
+	if (!mLevelStarted)
+		return false;
+
+	return (mLevel->State() == Level::victory);
 }
 
 void PlayScreen::Update()
@@ -197,6 +235,7 @@ void PlayScreen::Update()
 	{
 		if (mLevelStarted)
 		{
+			mBackgroundScroll->Update();
 			mLevel->Update();
 			if (mLevel->State() == Level::finished)
 			{
@@ -236,29 +275,32 @@ void PlayScreen::Render()
 	{
 		mStartLabel->Render();
 	}
-	else
-	{
-		mScoreBoard->Render();
-		for (int i = 0; i < MAX_LIFE_TEXTURES && i < mTotalLives; i++)
-		{
-			mLifeTextures[i]->Render();
-		}
-	}
 
 	if (mGameStarted)
 	{
+<<<<<<< HEAD
 		mPlayer->Render();
 		if (mPlayer2 != nullptr)
 		{
 			mPlayer2->Render();
 		}
 
+=======
+>>>>>>> 4021099d50391d3f70967bcc70d085086e06a2b8
 		if (mLevelStarted)
+		{
+			mBackgroundScroll->Render();
 			mLevel->Render();
-	}
+			mScoreBoard->Render();
+			for (int i = 0; i < MAX_LIFE_TEXTURES && i < mTotalLives; i++)
+			{
+				mLifeTextures[i]->Render();
+			}
 
-	// BottomBar
-	//mBottomBarBackground->Render();
+			mPlayer->Render();
+			mPlayer2->Render();
+		}
+	}
 
 
 }
