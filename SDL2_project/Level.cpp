@@ -1,6 +1,6 @@
 #include "Level.h"
 
-Level::Level(int stage, Player* player)
+Level::Level(int stage, Player* player, Player2* player2)
 {
 	mTimer = Timer::Instance();
 	mAudioManager = AudioManager::Instance();
@@ -60,6 +60,8 @@ Level::Level(int stage, Player* player)
 	// Player
 	mPlayer = player;
 	mPlayer->Active(false);
+	mPlayer2 = player2;
+	mPlayer2->Active(false);
 
 }
 
@@ -84,6 +86,7 @@ Level::~Level()
 	mGameOverLabel = nullptr;
 
 	mPlayer = nullptr;
+	mPlayer2 = nullptr;
 }
 
 void Level::StartStage()
@@ -92,6 +95,7 @@ void Level::StartStage()
 	mStageStarted = true;
 	mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
 	mPlayer->Active(true);
+	mPlayer2->Active(true);
 	mLabelTimer = 0.0f;
 }
 
@@ -143,16 +147,16 @@ void Level::Update()
 
 		// condition needs to be changed -> if all enemies have died,
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
-		{			
+		{
 			mAudioManager->PauseMusic();
 			mCurrentState = finished;
 		}
 
-		// gameOver
 		if (mGameOver)
 		{
 			// todo: play gameover sound
 			mPlayer->Active(false);
+			mPlayer2->Active(false);
 
 			mGameOverTimer += mTimer->DeltaTime();
 			if (mGameOverTimer >= mGameOverDelay)

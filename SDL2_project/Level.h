@@ -4,6 +4,7 @@
 #include "BackgroundScroll.h"
 #include "AudioManager.h"
 #include "Player.h"
+#include "Player2.h"
 
 class Level : public GameEntity
 {
@@ -47,6 +48,7 @@ private:
 
 	// Player - currently using this just to make it active
 	Player* mPlayer = nullptr;
+	Player2* mPlayer2 = nullptr;
 
 	// GameOverLabel
 	Texture* mGameOverLabel = nullptr;
@@ -69,7 +71,7 @@ private:
 
 public:
 
-	Level(int stage, Player* player);
+	Level(int stage, Player* player, Player2* player2);
 	~Level();
 
 	LEVEL_STATES State();

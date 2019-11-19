@@ -30,7 +30,7 @@ PlayScreen::PlayScreen()
 
 	for (int i = 0; i < MAX_LIFE_TEXTURES; i++)
 	{
-		mLifeTextures[i] = new Texture("heart.png");
+		mLifeTextures[i] = new Texture("HeartOrange.png");
 		mLifeTextures[i]->Parent(mLives);
 		mLifeTextures[i]->Scale(VECTOR2D_ONE * 0.8f);
 		mLifeTextures[i]->Pos(mScoreBoard->mPlayerOne->Pos() + Vector2D(60.0f * (i % 3) + 120.0f, 70.0f * (i / 3)));
@@ -47,9 +47,13 @@ PlayScreen::PlayScreen()
 
 	// Player
 	mPlayer = nullptr;
+<<<<<<< HEAD
 
 	// background
 	mBackgroundScroll = new BackgroundScroll("Backgrounds/demon/demon_woods", 4);
+=======
+	mPlayer2 = nullptr;
+>>>>>>> 7d11810af6c755c2490dccb23631eb4ce478fed9
 }
 
 PlayScreen::~PlayScreen()
@@ -69,6 +73,16 @@ PlayScreen::~PlayScreen()
 	delete mPlayer;
 	mPlayer = nullptr;
 
+<<<<<<< HEAD
+=======
+	delete mPlayer2;
+	mPlayer2 = nullptr;
+
+	// BottomBar
+	//delete mBottomBarBackground;
+	//mBottomBarBackground = nullptr;
+
+>>>>>>> 7d11810af6c755c2490dccb23631eb4ce478fed9
 	// Life
 	delete mLives;
 	mLives = nullptr;
@@ -113,6 +127,7 @@ void PlayScreen::StartNextLevel()
 
 	// Create new Level
 	delete mLevel;
+<<<<<<< HEAD
 	mLevel = new Level(mCurrentStage, mPlayer);
 
 	// background change
@@ -130,22 +145,38 @@ void PlayScreen::StartNextLevel()
 	default:
 		break;
 	}
+=======
+	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2);
+>>>>>>> 7d11810af6c755c2490dccb23631eb4ce478fed9
 }
 
 void PlayScreen::StartNewGame()
 {
-	// Create new Player
+	// Create new Players
+
+	// Player 1
 	delete mPlayer;
 	mPlayer = new Player();
 	mPlayer->Parent(this);
 	mPlayer->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 	mPlayer->Active(false);
 
-	BackgroundScroll::mScroll = false;
-
 	SetHighScore(55555);
 	SetLives(mPlayer->Lives());
 	SetPlayerScore(mPlayer->Score());
+
+	// Player 2
+	delete mPlayer2;
+	mPlayer2 = new Player2();
+	mPlayer2->Parent(this);
+	mPlayer2->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
+	mPlayer2->Active(false);
+
+	SetHighScore(55555);
+	SetLives(mPlayer2->Lives());
+	SetPlayerScore(mPlayer2->Score());
+
+	BackgroundScroll::mScroll = false;
 
 	mGameStarted = false;
 	mLevelStarted = false;
@@ -207,8 +238,12 @@ void PlayScreen::Update()
 		}
 
 		mPlayer->Update();
+<<<<<<< HEAD
 
 
+=======
+		mPlayer2->Update();
+>>>>>>> 7d11810af6c755c2490dccb23631eb4ce478fed9
 	}
 
 	// Blinker logic
@@ -239,6 +274,12 @@ void PlayScreen::Render()
 
 	if (mGameStarted)
 	{
+<<<<<<< HEAD
+=======
+		mPlayer->Render();
+		mPlayer2->Render();
+
+>>>>>>> 7d11810af6c755c2490dccb23631eb4ce478fed9
 		if (mLevelStarted)
 		{
 			mBackgroundScroll->Render();

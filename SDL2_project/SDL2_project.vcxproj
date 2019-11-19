@@ -150,6 +150,7 @@
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="PhysicsEntity.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Player2.h" />
     <ClInclude Include="PlayScreen.h" />
     <ClInclude Include="Rocket.h" />
     <ClInclude Include="ScoreBoard.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PhysicsEntity.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player2.cpp" />
     <ClCompile Include="PlayScreen.cpp" />
     <ClCompile Include="Rocket.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />

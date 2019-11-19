@@ -17,7 +17,7 @@ Player::Player()
 	mLives = 3;
 
 	// player texture
-	mPlayer = new Texture("Jump (32x32).png");
+	mPlayer = new Texture("JumpOrange (32x32).png");
 	mPlayer->Scale(VECTOR2D_ONE * 2);	// scale up to 64x64
 	mPlayer->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 	

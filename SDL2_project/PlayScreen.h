@@ -33,6 +33,7 @@ private:
 	                    
 	// Player
 	Player* mPlayer = nullptr;
+	Player2* mPlayer2 = nullptr;
 
 	// background
 	BackgroundScroll* mBackgroundScroll = nullptr;
