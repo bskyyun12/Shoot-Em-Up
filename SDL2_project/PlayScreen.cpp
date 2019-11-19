@@ -51,17 +51,14 @@ PlayScreen::PlayScreen()
 
 	// Player
 	mPlayer = nullptr;
-<<<<<<< HEAD
 	if (mPlayer2 != nullptr)
 	{
 		mPlayer2 = nullptr;
 	}
-=======
 	mPlayer2 = nullptr;
 
 	// background
 	mBackgroundScroll = new BackgroundScroll("Backgrounds/demon/demon_woods", 4);
->>>>>>> 4021099d50391d3f70967bcc70d085086e06a2b8
 }
 
 PlayScreen::~PlayScreen()
@@ -278,15 +275,11 @@ void PlayScreen::Render()
 
 	if (mGameStarted)
 	{
-<<<<<<< HEAD
 		mPlayer->Render();
 		if (mPlayer2 != nullptr)
 		{
 			mPlayer2->Render();
 		}
-
-=======
->>>>>>> 4021099d50391d3f70967bcc70d085086e06a2b8
 		if (mLevelStarted)
 		{
 			mBackgroundScroll->Render();

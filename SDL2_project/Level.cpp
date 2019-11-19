@@ -159,8 +159,7 @@ void Level::Update()
 			mAudioManager->PauseMusic();
 			mCurrentState = finished;
 		}
-
-<<<<<<< HEAD
+	}
 	if (mGameOver)
 	{
 		// todo: play gameover sound
@@ -169,13 +168,13 @@ void Level::Update()
 		{
 			mPlayer2->Active(false);
 		}
-=======
+
 		if (mGameOver)
 		{
 			// todo: play gameover sound
 			mPlayer->Active(false);
 			mPlayer2->Active(false);
->>>>>>> 4021099d50391d3f70967bcc70d085086e06a2b8
+
 
 			mGameOverTimer += mTimer->DeltaTime();
 			if (mGameOverTimer >= mGameOverDelay)
