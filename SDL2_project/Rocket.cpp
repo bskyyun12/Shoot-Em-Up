@@ -16,6 +16,10 @@ Rocket::Rocket()
 	mRocket->Pos(VECTOR2D_ZERO);
 	//Rotate(-45); // bullet will be fired with -45 angle
 
+	mCurrentPath = 0;
+	mCurrentWayPoint = 0;
+	midPoint = 0.0f;
+
 	Active(false);
 }
 
@@ -37,7 +41,7 @@ void Rocket::CreatePath(Vector2D pos, int pathNum)
 
 	if (Graphics::Instance()->SCREEN_WIDTH - pos.x < 200)
 	{
-		midPoint = Graphics::Instance()->SCREEN_WIDTH;
+		midPoint = (float)Graphics::Instance()->SCREEN_WIDTH;
 	}
 	else
 	{
@@ -47,7 +51,7 @@ void Rocket::CreatePath(Vector2D pos, int pathNum)
 	float ctrlPoint = ((Graphics::Instance()->SCREEN_WIDTH + 100) - pos.x) * 0.25f - 50.0f;
 
 	Vector2D start = Vector2D(pos.x + 30, pos.y);
-	Vector2D end = Vector2D(Graphics::Instance()->SCREEN_WIDTH + 100, pos.y);
+	Vector2D end = Vector2D((float)Graphics::Instance()->SCREEN_WIDTH + 100.0f, pos.y);
 	Vector2D startCtrl = Vector2D((start.x + midPoint) * 0.5f, start.y - ctrlPoint);
 	Vector2D endCtrl = Vector2D((midPoint + end.x) * 0.5f, start.y + ctrlPoint);
 

@@ -102,6 +102,16 @@ inline Vector2D operator *(const float& value, const Vector2D& vec)
 	return Vector2D(value * vec.x, value * vec.y);
 }
 
+inline Vector2D operator /(const Vector2D& vec, const float& value)
+{
+	return Vector2D(vec.x / value, vec.y / value);
+}
+
+inline Vector2D operator /(const float& value, const Vector2D& vec)
+{
+	return Vector2D(value / vec.x, value / vec.y);
+}
+
 inline bool operator ==(const Vector2D& v1, const Vector2D& v2)
 {
 	return v1.x == v2.x && v1.y == v2.y;

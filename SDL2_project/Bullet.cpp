@@ -13,7 +13,10 @@ Bullet::Bullet()
 	mBullet->Pos(VECTOR2D_ZERO);
 	//Rotate(-45); // bullet will be fired with -45 angle
 
-	Active(false);
+	Reload();
+
+	AddCollider(new BoxCollider(mBullet, "bullet"));
+	//AddCollider(new BoxCollider(mBullet->ScaledDimensions()));
 }
 
 Bullet::~Bullet()
@@ -42,6 +45,7 @@ void Bullet::Update()
 {
 	if (Active())
 	{
+		PhysicsEntity::ColliderCheck();
 		mBullet->Update();
 		Translate(VECTOR2D_RIGHT * mSpeed * mTimer->DeltaTime(), local);
 
@@ -57,5 +61,8 @@ void Bullet::Update()
 void Bullet::Render()
 {
 	if (Active())
+	{
 		mBullet->Render();
+		PhysicsEntity::Render();
+	}
 }

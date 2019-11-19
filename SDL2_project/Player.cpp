@@ -20,6 +20,10 @@ Player::Player()
 	mPlayer = new Texture("Jump (32x32).png");
 	mPlayer->Scale(VECTOR2D_ONE * 2);	// scale up to 64x64
 	mPlayer->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
+	
+	AddCollider(new BoxCollider(mPlayer, "player"));
+	//AddCollider(new BoxCollider(Vector2D(mPlayer->ScaledDimensions().x * 5 / 8, mPlayer->ScaledDimensions().y * 5 / 16)), Vector2D(mPlayer->ScaledDimensions().x * 1 / 64, -mPlayer->ScaledDimensions().y * 6 / 64));
+	//AddCollider(new BoxCollider(mPlayer->ScaledDimensions() * 0.5f), Vector2D(0.0f, mPlayer->ScaledDimensions().y * 10 / 64));
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -76,12 +80,12 @@ void Player::HandleMovement()
 	{
 		Translate(VECTOR2D_LEFT * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
-	
+
 	if (mInputManager->KeyDown(SDL_SCANCODE_UP))
 	{
 		Translate(VECTOR2D_UP * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
-	
+
 	if (mInputManager->KeyDown(SDL_SCANCODE_DOWN))
 	{
 		Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
@@ -121,12 +125,12 @@ void Player::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(0, 0)) // Green (A) button
 		{
-			
+
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 1)) // Red (B) button
 		{
-			
+
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 2)) // Blue (X) button
@@ -136,42 +140,42 @@ void Player::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(0, 3)) // Yellow (Y) button
 		{
-			
+
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 4)) // LB button
 		{
-			
+
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 5)) // RB button
 		{
-			
+
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 6)) // Back/Select button
 		{
-			
+
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 7)) // Start button
 		{
-			
+
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 8)) // Left Stick button
 		{
-			
+
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 9)) // Right Stick button
 		{
-			
+
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 10)) // XBOX button
 		{
-			
+
 		}
 
 #pragma endregion
@@ -278,4 +282,5 @@ void Player::Render()
 	}
 
 	mPlayer->Render();
+	PhysicsEntity::Render();
 }

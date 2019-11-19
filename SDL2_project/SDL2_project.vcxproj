@@ -138,8 +138,9 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BackgroundScroll.h" />
     <ClInclude Include="BezierPath.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Bullet.h" />
-    <ClInclude Include="Item.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Graphics.h" />
@@ -147,7 +148,7 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MathHelper.h" />
-    <ClInclude Include="NormalBullet.h" />
+    <ClInclude Include="PhysicsEntity.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayScreen.h" />
     <ClInclude Include="Rocket.h" />
@@ -163,8 +164,9 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="BackgroundScroll.cpp" />
     <ClCompile Include="BezierPath.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -172,7 +174,7 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NormalBullet.cpp" />
+    <ClCompile Include="PhysicsEntity.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayScreen.cpp" />
     <ClCompile Include="Rocket.cpp" />

@@ -58,6 +58,15 @@ Texture::~Texture()
 	mGraphics = nullptr;
 }
 
+Vector2D Texture::ScaledDimensions()
+{
+	Vector2D scaledDimensions = Scale();
+	scaledDimensions.x *= mWidth;
+	scaledDimensions.y *= mHeight;
+
+	return scaledDimensions;
+}
+
 void Texture::Render() {
 
 	Vector2D pos = Pos(world);

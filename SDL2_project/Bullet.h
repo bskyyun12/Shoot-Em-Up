@@ -2,8 +2,10 @@
 #include "AnimatedTexture.h"
 #include "Timer.h"
 #include "AudioManager.h"
+#include "PhysicsEntity.h"
+#include "BoxCollider.h"
 
-class Bullet : public GameEntity
+class Bullet : public PhysicsEntity
 {
 private:
 
