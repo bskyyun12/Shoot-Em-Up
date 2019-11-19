@@ -1,4 +1,8 @@
 #include "PlayScreen.h"
+#include <iostream>
+
+using std::cout;
+using std::endl;
 
 PlayScreen::PlayScreen()
 {
@@ -32,7 +36,7 @@ PlayScreen::PlayScreen()
 	{
 		mLifeTextures[i] = new Texture("HeartOrange.png");
 		mLifeTextures[i]->Parent(mLives);
-		mLifeTextures[i]->Scale(VECTOR2D_ONE * 0.8f);
+		mLifeTextures[i]->Scale(VECTOR2D_ONE * 0.5f);
 		mLifeTextures[i]->Pos(mScoreBoard->mPlayerOne->Pos() + Vector2D(60.0f * (i % 3) + 120.0f, 70.0f * (i / 3)));
 	}
 	mTotalLives = 3;
@@ -47,7 +51,10 @@ PlayScreen::PlayScreen()
 
 	// Player
 	mPlayer = nullptr;
-	mPlayer2 = nullptr;
+	if (mPlayer2 != nullptr)
+	{
+		mPlayer2 = nullptr;
+	}
 }
 
 PlayScreen::~PlayScreen()
@@ -67,8 +74,11 @@ PlayScreen::~PlayScreen()
 	delete mPlayer;
 	mPlayer = nullptr;
 
-	delete mPlayer2;
-	mPlayer2 = nullptr;
+	if (mPlayer2 != nullptr)
+	{
+		delete mPlayer2;
+		mPlayer2 = nullptr;
+	}
 
 	// BottomBar
 	//delete mBottomBarBackground;
@@ -112,10 +122,10 @@ void PlayScreen::StartNextLevel()
 	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2);
 }
 
-void PlayScreen::StartNewGame()
+void PlayScreen::StartNewGame(int mSelectMode)
 {
+	cout << "mSelectMode : " << mSelectMode << endl;
 	// Create new Players
-
 	// Player 1
 	delete mPlayer;
 	mPlayer = new Player();
@@ -127,16 +137,19 @@ void PlayScreen::StartNewGame()
 	SetLives(mPlayer->Lives());
 	SetPlayerScore(mPlayer->Score());
 
-	// Player 2
-	delete mPlayer2;
-	mPlayer2 = new Player2();
-	mPlayer2->Parent(this);
-	mPlayer2->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
-	mPlayer2->Active(false);
+	if (mSelectMode == 2)
+	{
+		// Player 2
+		delete mPlayer2;
+		mPlayer2 = new Player2();
+		mPlayer2->Parent(this);
+		mPlayer2->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f + 100));
+		mPlayer2->Active(false);
 
-	SetHighScore(55555);
-	SetLives(mPlayer2->Lives());
-	SetPlayerScore(mPlayer2->Score());
+		SetHighScore(55555);
+		SetLives(mPlayer2->Lives());
+		SetPlayerScore(mPlayer2->Score());
+	}
 
 	BackgroundScroll::mScroll = false;
 
@@ -159,6 +172,7 @@ bool PlayScreen::GameOver()
 
 void PlayScreen::Update()
 {
+
 	// test 2 - wait mLevelStartDelay(1.0f) and start level
 	if (mGameStarted)
 	{
@@ -191,7 +205,10 @@ void PlayScreen::Update()
 		}
 
 		mPlayer->Update();
-		mPlayer2->Update();
+		if (mPlayer2 != nullptr)
+		{
+			mPlayer2->Update();
+		}
 	}
 
 	// Blinker logic
@@ -231,7 +248,10 @@ void PlayScreen::Render()
 	if (mGameStarted)
 	{
 		mPlayer->Render();
-		mPlayer2->Render();
+		if (mPlayer2 != nullptr)
+		{
+			mPlayer2->Render();
+		}
 
 		if (mLevelStarted)
 			mLevel->Render();

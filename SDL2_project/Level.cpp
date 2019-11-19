@@ -55,9 +55,11 @@ Level::Level(int stage, Player* player, Player2* player2)
 	// Player
 	mPlayer = player;
 	mPlayer->Active(false);
-	mPlayer2 = player2;
-	mPlayer2->Active(false);
-
+	if (mPlayer2 != nullptr)
+	{
+		mPlayer2 = player2;
+		mPlayer2->Active(false);
+	}
 }
 
 Level::~Level()
@@ -81,7 +83,10 @@ Level::~Level()
 	mGameOverLabel = nullptr;
 
 	mPlayer = nullptr;
-	mPlayer2 = nullptr;
+	if (mPlayer2 != nullptr)
+	{
+		mPlayer2 = nullptr;
+	}
 }
 
 void Level::StartStage()
@@ -90,7 +95,10 @@ void Level::StartStage()
 	mStageStarted = true;
 	mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
 	mPlayer->Active(true);
-	mPlayer2->Active(true);
+	if (mPlayer2 != nullptr)
+	{
+		mPlayer2->Active(true);
+	}
 	mLabelTimer = 0.0f;
 }
 
@@ -146,7 +154,10 @@ void Level::Update()
 	{
 		// todo: play gameover sound
 		mPlayer->Active(false);
-		mPlayer2->Active(false);
+		if (mPlayer2 != nullptr)
+		{
+			mPlayer2->Active(false);
+		}
 
 		mGameOverTimer += mTimer->DeltaTime();
 		if (mGameOverTimer >= mGameOverDelay)

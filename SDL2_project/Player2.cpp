@@ -76,32 +76,6 @@ void Player2::HandleMovement()
 	// save player's position before player moves
 	Vector2D prevPlayerPos = Pos(local);
 
-	// Player Input
-	if (mInputManager->KeyDown(SDL_SCANCODE_RIGHT))
-	{
-		Translate(VECTOR2D_RIGHT * mMoveSpeed * mTimer->DeltaTime(), world);
-	}
-
-	if (mInputManager->KeyDown(SDL_SCANCODE_LEFT))
-	{
-		Translate(VECTOR2D_LEFT * mMoveSpeed * mTimer->DeltaTime(), world);
-	}
-
-	if (mInputManager->KeyDown(SDL_SCANCODE_UP))
-	{
-		Translate(VECTOR2D_UP * mMoveSpeed * mTimer->DeltaTime(), world);
-	}
-
-	if (mInputManager->KeyDown(SDL_SCANCODE_DOWN))
-	{
-		Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
-	}
-
-	if (mInputManager->KeyDown(SDL_SCANCODE_RCTRL)) // Shoot
-	{
-		HandleFiring();
-	}
-
 #pragma region Gamepad Input
 
 	if (mInputManager->JoysticksInitialiased())
@@ -146,17 +120,17 @@ void Player2::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(1, 3)) // Yellow (Y) button
 		{
-
+			
 		}
 
 		if (InputManager::Instance()->GetButtonState(1, 4)) // LB button
 		{
-
+			mPlayer2->Rotate(90);
 		}
 
 		if (InputManager::Instance()->GetButtonState(1, 5)) // RB button
 		{
-
+			HandleFiring(); // Shoot
 		}
 
 		if (InputManager::Instance()->GetButtonState(1, 6)) // Back/Select button
@@ -257,7 +231,7 @@ void Player2::Update()
 	if (Active())
 	{
 		HandleMovement();
-		// Shoot with RCTRL or controller X button
+		// Shoot with RCTRL or controller X button or LB button
 		//HandleFiring();
 	}
 

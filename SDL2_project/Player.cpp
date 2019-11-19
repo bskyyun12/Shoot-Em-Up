@@ -151,12 +151,12 @@ void Player::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(0, 4)) // LB button
 		{
-
+			mPlayer->Rotate(90);
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 5)) // RB button
 		{
-
+			HandleFiring(); // Shoot
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 6)) // Back/Select button
@@ -257,7 +257,7 @@ void Player::Update()
 	if (Active())
 	{
 		HandleMovement();
-		// Shoot with RCTRL or controller X button
+		// Shoot with RCTRL or controller X button or LB button
 		//HandleFiring();
 	}
 

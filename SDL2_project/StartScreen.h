@@ -48,14 +48,13 @@ public:
 
 	void ResetAnimation();
 
-	int SelectMode();
-	void ChangeSeletedMode(int change);
+	int GetSelectMode();
+
+	void ChangeSelectedMode(int change);
 
 	void Update();
 
 	void Render();
-
-	bool mTwoPlayers;
 
 };
 

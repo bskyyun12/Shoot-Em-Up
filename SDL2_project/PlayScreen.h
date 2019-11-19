@@ -44,7 +44,7 @@ public:
 	PlayScreen();
 	~PlayScreen();
 
-	void StartNewGame();
+	void StartNewGame(int mSelectMode);
 
 	void SetHighScore(int score);
 	void SetPlayerScore(int score);

@@ -42,6 +42,7 @@ GameManager::GameManager()
 
 	// STEP 3 : Create new instance
 
+	mInputManager->CleanJoysticks();
 	mInputManager->InitialiseJoysticks();
 }
 

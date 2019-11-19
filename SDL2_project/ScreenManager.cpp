@@ -54,7 +54,7 @@ void ScreenManager::Update()
 		{
 			currentScreen = play;
 			mStartScreen->ResetAnimation();
-			mPlayScreen->StartNewGame();
+			mPlayScreen->StartNewGame(mStartScreen->GetSelectMode());
 		}
 		break;
 	case play:

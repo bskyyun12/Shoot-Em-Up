@@ -232,7 +232,7 @@ void InputManager::InitialiseJoysticks()
 		SDL_JoystickEventState(SDL_ENABLE);
 		m_bJoysticksInitialised = true;
 
-		cout << "Initialised " << m_joysticks.size() << "joystick(s)";
+		cout << "Initialised " << m_joysticks.size() << "joystick(s)" << endl;
 	}
 	else
 	{
