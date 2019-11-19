@@ -14,10 +14,7 @@ Bullet::Bullet()
 	//Rotate(-45); // bullet will be fired with -45 angle
 
 	Reload();
-	mCollider = new BoxCollider(mBullet, "bullet");
-
-	AddCollider(mCollider);
-	//AddCollider(new BoxCollider(mBullet->ScaledDimensions()));
+	AddCollider(new BoxCollider(mBullet, "bullet"));
 }
 
 Bullet::~Bullet()
@@ -68,8 +65,8 @@ void Bullet::Render()
 	if (Active())
 	{
 		mBullet->Render();
-
-		// only for debug & visualizing. check collider position
-		mCollider->Render();
 	}
+
+	// only for debug & visualizing. check collider position
+	PhysicsEntity::Render();
 }

@@ -93,8 +93,8 @@
     <ClInclude Include="BezierPath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rocket.h">
-      <Filter>Header Files\Game</Filter>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>Header Files</Filter>
@@ -102,7 +102,7 @@
     <ClInclude Include="PhysicsEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BoxCollider.h">
+    <ClInclude Include="Rocket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -167,8 +167,8 @@
     <ClCompile Include="BezierPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rocket.cpp">
-      <Filter>Source Files\Game</Filter>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>Source Files</Filter>
@@ -176,7 +176,7 @@
     <ClCompile Include="PhysicsEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
+    <ClCompile Include="Rocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

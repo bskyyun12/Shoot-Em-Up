@@ -17,8 +17,8 @@ PhysicsEntity::~PhysicsEntity()
 
 bool PhysicsEntity::ColliderCheck()
 {
-	std::cout << "ColliderCheck start " << std::endl;
-	std::cout << "mColliders.size() : " << mColliders.size() << std::endl;
+	//std::cout << "ColliderCheck start " << std::endl;
+	//std::cout << "mColliders.size() : " << mColliders.size() << std::endl;
 
 	for (int i = 0; i < mColliders.size(); i++)
 	{
@@ -45,7 +45,8 @@ void PhysicsEntity::AddCollider(Collider* collider, Vector2D localPos)
 	collider->Parent(this);
 	collider->Pos(localPos);
 
-	mColliders.push_back(collider);	
+	mColliders.push_back(collider);
+
 	std::cout << "collider->GetTag() : " << collider->GetTag() << std::endl;
 	std::cout << "mColliders.size() : " << mColliders.size() << std::endl;
 

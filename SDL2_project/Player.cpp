@@ -22,8 +22,7 @@ Player::Player()
 	mPlayer->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 	
 	// collider 
-	mCollider = new BoxCollider(mPlayer, "player");
-	AddCollider(mCollider);
+	AddCollider(new BoxCollider(mPlayer, "player"));
 	//AddCollider(new BoxCollider(Vector2D(mPlayer->ScaledDimensions().x * 5 / 8, mPlayer->ScaledDimensions().y * 5 / 16)), Vector2D(mPlayer->ScaledDimensions().x * 1 / 64, -mPlayer->ScaledDimensions().y * 6 / 64));
 	//AddCollider(new BoxCollider(mPlayer->ScaledDimensions() * 0.5f), Vector2D(0.0f, mPlayer->ScaledDimensions().y * 10 / 64));
 
@@ -32,7 +31,7 @@ Player::Player()
 	{
 		mBullets[i] = new Bullet();
 	}
-	mFireTimer = 0.0f;
+	mFireTimer = 0.5f;
 	mFireRate = 0.5f;
 
 	// rocket
@@ -40,7 +39,7 @@ Player::Player()
 	{
 		mRockets[i] = new Rocket();
 	}
-	mRocketFireTimer = 0.0f;
+	mRocketFireTimer = 2.5f;
 	mRocketFireRate = 2.5f;
 }
 
@@ -205,7 +204,6 @@ void Player::HandleMovement()
 
 void Player::HandleFiring()
 {
-	mFireTimer += mTimer->DeltaTime();
 	if (mFireTimer > mFireRate)
 	{
 		for (int i = 0; i < MAX_BULLETS; i++)
@@ -220,7 +218,6 @@ void Player::HandleFiring()
 		mFireTimer = 0.0f;
 	}
 
-	mRocketFireTimer += mTimer->DeltaTime();
 	if (mRocketFireTimer > mRocketFireRate)
 	{
 		// rocket
@@ -253,6 +250,9 @@ void Player::AddScore(int score)
 
 void Player::Update()
 {
+	mFireTimer += mTimer->DeltaTime();
+	mRocketFireTimer += mTimer->DeltaTime();
+
 	// player won't do anything during stage preparation
 	if (Active())
 	{
@@ -291,5 +291,5 @@ void Player::Render()
 	mPlayer->Render();
 
 	// only for debug & visualizing. check collider position
-	mCollider->Render();
+	PhysicsEntity::Render();
 }
