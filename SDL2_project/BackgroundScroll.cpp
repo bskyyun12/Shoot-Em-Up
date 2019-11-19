@@ -17,14 +17,13 @@ BackgroundScroll::BackgroundScroll()
 	AddBackground("Backgrounds/demon/demon_woods3.png");
 	AddBackground("Backgrounds/demon/demon_woods4.png");
 	//AddBackground("Backgrounds/5.png");
+
 }
 
 BackgroundScroll::~BackgroundScroll()
 {
 	//teseting
-	delete mTempTex1;
 	mTempTex1 = nullptr;
-	delete mTempTex2;
 	mTempTex2 = nullptr;
 	for (int i = 0; i < mBackgrounds.size(); i++)
 	{
