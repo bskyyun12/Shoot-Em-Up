@@ -24,8 +24,8 @@ private:
 	Texture* mBackground_3_1 = nullptr;
 	Texture* mBackground_4 = nullptr;
 	Texture* mBackground_4_1 = nullptr;
-	Texture* mBackground_5 = nullptr;
-	Texture* mBackground_5_1 = nullptr;
+	//Texture* mBackground_5 = nullptr;
+	//Texture* mBackground_5_1 = nullptr;
 
 public:
 
