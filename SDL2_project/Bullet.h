@@ -16,6 +16,9 @@ private:
 
 	AnimatedTexture* mBullet = nullptr;
 
+	//collider
+	Collider* mCollider = nullptr;
+
 public:
 
 	Bullet();

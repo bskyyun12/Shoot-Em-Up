@@ -34,6 +34,9 @@ private:
 	float mRocketFireTimer;
 	float mRocketFireRate;
 
+	// collider
+	Collider* mCollider = nullptr;
+
 private:
 
 	// Player movemonet logic

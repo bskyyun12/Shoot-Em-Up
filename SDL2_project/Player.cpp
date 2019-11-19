@@ -21,7 +21,9 @@ Player::Player()
 	mPlayer->Scale(VECTOR2D_ONE * 2);	// scale up to 64x64
 	mPlayer->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 	
-	AddCollider(new BoxCollider(mPlayer, "player"));
+	// collider 
+	mCollider = new BoxCollider(mPlayer, "player");
+	AddCollider(mCollider);
 	//AddCollider(new BoxCollider(Vector2D(mPlayer->ScaledDimensions().x * 5 / 8, mPlayer->ScaledDimensions().y * 5 / 16)), Vector2D(mPlayer->ScaledDimensions().x * 1 / 64, -mPlayer->ScaledDimensions().y * 6 / 64));
 	//AddCollider(new BoxCollider(mPlayer->ScaledDimensions() * 0.5f), Vector2D(0.0f, mPlayer->ScaledDimensions().y * 10 / 64));
 
@@ -63,6 +65,11 @@ Player::~Player()
 		delete mRockets[i];
 		mRockets[i] = nullptr;
 	}
+
+	// collider
+	delete mCollider;
+	mCollider = nullptr;
+	
 }
 
 void Player::HandleMovement()
@@ -282,5 +289,7 @@ void Player::Render()
 	}
 
 	mPlayer->Render();
-	PhysicsEntity::Render();
+
+	// only for debug & visualizing. check collider position
+	mCollider->Render();
 }
