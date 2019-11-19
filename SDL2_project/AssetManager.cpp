@@ -77,9 +77,21 @@ AssetManager::~AssetManager()
 	mSFXs.clear();
 }
 
-SDL_Texture* AssetManager::GetTexture(std::string fileName)
+std::string AssetManager::GetPath()
 {
 	std::string fullPath = SDL_GetBasePath();
+
+	for (int i = 0; i < 10; i++)
+	{
+		fullPath.pop_back();
+	}
+
+	return fullPath;
+}
+
+SDL_Texture* AssetManager::GetTexture(std::string fileName)
+{
+	std::string fullPath = GetPath();
 	fullPath.append("Assets/" + fileName);
 
 	//If the file has not been already loaded, load it and add it to the mTextures map
@@ -91,7 +103,7 @@ SDL_Texture* AssetManager::GetTexture(std::string fileName)
 
 TTF_Font* AssetManager::GetFont(std::string fileName, int size)
 {
-	std::string fullPath = SDL_GetBasePath();
+	std::string fullPath = GetPath();
 	fullPath.append("Assets/" + fileName);
 
 	//The key takes into account the size of the font aswell since the same font can be opened with different sizes
@@ -125,7 +137,7 @@ SDL_Texture* AssetManager::GetText(std::string text, std::string fileName, int s
 
 Mix_Music* AssetManager::GetMusic(std::string fileName)
 {
-	std::string fullPath = SDL_GetBasePath();
+	std::string fullPath = GetPath();
 	fullPath.append("Assets/" + fileName);
 
 	if (mMusics[fullPath] == nullptr)
@@ -143,7 +155,7 @@ Mix_Music* AssetManager::GetMusic(std::string fileName)
 
 Mix_Chunk* AssetManager::GetSFX(std::string fileName)
 {
-	std::string fullPath = SDL_GetBasePath();
+	std::string fullPath = GetPath();
 	fullPath.append("Assets/" + fileName);
 
 	if (mSFXs[fullPath] == nullptr)

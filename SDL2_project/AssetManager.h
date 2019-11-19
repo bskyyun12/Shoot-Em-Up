@@ -21,6 +21,8 @@ public:
 	static AssetManager* Instance();
 	static void Release();
 
+	std::string GetPath();
+
 	//----------------------------------------------------------------------------------------------
 	//Should be used when any texture needs to be loaded from file
 	//If the texture was not previously loaded, it is loaded from file then cached are returned

@@ -1,5 +1,6 @@
 #pragma once
 #include "Texture.h" // debug purpose
+#include <vector>
 
 class Collider : public GameEntity
 {
@@ -20,6 +21,8 @@ protected:
 
 	SDL_Rect mCollider;
 	std::string mTag;
+
+	// testing
 
 public:
 
