@@ -57,6 +57,6 @@ void PhysicsEntity::Render()
 {
 	for (int i = 0; i < mColliders.size(); i++)
 	{
-		mColliders[i]->Render();
+		//mColliders[i]->Render();
 	}
 }

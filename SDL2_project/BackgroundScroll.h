@@ -10,22 +10,14 @@ private:
 	Timer* mTimer = nullptr;
 
 	// Background Variables
-	float mBackgroundImageWidth;
-	float mBackgroundImageHeight;
 	Vector2D mBackgroundStartPos;
 	Vector2D mBackgroundEndPos;
 	float mScrollSpeed;
 
-	// Background Entities
-	Texture* mBackground_1 = nullptr;
-	Texture* mBackground_2 = nullptr;
-	Texture* mBackground_2_1 = nullptr;
-	Texture* mBackground_3 = nullptr;
-	Texture* mBackground_3_1 = nullptr;
-	Texture* mBackground_4 = nullptr;
-	Texture* mBackground_4_1 = nullptr;
-	//Texture* mBackground_5 = nullptr;
-	//Texture* mBackground_5_1 = nullptr;
+	// testing	
+	std::vector<Texture*> mBackgrounds;
+	Texture* mTempTex1 = nullptr;
+	Texture* mTempTex2 = nullptr;
 
 public:
 
@@ -33,6 +25,8 @@ public:
 	~BackgroundScroll();
 
 	static bool mScroll;
+
+	void AddBackground(std::string path, bool scroll = true);
 
 	void ResetBackgroundPos(Texture* background);
 
