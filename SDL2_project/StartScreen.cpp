@@ -160,21 +160,25 @@ void StartScreen::Update()
 		if (mInputManager->KeyPressed(SDL_SCANCODE_UP))
 		{
 			ChangeSeletedMode(1);
+			mTwoPlayers = false;
 		}
 		else if (mInputManager->KeyPressed(SDL_SCANCODE_DOWN))
 		{
 			ChangeSeletedMode(2);
+			mTwoPlayers = true;
 		}
 
 		if (mInputManager->yValue(0, 1) < 0 || mInputManager->yValue(0, 2) < 0 ||
 			mInputManager->xValue(0, 1) < 0 || mInputManager->xValue(0, 2) < 0)
 		{
 			ChangeSeletedMode(1);
+			mTwoPlayers = false;
 		}
 		else if (mInputManager->yValue(0, 1) > 0 || mInputManager->yValue(0, 2) > 0 ||
 				 mInputManager->xValue(0, 1) > 0 || mInputManager->xValue(0, 2) > 0)
 		{
 			ChangeSeletedMode(2);
+			mTwoPlayers = true;
 		}
 	}
 }

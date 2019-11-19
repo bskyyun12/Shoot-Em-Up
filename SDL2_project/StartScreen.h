@@ -55,5 +55,7 @@ public:
 
 	void Render();
 
+	bool mTwoPlayers;
+
 };
 
