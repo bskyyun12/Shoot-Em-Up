@@ -47,13 +47,10 @@ PlayScreen::PlayScreen()
 
 	// Player
 	mPlayer = nullptr;
-<<<<<<< HEAD
+	mPlayer2 = nullptr;
 
 	// background
 	mBackgroundScroll = new BackgroundScroll("Backgrounds/demon/demon_woods", 4);
-=======
-	mPlayer2 = nullptr;
->>>>>>> 7d11810af6c755c2490dccb23631eb4ce478fed9
 }
 
 PlayScreen::~PlayScreen()
@@ -73,16 +70,9 @@ PlayScreen::~PlayScreen()
 	delete mPlayer;
 	mPlayer = nullptr;
 
-<<<<<<< HEAD
-=======
 	delete mPlayer2;
 	mPlayer2 = nullptr;
 
-	// BottomBar
-	//delete mBottomBarBackground;
-	//mBottomBarBackground = nullptr;
-
->>>>>>> 7d11810af6c755c2490dccb23631eb4ce478fed9
 	// Life
 	delete mLives;
 	mLives = nullptr;
@@ -127,8 +117,7 @@ void PlayScreen::StartNextLevel()
 
 	// Create new Level
 	delete mLevel;
-<<<<<<< HEAD
-	mLevel = new Level(mCurrentStage, mPlayer);
+	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2);
 
 	// background change
 	switch (mCurrentStage)
@@ -145,9 +134,8 @@ void PlayScreen::StartNextLevel()
 	default:
 		break;
 	}
-=======
+
 	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2);
->>>>>>> 7d11810af6c755c2490dccb23631eb4ce478fed9
 }
 
 void PlayScreen::StartNewGame()
@@ -238,12 +226,7 @@ void PlayScreen::Update()
 		}
 
 		mPlayer->Update();
-<<<<<<< HEAD
-
-
-=======
 		mPlayer2->Update();
->>>>>>> 7d11810af6c755c2490dccb23631eb4ce478fed9
 	}
 
 	// Blinker logic
@@ -274,12 +257,6 @@ void PlayScreen::Render()
 
 	if (mGameStarted)
 	{
-<<<<<<< HEAD
-=======
-		mPlayer->Render();
-		mPlayer2->Render();
-
->>>>>>> 7d11810af6c755c2490dccb23631eb4ce478fed9
 		if (mLevelStarted)
 		{
 			mBackgroundScroll->Render();
@@ -289,7 +266,9 @@ void PlayScreen::Render()
 			{
 				mLifeTextures[i]->Render();
 			}
+
 			mPlayer->Render();
+			mPlayer2->Render();
 		}
 	}
 
