@@ -10,7 +10,7 @@ PlayScreen::PlayScreen()
 	mInputManager = InputManager::Instance();
 	mAudioManager = AudioManager::Instance();
 	mScoreBoard = new ScoreBoard();
-	mStartLabel = new Texture("START!", Graphics::Instance()->FONT_Emulogic, 64, { 218, 94, 83 });
+	mStartLabel = new Texture("START!", Graphics::Instance()->FONT_Emulogic, 64, { 255, 20, 147 });
 	mStartLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
 	// BottomBar                                                           
@@ -61,7 +61,7 @@ PlayScreen::PlayScreen()
 	mPlayer2 = nullptr;
 
 	// background
-	mBackgroundScroll = new BackgroundScroll("Backgrounds/demon/demon_woods", 4);
+	mBackgroundScroll = new BackgroundScroll("Backgrounds/space/Nebula_Red", 5);
 }
 
 PlayScreen::~PlayScreen()
@@ -176,7 +176,6 @@ void PlayScreen::StartNextLevel()
 
 void PlayScreen::StartNewGame(int mSelectMode)
 {
-	cout << "mSelectMode : " << mSelectMode << endl;
 	// Create new Players
 	// Player 1
 	delete mPlayer;
