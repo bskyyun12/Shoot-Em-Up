@@ -77,6 +77,7 @@ public:
 	void OnJoystickAxisMove(SDL_Event& event);
 	void OnJoystickButtonDown(SDL_Event& event);
 	void OnJoystickButtonUp(SDL_Event& event);
+	void OnJoystickHatMove(SDL_Event& event);
 
 	const int m_joystickDeadZone = 10000;
 

@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "ScoreBoard.h"
 #include "AudioManager.h"
+#include "BackgroundScroll.h"
 
 class StartScreen : public GameEntity
 {
@@ -40,6 +41,8 @@ protected:
 	float mAnimationTotalTime;
 	float mAnimationTimer;
 	bool mAnimationDone;
+
+	BackgroundScroll* mBackgroundScroll;
 
 public:
 

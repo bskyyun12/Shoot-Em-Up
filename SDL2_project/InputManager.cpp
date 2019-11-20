@@ -178,6 +178,9 @@ void InputManager::Update()
 		case SDL_JOYBUTTONUP:
 			OnJoystickButtonUp(event);
 			break;
+		case SDL_JOYHATMOTION:
+			OnJoystickHatMove(event);
+			break;
 		default:
 			break;
 		}
@@ -367,7 +370,7 @@ void InputManager::OnJoystickAxisMove(SDL_Event& event)
 
 void InputManager::OnJoystickButtonDown(SDL_Event& event)
 {
-	int whichOne = event.jaxis.which;
+	int whichOne = event.jbutton.which; // get wich controller
 
 	cout << "ButtonPressed" << endl;
 	m_buttonStates[whichOne][event.jbutton.button] = true;
@@ -375,10 +378,67 @@ void InputManager::OnJoystickButtonDown(SDL_Event& event)
 
 void InputManager::OnJoystickButtonUp(SDL_Event& event)
 {
-	int whichOne = event.jaxis.which;
+	int whichOne = event.jbutton.which;
 
 	cout << "ButtonReleased" << endl;
 	m_buttonStates[whichOne][event.jbutton.button] = false;
+}
+
+void InputManager::OnJoystickHatMove(SDL_Event& event)
+{
+	int whichOne = event.jhat.which; // get wich controller
+
+	// DPAD movement
+	if (event.jhat.value == SDL_HAT_UP)
+	{
+		//cout << "MoveUp" << endl;
+		m_joystickValues[whichOne].first->SetY(-1);
+	}
+	if (event.jhat.value == SDL_HAT_DOWN)
+	{
+		//cout << "MoveDown" << endl;
+		m_joystickValues[whichOne].first->SetY(1);
+	}
+	if (event.jhat.value == SDL_HAT_LEFT)
+	{
+		//cout << "MoveLeft" << endl;
+		m_joystickValues[whichOne].first->SetX(-1);
+	}
+	if (event.jhat.value == SDL_HAT_RIGHT)
+	{
+		//cout << "MoveRight" << endl;
+		m_joystickValues[whichOne].first->SetX(1);
+	}
+	if (event.jhat.value == SDL_HAT_LEFTUP)
+	{
+		//cout << "MoveLeftUp" << endl;
+		m_joystickValues[whichOne].first->SetX(-1);
+		m_joystickValues[whichOne].first->SetY(-1);
+	}
+	if (event.jhat.value == SDL_HAT_RIGHTUP)
+	{
+		//cout << "MoveRightUp" << endl;
+		m_joystickValues[whichOne].first->SetX(1);
+		m_joystickValues[whichOne].first->SetY(-1);
+	}
+	if (event.jhat.value == SDL_HAT_RIGHTDOWN)
+	{
+		//cout << "MoveRightDown" << endl;
+		m_joystickValues[whichOne].first->SetX(1);
+		m_joystickValues[whichOne].first->SetY(1);
+	}
+	if (event.jhat.value == SDL_HAT_LEFTDOWN)
+	{
+		//cout << "MoveLeftDown" << endl;
+		m_joystickValues[whichOne].first->SetX(-1);
+		m_joystickValues[whichOne].first->SetY(1);
+	}
+	if (event.jhat.value == SDL_HAT_CENTERED)
+	{
+		//cout << "Stop" << endl;
+		m_joystickValues[whichOne].first->SetX(0);
+		m_joystickValues[whichOne].first->SetY(0);
+	}
 }
 
 #pragma endregion

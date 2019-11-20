@@ -10,7 +10,7 @@ PlayScreen::PlayScreen()
 	mInputManager = InputManager::Instance();
 	mAudioManager = AudioManager::Instance();
 	mScoreBoard = new ScoreBoard();
-	mStartLabel = new Texture("START!", Graphics::Instance()->FONT_Emulogic, 64, { 255, 20, 147 });
+	mStartLabel = new Texture("START!", Graphics::Instance()->FONT_Emulogic, 64, { 218, 94, 83 });
 	mStartLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
 	// BottomBar                                                           
@@ -126,6 +126,10 @@ void PlayScreen::StartNextLevel()
 {
 	// test 3 - increse stage level and create new level instance
 	mCurrentStage++;
+	if (mCurrentStage > 9)
+	{
+		mCurrentStage = 1;
+	}
 	mLevelStartTimer = 0.0f;
 	mLevelStarted = true;
 
@@ -137,13 +141,31 @@ void PlayScreen::StartNextLevel()
 	switch (mCurrentStage)
 	{
 	case 1:
-		mBackgroundScroll->SetBackground("Backgrounds/demon/demon_woods", 4);
+		mBackgroundScroll->SetBackground("Backgrounds/space/Nebula_Red", 5);
 		break;
 	case 2:
-		mBackgroundScroll->SetBackground("Backgrounds/forest", 5);
+		mBackgroundScroll->SetBackground("Backgrounds/mountain/mountain", 5);
 		break;
 	case 3:
 		mBackgroundScroll->SetBackground("Backgrounds/demon/demon_woods", 4);
+		break;
+	case 4:
+		mBackgroundScroll->SetBackground("Backgrounds/spaceblue/Nebula_Blue", 5);
+		break;
+	case 5:
+		mBackgroundScroll->SetBackground("Backgrounds/spacepink/Nebula_Pink", 5);
+		break;
+	case 6:
+		mBackgroundScroll->SetBackground("Backgrounds/cyberpunk/cyberpunk", 3);
+		break;
+	case 7:
+		mBackgroundScroll->SetBackground("Backgrounds/planets/planets", 5);
+		break;
+	case 8:
+		mBackgroundScroll->SetBackground("Backgrounds/yellowforest/yellowforest", 4);
+		break;
+	case 9:
+		mBackgroundScroll->SetBackground("Backgrounds/forest/forest", 5);
 		break;
 	default:
 		break;

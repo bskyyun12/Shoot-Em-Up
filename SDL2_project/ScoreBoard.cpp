@@ -67,8 +67,8 @@ ScoreBoard::ScoreBoard()
 {
 	//Top Bar Entities
 	mTopBar = new GameEntity(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, 40.0f));
-	mPlayerOne = new Texture("1UP", Graphics::Instance()->FONT_Emulogic, 32, { 0, 200, 0 });
-	mPlayerTwo = new Texture("2UP", Graphics::Instance()->FONT_Emulogic, 32, { 0, 0, 200 });
+	mPlayerOne = new Texture("1UP", Graphics::Instance()->FONT_Emulogic, 32, { 218, 94, 83 });
+	mPlayerTwo = new Texture("2UP", Graphics::Instance()->FONT_Emulogic, 32, { 47, 172, 218 });
 	mHighScore = new Texture("High Score", Graphics::Instance()->FONT_Emulogic, 32, { 200, 0, 0 });
 	mPlayerOneScoreBoard = new ScoreManager();
 	mPlayerTwoScoreBoard = new ScoreManager();

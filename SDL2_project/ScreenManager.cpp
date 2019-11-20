@@ -1,4 +1,5 @@
 #include "ScreenManager.h"
+#include "InputManager.h"
 
 ScreenManager* ScreenManager::sInstance = nullptr;
 
@@ -41,11 +42,28 @@ ScreenManager::~ScreenManager()
 
 void ScreenManager::Update()
 {
+#pragma region Gamepad Events
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+		case SDL_JOYBUTTONDOWN:
+			mInputManager->OnJoystickButtonDown(event);
+			break;
+		case SDL_JOYBUTTONUP:
+			mInputManager->OnJoystickButtonUp(event);
+			break;
+		default:
+			break;
+		}
+	}
+#pragma endregion
 	switch (currentScreen)
 	{
 	case start:
 		mStartScreen->Update();
-		if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN))
+		if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN) || (mInputManager->GetButtonState(1, 7)) /* Start button */)
 		{
 			currentScreen = play;
 			mStartScreen->ResetAnimation();

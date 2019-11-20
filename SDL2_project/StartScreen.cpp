@@ -3,6 +3,8 @@
 
 StartScreen::StartScreen()
 {
+	mBackgroundScroll = new BackgroundScroll("Backgrounds/space/Nebula_Red", 5);
+
 	mTimer = Timer::Instance();
 	mInputManager = InputManager::Instance();
 	mAudioManager = AudioManager::Instance();
@@ -62,6 +64,7 @@ StartScreen::StartScreen()
 	mBottomBar->Parent(this);
 
 	ResetAnimation();
+
 }
 
 StartScreen::~StartScreen()
@@ -99,6 +102,10 @@ StartScreen::~StartScreen()
 	mDates = nullptr;
 	delete mRights;
 	mRights = nullptr;
+
+	// Background
+	delete mBackgroundScroll;
+	mBackgroundScroll = nullptr;
 }
 
 void StartScreen::ResetAnimation()
@@ -137,6 +144,8 @@ void StartScreen::ChangeSelectedMode(int change)
 
 void StartScreen::Update()
 {
+	mBackgroundScroll->Update();
+
 	if (!mAnimationDone)
 	{
 		mAnimationTimer += mTimer->DeltaTime();
@@ -168,13 +177,13 @@ void StartScreen::Update()
 
 		if (mInputManager->JoysticksInitialiased())
 		{
-			if (mInputManager->yValue(0, 1) < 0 || mInputManager->yValue(0, 2) < 0 ||
-				mInputManager->xValue(0, 1) < 0 || mInputManager->xValue(0, 2) < 0)
+			if (mInputManager->yValue(0, 1) < 0 || mInputManager->yValue(0, 2) < 0)
+		   //|| mInputManager->xValue(0, 1) < 0 || mInputManager->xValue(0, 2) < 0)
 			{
 				ChangeSelectedMode(1);
 			}
-			else if (mInputManager->yValue(0, 1) > 0 || mInputManager->yValue(0, 2) > 0 ||
-				mInputManager->xValue(0, 1) > 0 || mInputManager->xValue(0, 2) > 0)
+			else if (mInputManager->yValue(0, 1) > 0 || mInputManager->yValue(0, 2) > 0)
+				//|| mInputManager->xValue(0, 1) > 0 || mInputManager->xValue(0, 2) > 0)
 			{
 				ChangeSelectedMode(2);
 			}
@@ -184,6 +193,9 @@ void StartScreen::Update()
 
 void StartScreen::Render()
 {
+	// Render background
+	mBackgroundScroll->Render();
+
 	//Render Top Bar
 	mScoreBoard->Render();
 
@@ -207,4 +219,5 @@ void StartScreen::Render()
 	mNamco->Render();
 	mDates->Render();
 	mRights->Render();
+
 }
