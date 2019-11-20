@@ -22,9 +22,8 @@ Player2::Player2()
 	mPlayer2->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 
 	// collider 
-	AddCollider(new BoxCollider(mPlayer2, "player2"));
-	//AddCollider(new BoxCollider(Vector2D(mPlayer->ScaledDimensions().x * 5 / 8, mPlayer->ScaledDimensions().y * 5 / 16)), Vector2D(mPlayer->ScaledDimensions().x * 1 / 64, -mPlayer->ScaledDimensions().y * 6 / 64));
-	//AddCollider(new BoxCollider(mPlayer->ScaledDimensions() * 0.5f), Vector2D(0.0f, mPlayer->ScaledDimensions().y * 10 / 64));
+	mCollider = Collider::Instance();
+	mCollider->AddCollider(mPlayer2, Collider::TAG::player);
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -66,7 +65,6 @@ Player2::~Player2()
 	}
 
 	// collider
-	delete mCollider;
 	mCollider = nullptr;
 
 }
@@ -263,7 +261,4 @@ void Player2::Render()
 	}
 
 	mPlayer2->Render();
-
-	// only for debug & visualizing. check collider position
-	PhysicsEntity::Render();
 }

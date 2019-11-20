@@ -1,41 +1,48 @@
 #pragma once
-#include "Texture.h" // debug purpose
-#include <vector>
+#include "Texture.h"
+#include <map>
+#include <iostream>
+
 
 class Collider : public GameEntity
 {
 public:
 
-	enum class ColliderType 
+	enum TAG
 	{
-		Box,
-		Circle
+		player,
+		enemy,
+		playerProjectile,
+		enemyProjectile
 	};
 
-protected:
+private:
 
-	ColliderType mType;
+	static Collider* sInstance;
 
-	static const bool DEBUG_COLLIDERS = true;
-	Texture* mDebugTexture = nullptr;
+	Texture* mDebugBox = nullptr;
 
-	SDL_Rect mCollider;
-	std::string mTag;
-
-	// testing
+	std::map<TAG, SDL_Rect> mColliders;
+	SDL_Rect mRect;
+	TAG mTag;
 
 public:
 
-	Collider(ColliderType type);
-	virtual ~Collider();
+	static Collider* Instance();
+	static void Release();
 
-	SDL_Rect GetRect();
-	std::string GetTag();
-	virtual void Render();
+	void AddCollider(Texture* tex, TAG tag);
 
-protected:
+	void Update(Texture* tex, TAG tag);
+	void Render();
 
-	void SetDebugTexture(Texture* texture);
+private:
+
+	Collider();
+	~Collider();
+
+	// debug purpose
+	std::string tagEnumToStr(int index);
+	void Print(SDL_Rect rect);
 
 };
-

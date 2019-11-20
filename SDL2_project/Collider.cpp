@@ -1,42 +1,89 @@
 #include "Collider.h"
 
-Collider::Collider(ColliderType type)
+Collider* Collider::sInstance = nullptr;
+
+Collider* Collider::Instance()
 {
-	mType = type;
-	mDebugTexture = nullptr;
+	if (sInstance == nullptr)
+	{
+		sInstance = new Collider();
+	}
+	return sInstance;
+}
+
+void Collider::Release()
+{
+	delete sInstance;
+	sInstance = nullptr;
+}
+
+Collider::Collider()
+{
+	mDebugBox = new Texture("BoxCollider.png");
+
+	mRect = { 0, 0, 0, 0 };
+
+	mTag = player;
 }
 
 Collider::~Collider()
 {
-	if (mDebugTexture)
+	delete mDebugBox;
+	mDebugBox = nullptr;
+}
+
+void Collider::AddCollider(Texture* tex, TAG tag)
+{
+	mDebugBox->Scale(tex->ScaledDimensions() / 100.0f);
+	mDebugBox->Parent(tex);
+}
+
+void Collider::Update(Texture* tex, TAG tag)
+{
+	mRect.x = (int)tex->Pos().x;
+	mRect.y = (int)tex->Pos().y;
+	mRect.w = (int)tex->ScaledDimensions().x;
+	mRect.h = (int)tex->ScaledDimensions().y;
+
+	mTag = tag;
+
+	mColliders[mTag] = mRect;
+
+	for (auto col : mColliders)
 	{
-		delete mDebugTexture;
-		mDebugTexture = nullptr;
+		for (auto col2 : mColliders)
+		{
+			if (col.first != col2.first)
+			{
+				if (SDL_HasIntersection(&col.second, &col2.second))
+				{
+					std::cout << tagEnumToStr(col.first) << " hits : " << tagEnumToStr(col2.first) << '\n';
+				}
+			}
+		}
 	}
-}
-
-void Collider::SetDebugTexture(Texture* texture)
-{
-	delete mDebugTexture;
-	mDebugTexture = texture;
-	mDebugTexture->Parent(this);
-}
-
-
-SDL_Rect Collider::GetRect()
-{
-	return mCollider;
-}
-
-std::string Collider::GetTag()
-{
-	return mTag;
 }
 
 void Collider::Render()
 {
-	if (mDebugTexture)
+	mDebugBox->Render();
+}
+
+void Collider::Print(SDL_Rect rect)
+{
+	std::cout << "{" << rect.x << ", " << rect.y << ", " << rect.w << ", " << rect.h << "}" << std::endl;
+}
+
+std::string Collider::tagEnumToStr(int index)
+{
+	// debug purpose
+	std::string s("unknown");
+	switch (index)
 	{
-		mDebugTexture->Render();
+	case 0: { s = "Player"; } break;
+	case 1: { s = "Enemy"; } break;
+	case 2: { s = "PlayerProjectile"; } break;
+	case 3: { s = "EnemyProjectile"; } break;
 	}
+	return s;
 }

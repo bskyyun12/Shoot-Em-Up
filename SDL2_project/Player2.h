@@ -3,9 +3,8 @@
 #include "InputManager.h"
 #include "Bullet.h"
 #include "Rocket.h"
-#include "BoxCollider.h"
 
-class Player2 : public PhysicsEntity
+class Player2 : public GameEntity
 {
 private:
 
