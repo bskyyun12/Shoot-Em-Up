@@ -34,10 +34,17 @@ PlayScreen::PlayScreen()
 
 	for (int i = 0; i < MAX_LIFE_TEXTURES; i++)
 	{
+		// Player 1
 		mLifeTextures[i] = new Texture("HeartOrange.png");
 		mLifeTextures[i]->Parent(mLives);
 		mLifeTextures[i]->Scale(VECTOR2D_ONE * 0.5f);
 		mLifeTextures[i]->Pos(mScoreBoard->mPlayerOne->Pos() + Vector2D(60.0f * (i % 3) + 120.0f, 70.0f * (i / 3)));
+		
+		// Player 2
+		mLifeTextures2[i] = new Texture("HeartBlue.png");
+		mLifeTextures2[i]->Parent(mLives);
+		mLifeTextures2[i]->Scale(VECTOR2D_ONE * 0.5f);
+		mLifeTextures2[i]->Pos(mScoreBoard->mPlayerTwo->Pos() + Vector2D(60.0f * (i % 3) + 120.0f, 70.0f * (i / 3)));
 	}
 	mTotalLives = 3;
 
@@ -51,10 +58,6 @@ PlayScreen::PlayScreen()
 
 	// Player
 	mPlayer = nullptr;
-	if (mPlayer2 != nullptr)
-	{
-		mPlayer2 = nullptr;
-	}
 	mPlayer2 = nullptr;
 
 	// background
@@ -78,11 +81,8 @@ PlayScreen::~PlayScreen()
 	delete mPlayer;
 	mPlayer = nullptr;
 
-	if (mPlayer2 != nullptr)
-	{
-		delete mPlayer2;
-		mPlayer2 = nullptr;
-	}
+	delete mPlayer2;
+	mPlayer2 = nullptr;
 
 	// Life
 	delete mLives;
@@ -92,6 +92,8 @@ PlayScreen::~PlayScreen()
 	{
 		delete mLifeTextures[i];
 		mLifeTextures[i] = nullptr;
+		delete mLifeTextures2[i];
+		mLifeTextures2[i] = nullptr;
 	}
 
 	// Background
@@ -104,9 +106,10 @@ void PlayScreen::SetHighScore(int score)
 	mScoreBoard->mHighScoreBoard->Score(score);
 }
 
-void PlayScreen::SetPlayerScore(int score)
+void PlayScreen::SetPlayerScore(int scorePlayer1, int scorePlayer2)
 {
-	mScoreBoard->mPlayerOneScoreBoard->Score(score);
+	mScoreBoard->mPlayerOneScoreBoard->Score(scorePlayer1);
+	mScoreBoard->mPlayerTwoScoreBoard->Score(scorePlayer2);
 }
 
 void PlayScreen::SetLives(int lives)
@@ -160,10 +163,6 @@ void PlayScreen::StartNewGame(int mSelectMode)
 	mPlayer->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 	mPlayer->Active(false);
 
-	SetHighScore(55555);
-	SetLives(mPlayer->Lives());
-	SetPlayerScore(mPlayer->Score());
-
 	if (mSelectMode == 2)
 	{
 		// Player 2
@@ -172,11 +171,16 @@ void PlayScreen::StartNewGame(int mSelectMode)
 		mPlayer2->Parent(this);
 		mPlayer2->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f + 100));
 		mPlayer2->Active(false);
-
-		SetHighScore(55555);
-		SetLives(mPlayer2->Lives());
-		SetPlayerScore(mPlayer2->Score());
 	}
+	else
+	{
+		delete mPlayer2;
+		mPlayer2 = nullptr;
+	}
+
+	SetHighScore(55555);
+	SetLives(mPlayer->Lives());
+	SetPlayerScore(mPlayer->Score(), (mSelectMode == 2) ? mPlayer2->Score() : 0);
 
 	BackgroundScroll::mScroll = false;
 
@@ -207,7 +211,6 @@ bool PlayScreen::Victory()
 
 void PlayScreen::Update()
 {
-
 	// test 2 - wait mLevelStartDelay(1.0f) and start level
 	if (mGameStarted)
 	{
@@ -282,7 +285,13 @@ void PlayScreen::Render()
 			mScoreBoard->Render();
 			for (int i = 0; i < MAX_LIFE_TEXTURES && i < mTotalLives; i++)
 			{
+				// Player 1
 				mLifeTextures[i]->Render();
+				// Player 2
+				if (mPlayer2 != nullptr)
+				{
+					mLifeTextures2[i]->Render();
+				}
 			}
 
 			mPlayer->Render();
@@ -292,6 +301,4 @@ void PlayScreen::Render()
 			}
 		}
 	}
-
-
 }

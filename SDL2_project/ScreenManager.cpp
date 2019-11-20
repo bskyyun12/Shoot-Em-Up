@@ -54,7 +54,6 @@ void ScreenManager::Update()
 		break;
 	case play:
 		mPlayScreen->Update();
-
 		if (mPlayScreen->GameOver())
 		{
 			currentScreen = start;
@@ -67,7 +66,6 @@ void ScreenManager::Update()
 		}
 		break;
 	case ending:
-
 		break;
 	default:
 		break;
@@ -85,7 +83,6 @@ void ScreenManager::Render()
 		mPlayScreen->Render();
 		break;
 	case ending:
-
 		break;
 	default:
 		break;

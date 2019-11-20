@@ -42,7 +42,6 @@ InputManager::~InputManager()
 	mPrevKeyboardState = NULL;
 }
 
-
 bool InputManager::KeyDown(SDL_Scancode scanCode) 
 {
 	return (mKeyboardState[scanCode] != 0);
@@ -72,7 +71,6 @@ bool InputManager::MouseButtonDown(MOUSE_BUTTON button)
 
 	switch (button) 
 	{
-
 	case left:
 		mask = SDL_BUTTON_LMASK;
 		break;
@@ -180,7 +178,6 @@ void InputManager::Update()
 		case SDL_JOYBUTTONUP:
 			OnJoystickButtonUp(event);
 			break;
-
 		default:
 			break;
 		}
@@ -232,7 +229,7 @@ void InputManager::InitialiseJoysticks()
 		SDL_JoystickEventState(SDL_ENABLE);
 		m_bJoysticksInitialised = true;
 
-		cout << "Initialised " << m_joysticks.size() << "joystick(s)" << endl;
+		cout << "Initialised " << m_joysticks.size() << " joystick(s)" << endl;
 	}
 	else
 	{
@@ -292,17 +289,17 @@ void InputManager::OnJoystickAxisMove(SDL_Event& event)
 	{
 		if (event.jaxis.value > m_joystickDeadZone)
 		{
-			cout << "MoveRight" << endl;
+			//cout << "MoveRight" << endl;
 			m_joystickValues[whichOne].first->SetX(1);
 		}
 		else if (event.jaxis.value < -m_joystickDeadZone)
 		{
-			cout << "MoveLeft" << endl;
+			//cout << "MoveLeft" << endl;
 			m_joystickValues[whichOne].first->SetX(-1);
 		}
 		else
 		{
-			cout << "Stop" << endl;
+			//cout << "Stop" << endl;
 			m_joystickValues[whichOne].first->SetX(0);
 		}
 	}
@@ -312,17 +309,17 @@ void InputManager::OnJoystickAxisMove(SDL_Event& event)
 	{
 		if (event.jaxis.value > m_joystickDeadZone)
 		{
-			cout << "MoveDown" << endl;
+			//cout << "MoveDown" << endl;
 			m_joystickValues[whichOne].first->SetY(1);
 		}
 		else if (event.jaxis.value < -m_joystickDeadZone)
 		{
-			cout << "MoveUp" << endl;
+			//cout << "MoveUp" << endl;
 			m_joystickValues[whichOne].first->SetY(-1);
 		}
 		else
 		{
-			cout << "Stop" << endl;
+			//cout << "Stop" << endl;
 			m_joystickValues[whichOne].first->SetY(0);
 		}
 	}
@@ -332,17 +329,17 @@ void InputManager::OnJoystickAxisMove(SDL_Event& event)
 	{
 		if (event.jaxis.value > m_joystickDeadZone)
 		{
-			cout << "MoveRight" << endl;
+			//cout << "MoveRight" << endl;
 			m_joystickValues[whichOne].second->SetX(1);
 		}
 		else if (event.jaxis.value < -m_joystickDeadZone)
 		{
-			cout << "MoveLeft" << endl;
+			//cout << "MoveLeft" << endl;
 			m_joystickValues[whichOne].second->SetX(-1);
 		}
 		else
 		{
-			cout << "Stop" << endl;
+			//cout << "Stop" << endl;
 			m_joystickValues[whichOne].second->SetX(0);
 		}
 	}
@@ -352,17 +349,17 @@ void InputManager::OnJoystickAxisMove(SDL_Event& event)
 	{
 		if (event.jaxis.value > m_joystickDeadZone)
 		{
-			cout << "MoveDown" << endl;
+			//cout << "MoveDown" << endl;
 			m_joystickValues[whichOne].second->SetY(1);
 		}
 		else if (event.jaxis.value < -m_joystickDeadZone)
 		{
-			cout << "MoveUp" << endl;
+			//cout << "MoveUp" << endl;
 			m_joystickValues[whichOne].second->SetY(-1);
 		}
 		else
 		{
-			cout << "Stop" << endl;
+			//cout << "Stop" << endl;
 			m_joystickValues[whichOne].second->SetY(0);
 		}
 	}

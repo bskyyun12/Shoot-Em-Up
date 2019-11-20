@@ -60,9 +60,9 @@ Level::Level(int stage, Player* player, Player2* player2)
 	// Player
 	mPlayer = player;
 	mPlayer->Active(false);
+	mPlayer2 = player2;
 	if (mPlayer2 != nullptr)
 	{
-		mPlayer2 = player2;
 		mPlayer2->Active(false);
 	}
 }
@@ -88,10 +88,7 @@ Level::~Level()
 	mGameOverLabel = nullptr;
 
 	mPlayer = nullptr;
-	if (mPlayer2 != nullptr)
-	{
-		mPlayer2 = nullptr;
-	}
+	mPlayer2 = nullptr;
 }
 
 void Level::StartStage()
@@ -99,11 +96,13 @@ void Level::StartStage()
 	BackgroundScroll::mScroll = true;
 	mStageStarted = true;
 	mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
+
 	mPlayer->Active(true);
 	if (mPlayer2 != nullptr)
 	{
 		mPlayer2->Active(true);
 	}
+
 	mLabelTimer = 0.0f;
 }
 
@@ -169,20 +168,12 @@ void Level::Update()
 			mPlayer2->Active(false);
 		}
 
-		if (mGameOver)
+		mGameOverTimer += mTimer->DeltaTime();
+		if (mGameOverTimer >= mGameOverDelay)
 		{
-			// todo: play gameover sound
-			mPlayer->Active(false);
-			mPlayer2->Active(false);
-
-
-			mGameOverTimer += mTimer->DeltaTime();
-			if (mGameOverTimer >= mGameOverDelay)
-			{
-				mCurrentState = gameover;
-			}
+			mCurrentState = gameover;
 		}
-
+	
 		// Victory
 		if (mVictory)
 		{

@@ -20,7 +20,10 @@ private:
 	// Life
 	static const int MAX_LIFE_TEXTURES = 3;
 	GameEntity* mLives = nullptr;
+	// Player 1
 	Texture* mLifeTextures[MAX_LIFE_TEXTURES] = { nullptr };
+	// Player 2
+	Texture* mLifeTextures2[MAX_LIFE_TEXTURES] = { nullptr };
 	int mTotalLives;
 
 	// level
@@ -50,7 +53,7 @@ public:
 	void StartNewGame(int mSelectMode);
 
 	void SetHighScore(int score);
-	void SetPlayerScore(int score);
+	void SetPlayerScore(int score, int scorePlayer2);
 	void SetLives(int lives);
 
 	int GetCurrentStageNum();

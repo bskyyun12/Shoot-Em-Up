@@ -1,9 +1,5 @@
 #include "StartScreen.h"
 #include "InputManager.h"
-#include <iostream>
-
-using std::cout;
-using std::endl;
 
 StartScreen::StartScreen()
 {
@@ -141,8 +137,6 @@ void StartScreen::ChangeSelectedMode(int change)
 
 void StartScreen::Update()
 {
-	cout << "mSelectMode : " << mSelectMode << endl;
-
 	if (!mAnimationDone)
 	{
 		mAnimationTimer += mTimer->DeltaTime();
@@ -172,15 +166,18 @@ void StartScreen::Update()
 			ChangeSelectedMode(2);
 		}
 
-		if (mInputManager->yValue(0, 1) < 0 || mInputManager->yValue(0, 2) < 0 ||
-			mInputManager->xValue(0, 1) < 0 || mInputManager->xValue(0, 2) < 0)
+		if (mInputManager->JoysticksInitialiased())
 		{
-			ChangeSelectedMode(1);
-		}
-		else if (mInputManager->yValue(0, 1) > 0 || mInputManager->yValue(0, 2) > 0 ||
-				 mInputManager->xValue(0, 1) > 0 || mInputManager->xValue(0, 2) > 0)
-		{
-			ChangeSelectedMode(2);
+			if (mInputManager->yValue(0, 1) < 0 || mInputManager->yValue(0, 2) < 0 ||
+				mInputManager->xValue(0, 1) < 0 || mInputManager->xValue(0, 2) < 0)
+			{
+				ChangeSelectedMode(1);
+			}
+			else if (mInputManager->yValue(0, 1) > 0 || mInputManager->yValue(0, 2) > 0 ||
+				mInputManager->xValue(0, 1) > 0 || mInputManager->xValue(0, 2) > 0)
+			{
+				ChangeSelectedMode(2);
+			}
 		}
 	}
 }

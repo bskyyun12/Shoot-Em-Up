@@ -13,7 +13,7 @@ Player2::Player2()
 	mBoundsOffset = 32.0f;	// half of player image's size
 
 	// init current score and lives
-	mScore = 1234567;
+	mScore = 2222222;
 	mLives = 3;
 
 	// player texture
@@ -22,7 +22,7 @@ Player2::Player2()
 	mPlayer2->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 
 	// collider 
-	AddCollider(new BoxCollider(mPlayer2, "player"));
+	AddCollider(new BoxCollider(mPlayer2, "player2"));
 	//AddCollider(new BoxCollider(Vector2D(mPlayer->ScaledDimensions().x * 5 / 8, mPlayer->ScaledDimensions().y * 5 / 16)), Vector2D(mPlayer->ScaledDimensions().x * 1 / 64, -mPlayer->ScaledDimensions().y * 6 / 64));
 	//AddCollider(new BoxCollider(mPlayer->ScaledDimensions() * 0.5f), Vector2D(0.0f, mPlayer->ScaledDimensions().y * 10 / 64));
 
