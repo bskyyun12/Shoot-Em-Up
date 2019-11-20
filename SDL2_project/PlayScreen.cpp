@@ -275,11 +275,6 @@ void PlayScreen::Render()
 
 	if (mGameStarted)
 	{
-		mPlayer->Render();
-		if (mPlayer2 != nullptr)
-		{
-			mPlayer2->Render();
-		}
 		if (mLevelStarted)
 		{
 			mBackgroundScroll->Render();
@@ -291,7 +286,10 @@ void PlayScreen::Render()
 			}
 
 			mPlayer->Render();
-			mPlayer2->Render();
+			if (mPlayer2 != nullptr)
+			{
+				mPlayer2->Render();
+			}
 		}
 	}
 
