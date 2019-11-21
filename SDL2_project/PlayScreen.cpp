@@ -150,13 +150,13 @@ void PlayScreen::StartNextLevel()
 		mBackgroundScroll->SetBackground("Backgrounds/demon/demon_woods", 4);
 		break;
 	case 4:
-		mBackgroundScroll->SetBackground("Backgrounds/spaceblue/Nebula_Blue", 5);
+		mBackgroundScroll->SetBackground("Backgrounds/cyberpunk/cyberpunk", 3);
 		break;
 	case 5:
-		mBackgroundScroll->SetBackground("Backgrounds/spacepink/Nebula_Pink", 5);
+		mBackgroundScroll->SetBackground("Backgrounds/spaceblue/Nebula_Blue", 5);
 		break;
 	case 6:
-		mBackgroundScroll->SetBackground("Backgrounds/cyberpunk/cyberpunk", 3);
+		mBackgroundScroll->SetBackground("Backgrounds/spacepink/Nebula_Pink", 5);
 		break;
 	case 7:
 		mBackgroundScroll->SetBackground("Backgrounds/planets/planets", 5);

@@ -95,7 +95,40 @@ void Level::StartStage()
 {
 	BackgroundScroll::mScroll = true;
 	mStageStarted = true;
-	mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
+
+	switch (mCurrentStage)
+	{
+	case 1: // Nebula_Red
+		mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
+		break;
+	case 2: // Mountain
+		mAudioManager->PlayMusic("Audios/airship.wav");
+		break;
+	case 3: // Demon
+		mAudioManager->PlayMusic("Audios/dark_fallout.wav"); // a bit low volume
+		break;
+	case 4: // Cyberpunk
+		mAudioManager->PlayMusic("Audios/high_tech_lab.wav");
+		break;
+	case 5: // Nebula_Blue
+		mAudioManager->PlayMusic("Audios/a_new_beginning.wav"); // low volume
+		break;
+	case 6: // Nebula_Pink
+		mAudioManager->PlayMusic("Audios/eery.wav"); // low volume
+		break;
+	case 7: // Planets
+		mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
+		break;
+	case 8: // yellowForest
+		mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
+		break;
+	case 9: // Forest
+		mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
+		break;
+	default:
+		break;
+	}
+	
 
 	mPlayer->Active(true);
 	if (mPlayer2 != nullptr)
@@ -146,10 +179,13 @@ void Level::Update()
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
 		{
 			mGameOver = true;
+			mAudioManager->PlaySFX("Audios/gameover0.wav", 0);
+			mAudioManager->PlayMusic("Audios/gameover1.wav", 0); // low volume
 		}
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_V))
 		{
 			mVictory = true;
+			mAudioManager->PlaySFX("Audios/victory.wav", 0);
 		}
 
 		// condition needs to be changed -> if all enemies have died,
