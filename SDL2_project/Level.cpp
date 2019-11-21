@@ -185,7 +185,7 @@ void Level::Update()
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_V))
 		{
 			mVictory = true;
-			mAudioManager->PlaySFX("Audios/victory.wav", 0);
+			mAudioManager->PlayMusic("Audios/victory.wav", 0);
 		}
 
 		// condition needs to be changed -> if all enemies have died,
