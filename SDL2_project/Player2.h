@@ -20,6 +20,7 @@ private:
 
 	// player texture
 	Texture* mPlayer2 = nullptr;
+	AnimatedTexture* mPlayerShip2 = nullptr;
 
 	// bullet
 	static const int MAX_BULLETS = 5;
@@ -36,6 +37,8 @@ private:
 	// collider
 	Collider* mCollider = nullptr;
 
+	bool ship;
+
 private:
 
 	// Player movemonet logic
@@ -48,6 +51,8 @@ public:
 
 	Player2();
 	~Player2();
+
+	void ToggleTexture();
 
 	// Get Player's current score
 	int Score();

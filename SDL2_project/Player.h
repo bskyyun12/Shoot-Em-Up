@@ -21,6 +21,7 @@ private:
 
 	// player texture
 	Texture* mPlayer = nullptr;
+	AnimatedTexture* mPlayerShip = nullptr;
 	
 	// bullet
 	static const int MAX_BULLETS = 5;
@@ -37,6 +38,11 @@ private:
 	// collider
 	Collider* mCollider = nullptr;
 
+	// health
+	float mPlayerHealth;
+
+	bool ship;
+
 private:
 
 	// Player movemonet logic
@@ -46,6 +52,12 @@ private:
 	void HandleFiring();
 
 public:
+
+	void ToggleTexture();
+
+	// Player health
+	void AddHealth();
+	void RemoveHealth();
 
 	Player();
 	~Player();

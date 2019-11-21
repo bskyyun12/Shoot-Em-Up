@@ -60,6 +60,9 @@ PlayScreen::PlayScreen()
 	mPlayer = nullptr;
 	mPlayer2 = nullptr;
 
+	// Box
+	mBox = nullptr;
+
 	// background
 	mBackgroundScroll = new BackgroundScroll("Backgrounds/space/Nebula_Red", 5);
 }
@@ -83,6 +86,9 @@ PlayScreen::~PlayScreen()
 
 	delete mPlayer2;
 	mPlayer2 = nullptr;
+
+	delete mBox;
+	mBox = nullptr;
 
 	// Life
 	delete mLives;
@@ -141,12 +147,22 @@ void PlayScreen::StartNextLevel()
 	switch (mCurrentStage)
 	{
 	case 1:
+		mPlayer->ToggleTexture(); // Change to mPlayerShip texture
+		if (mPlayer2 != nullptr)
+		{
+			mPlayer2->ToggleTexture(); // Change to mPlayerShip2 texture
+		}
 		mBackgroundScroll->SetBackground("Backgrounds/space/Nebula_Red", 5);
 		break;
 	case 2:
 		mBackgroundScroll->SetBackground("Backgrounds/mountain/mountain", 5);
 		break;
 	case 3:
+		mPlayer->ToggleTexture(); // Change to mPlayer texture
+		if (mPlayer2 != nullptr)
+		{
+			mPlayer2->ToggleTexture(); // Change to mPlayer2 texture
+		}
 		mBackgroundScroll->SetBackground("Backgrounds/demon/demon_woods", 4);
 		break;
 	case 4:
@@ -198,6 +214,12 @@ void PlayScreen::StartNewGame(int mSelectMode)
 		delete mPlayer2;
 		mPlayer2 = nullptr;
 	}
+
+	// Box
+	delete mBox;
+	mBox = new Box();
+	mBox->Parent(this);
+	mBox->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f + 1000, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
 	SetHighScore(55555);
 	SetLives(mPlayer->Lives());
@@ -269,6 +291,7 @@ void PlayScreen::Update()
 		{
 			mPlayer2->Update();
 		}
+		mBox->Update();
 	}
 
 	// Blinker logic
@@ -320,6 +343,7 @@ void PlayScreen::Render()
 			{
 				mPlayer2->Render();
 			}
+			mBox->Render();
 		}
 	}
 }

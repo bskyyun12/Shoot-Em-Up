@@ -6,14 +6,14 @@ using std::endl;
 
 Player::Player()
 {
-	// handel movement
+	// handle movement
 	mTimer = Timer::Instance();
 	mInputManager = InputManager::Instance();
 	mMoveSpeed = 300.0f;	// per second
 	mBoundsOffset = 32.0f;	// half of player image's size
 
 	// init current score and lives
-	mScore = 1234567;
+	mScore = 1111111;
 	mLives = 3;
 
 	// player texture
@@ -21,9 +21,17 @@ Player::Player()
 	mPlayer->Scale(VECTOR2D_ONE * 2);	// scale up to 64x64
 	mPlayer->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 	
+	// PlayerShip AnimatedTexture
+	mPlayerShip = new AnimatedTexture("ship_80x48.png", 0, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
+	mPlayerShip->Rotate(90);
+	mPlayerShip->Scale(VECTOR2D_ONE * 4);	// scale up to 64x64
+	mPlayerShip->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
+
+
 	// collider 
 	mCollider = Collider::Instance();
 	mCollider->AddCollider(mPlayer, Collider::TAG::player);
+	mCollider->AddCollider(mPlayerShip, Collider::TAG::player);
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -49,6 +57,9 @@ Player::~Player()
 
 	delete mPlayer;
 	mPlayer = nullptr;
+
+	delete mPlayerShip;
+	mPlayerShip = nullptr;
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -159,12 +170,14 @@ void Player::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(0, 6)) // Back/Select button
 		{
-
+			AddHealth();
+			cout << "Lives : " << mLives << endl;
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 7)) // Start button
 		{
-
+			RemoveHealth();
+			cout << "Lives : " << mLives << endl;
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 8)) // Left Stick button
@@ -179,7 +192,8 @@ void Player::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(0, 10)) // XBOX button
 		{
-
+			AddScore(1);
+			cout << "Score : " << mScore << endl;
 		}
 
 #pragma endregion
@@ -246,6 +260,21 @@ void Player::AddScore(int score)
 	mScore += score;
 }
 
+void Player::ToggleTexture()
+{
+	ship = !ship;
+}
+
+void Player::AddHealth()
+{
+	mLives++;
+}
+
+void Player::RemoveHealth()
+{
+	mLives--;
+}
+
 void Player::Update()
 {
 	mFireTimer += mTimer->DeltaTime();
@@ -287,5 +316,12 @@ void Player::Render()
 		mRockets[i]->Render();
 	}
 
-	mPlayer->Render();
+	if (!ship)
+	{
+		mPlayer->Render();
+	}
+	else if (ship)
+	{
+		mPlayerShip->Render();
+	}
 }
