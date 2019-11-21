@@ -102,7 +102,6 @@ void GameManager::Render()
 
 	// STEP 6 : Render the instance
 	mScreenManager->Render();
-	mCollider->Render();
 
 	// STEP 6 : Render the instance
 

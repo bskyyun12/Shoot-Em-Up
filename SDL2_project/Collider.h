@@ -30,7 +30,6 @@ public:
 	void AddCollider(Texture* tex, TAG tag);
 
 	void Update();
-	void Render();
 
 private:
 

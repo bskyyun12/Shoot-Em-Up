@@ -69,11 +69,6 @@ void Collider::Update()
 	}
 }
 
-void Collider::Render()
-{
-
-}
-
 std::string Collider::tagEnumToStr(int index)
 {
 	// debug purpose

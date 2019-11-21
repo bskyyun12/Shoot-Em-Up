@@ -45,7 +45,7 @@ void Bullet::Fire(Vector2D pos)
 
 void Bullet::Reload()
 {
-	Pos(VECTOR2D_ZERO);
+	Pos(VECTOR2D_ONE * -100.0f);
 	Active(false);
 }
 

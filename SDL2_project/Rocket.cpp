@@ -42,7 +42,7 @@ Rocket::~Rocket()
 
 void Rocket::Reload()
 {
-	Pos(VECTOR2D_ZERO);
+	Pos(VECTOR2D_ONE * -100.0f);
 	Active(false);
 }
 
