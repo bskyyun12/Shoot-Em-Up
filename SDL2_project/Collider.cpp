@@ -51,15 +51,74 @@ void Collider::Update(Texture* tex, TAG tag)
 
 	for (auto col : mColliders)
 	{
-		for (auto col2 : mColliders)
+		switch (tag)
 		{
-			if (col.first != col2.first)
+		case player:
+
+#pragma region Test purpose. need to delete later
+			switch (col.first)
 			{
-				if (SDL_HasIntersection(&col.second, &col2.second))
+			case playerProjectile:
+				if (SDL_HasIntersection(&mColliders[tag], &col.second))
 				{
-					std::cout << tagEnumToStr(col.first) << " hits : " << tagEnumToStr(col2.first) << '\n';
+					// todo : do something when enemy hits player
+					std::cout << tagEnumToStr(tag) << " hits : " << tagEnumToStr(col.first) << '\n';
+					break;
 				}
+				break;
+			default:
+				break;
 			}
+#pragma endregion Test purpose. need to delete later
+
+			break;
+		case enemy:
+			switch (col.first)
+			{
+			case player:
+				if (SDL_HasIntersection(&mColliders[tag], &col.second))
+				{
+					// todo : do something when enemy hits player
+					std::cout << tagEnumToStr(tag) << " hits : " << tagEnumToStr(col.first) << '\n';
+					break;
+				}
+				break;
+			default:
+				break;
+			}
+			break;
+		case playerProjectile:
+			switch (col.first)
+			{
+			case enemy:
+				if (SDL_HasIntersection(&mColliders[tag], &col.second))
+				{
+					// todo : do something when playerProjectile hits enemy
+					std::cout << tagEnumToStr(tag) << " hits : " << tagEnumToStr(col.first) << '\n';
+					break;
+				}
+				break;
+			default:
+				break;
+			}
+			break;
+		case enemyProjectile:
+			switch (col.first)
+			{
+			case player:
+				if (SDL_HasIntersection(&mColliders[tag], &col.second))
+				{
+					// todo : do something when enemyProjectile hits player
+					std::cout << tagEnumToStr(tag) << " hits : " << tagEnumToStr(col.first) << '\n';
+					break;
+				}
+				break;
+			default:
+				break;
+			}
+			break;
+		default:
+			break;
 		}
 	}
 }
