@@ -20,7 +20,12 @@ Rocket::Rocket()
 	mCurrentWayPoint = 0;
 	midPoint = 0.0f;
 
-	Active(false);
+	mRocket->Active(false);
+	Reload();
+
+	//collider
+	mCollider = Collider::Instance();
+	mCollider->AddCollider(mRocket, Collider::TAG::playerProjectile);
 }
 
 Rocket::~Rocket()
@@ -30,10 +35,20 @@ Rocket::~Rocket()
 
 	delete mRocket;
 	mRocket = nullptr;
+
+	// collider
+	mCollider = nullptr;
+}
+
+void Rocket::Reload()
+{
+	Pos(VECTOR2D_ZERO);
+	Active(false);
 }
 
 void Rocket::CreatePath(Vector2D pos, int pathNum)
 {
+	mRocket->Active(true);
 	Pos(pos);
 	Active(true);
 	mAudioManager->PlaySFX("Audios/fireball.wav", 0, 2);
@@ -56,6 +71,7 @@ void Rocket::CreatePath(Vector2D pos, int pathNum)
 	Vector2D endCtrl = Vector2D((midPoint + end.x) * 0.5f, start.y + ctrlPoint);
 
 	BezierPath* path = new BezierPath();
+	path->Clear();
 	if (pathNum % 2 == 0)
 	{
 		path->AddCurve({ start, startCtrl, endCtrl, end }, 25);	// down and up
@@ -73,16 +89,13 @@ void Rocket::CreatePath(Vector2D pos, int pathNum)
 	}
 
 	path->Sample(&sPaths[mCurrentPath]);
-	delete path;
-}
 
-void Rocket::Reload()
-{
-	Active(false);
+	delete path;
 }
 
 void Rocket::Update()
 {
+
 	if (Active())
 	{
 		if (mCurrentWayPoint < sPaths[mCurrentPath].size())
@@ -97,25 +110,33 @@ void Rocket::Update()
 			if ((sPaths[mCurrentPath][mCurrentWayPoint] - Pos()).MagnitudeSqr() < EPSILON)
 				mCurrentWayPoint++;
 
-
 			if (mCurrentWayPoint >= sPaths[mCurrentPath].size())
 			{
 				// path is completed
-				std::cout << "path complete" << std::endl;
 			}
 		}
 		else
 		{
 			// when finished moving path
-			std::cout << "move complete" << std::endl;
+			mCurrentWayPoint = 0;
+			sPaths[mCurrentPath].clear();
 			Reload();
-			//sPaths[mCurrentPath].clear();
+		}
+
+
+		if (!mRocket->Active())
+		{
+			mCurrentWayPoint = 0;
+			sPaths[mCurrentPath].clear();
+			Reload();
 		}
 	}
 }
 
 void Rocket::Render()
 {
-	if (Active())
-		mRocket->Render();
+	//if (Active())
+	//	mRocket->Render();
+
+	mRocket->Render();
 }

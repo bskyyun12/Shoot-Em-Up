@@ -8,6 +8,13 @@ BezierPath::~BezierPath()
 {
 }
 
+
+void BezierPath::Clear()
+{
+	mCurves.clear();
+	mSamples.clear();
+}
+
 void BezierPath::AddCurve(BezierCurve curve, int samples)
 {
 	mCurves.push_back(curve);

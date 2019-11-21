@@ -6,7 +6,7 @@ using std::endl;
 
 Player2::Player2()
 {
-	// handel movement
+	// handle movement
 	mTimer = Timer::Instance();
 	mInputManager = InputManager::Instance();
 	mMoveSpeed = 300.0f;	// per second
@@ -21,9 +21,16 @@ Player2::Player2()
 	mPlayer2->Scale(VECTOR2D_ONE * 2);	// scale up to 64x64
 	mPlayer2->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 
+	// PlayerShip AnimatedTexture
+	mPlayerShip2 = new AnimatedTexture("ship_80x48.png", 0, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
+	mPlayerShip2->Rotate(90);
+	mPlayerShip2->Scale(VECTOR2D_ONE * 4);	// scale up to 64x64
+	mPlayerShip2->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
+
 	// collider 
 	mCollider = Collider::Instance();
-	mCollider->AddCollider(mPlayer2, Collider::TAG::player);
+	//mCollider->AddCollider(mPlayer2, Collider::TAG::player);
+	//mCollider->AddCollider(mPlayerShip2, Collider::TAG::player);
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -49,6 +56,9 @@ Player2::~Player2()
 
 	delete mPlayer2;
 	mPlayer2 = nullptr;
+
+	delete mPlayerShip2;
+	mPlayerShip2 = nullptr;
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -220,6 +230,11 @@ void Player2::AddScore(int score)
 	mScore += score;
 }
 
+void Player2::ToggleTexture()
+{
+	ship = !ship;
+}
+
 void Player2::Update()
 {
 	mFireTimer += mTimer->DeltaTime();
@@ -229,6 +244,7 @@ void Player2::Update()
 	if (Active())
 	{
 		HandleMovement();
+		//mCollider->Update(mPlayer2, Collider::TAG::player);
 		// Shoot with RCTRL or controller X button or LB button
 		//HandleFiring();
 	}
@@ -260,5 +276,12 @@ void Player2::Render()
 		mRockets[i]->Render();
 	}
 
-	mPlayer2->Render();
+	if (!ship)
+	{
+		mPlayer2->Render();
+	}
+	else if (ship)
+	{
+		mPlayerShip2->Render();
+	}
 }

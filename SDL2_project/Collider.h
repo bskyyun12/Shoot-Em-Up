@@ -1,7 +1,6 @@
 #pragma once
 #include "Texture.h"
 #include <map>
-#include <vector>
 #include <iostream>
 
 
@@ -21,9 +20,6 @@ private:
 
 	static Collider* sInstance;
 
-	Texture* mDebugBox = nullptr;
-	std::vector<Texture*> mDebugBoxes;
-
 	std::map<Texture*, TAG> mColliders;
 
 public:
@@ -32,7 +28,6 @@ public:
 	static void Release();
 
 	void AddCollider(Texture* tex, TAG tag);
-	bool CollisionCheck(Texture* tex, TAG tag);
 
 	void Update();
 	void Render();

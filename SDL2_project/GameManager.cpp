@@ -83,7 +83,6 @@ void GameManager::Update()
 {
 	// STEP 5 : Update the instance
 	mScreenManager->Update();
-	mCollider->Update();
 
 	// STEP 5 : Update the instance
 }
@@ -91,6 +90,7 @@ void GameManager::Update()
 void GameManager::LateUpdate() 
 {
 	//Any collision detection should happen here
+	mCollider->Update();
 	mInputManager->UpdatePrevInput();
 	mTimer->Reset();
 }

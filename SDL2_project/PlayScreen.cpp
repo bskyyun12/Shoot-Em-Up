@@ -39,7 +39,7 @@ PlayScreen::PlayScreen()
 		mLifeTextures[i]->Parent(mLives);
 		mLifeTextures[i]->Scale(VECTOR2D_ONE * 0.5f);
 		mLifeTextures[i]->Pos(mScoreBoard->mPlayerOne->Pos() + Vector2D(60.0f * (i % 3) + 120.0f, 70.0f * (i / 3)));
-		
+
 		// Player 2
 		mLifeTextures2[i] = new Texture("HeartBlue.png");
 		mLifeTextures2[i]->Parent(mLives);
@@ -59,6 +59,9 @@ PlayScreen::PlayScreen()
 	// Player
 	mPlayer = nullptr;
 	mPlayer2 = nullptr;
+
+	// Box
+	mBox = nullptr;
 
 	// background
 	mBackgroundScroll = new BackgroundScroll("Backgrounds/space/Nebula_Red", 5);
@@ -83,6 +86,9 @@ PlayScreen::~PlayScreen()
 
 	delete mPlayer2;
 	mPlayer2 = nullptr;
+
+	delete mBox;
+	mBox = nullptr;
 
 	// Life
 	delete mLives;
@@ -141,22 +147,32 @@ void PlayScreen::StartNextLevel()
 	switch (mCurrentStage)
 	{
 	case 1:
+		mPlayer->ToggleTexture(); // Change to mPlayerShip texture
+		if (mPlayer2 != nullptr)
+		{
+			mPlayer2->ToggleTexture(); // Change to mPlayerShip2 texture
+		}
 		mBackgroundScroll->SetBackground("Backgrounds/space/Nebula_Red", 5);
 		break;
 	case 2:
 		mBackgroundScroll->SetBackground("Backgrounds/mountain/mountain", 5);
 		break;
 	case 3:
+		mPlayer->ToggleTexture(); // Change to mPlayer texture
+		if (mPlayer2 != nullptr)
+		{
+			mPlayer2->ToggleTexture(); // Change to mPlayer2 texture
+		}
 		mBackgroundScroll->SetBackground("Backgrounds/demon/demon_woods", 4);
 		break;
 	case 4:
-		mBackgroundScroll->SetBackground("Backgrounds/spaceblue/Nebula_Blue", 5);
+		mBackgroundScroll->SetBackground("Backgrounds/cyberpunk/cyberpunk", 3);
 		break;
 	case 5:
-		mBackgroundScroll->SetBackground("Backgrounds/spacepink/Nebula_Pink", 5);
+		mBackgroundScroll->SetBackground("Backgrounds/spaceblue/Nebula_Blue", 5);
 		break;
 	case 6:
-		mBackgroundScroll->SetBackground("Backgrounds/cyberpunk/cyberpunk", 3);
+		mBackgroundScroll->SetBackground("Backgrounds/spacepink/Nebula_Pink", 5);
 		break;
 	case 7:
 		mBackgroundScroll->SetBackground("Backgrounds/planets/planets", 5);
@@ -198,6 +214,12 @@ void PlayScreen::StartNewGame(int mSelectMode)
 		delete mPlayer2;
 		mPlayer2 = nullptr;
 	}
+
+	// Box
+	delete mBox;
+	mBox = new Box();
+	mBox->Parent(this);
+	mBox->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f + 1000, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
 	SetHighScore(55555);
 	SetLives(mPlayer->Lives());
@@ -251,13 +273,15 @@ void PlayScreen::Update()
 			{
 				mLevelStarted = false;
 			}
+
+			mPlayer->Update();
+			if (mPlayer2 != nullptr)
+				mPlayer2->Update();
+			mBox->Update();
 		}
 
-		mPlayer->Update();
-		if (mPlayer2 != nullptr)
-			mPlayer2->Update();
-
 		// here do something between game starts and level starts(currently for 1 seconds = mLevelStartDelay)
+
 	}
 	else
 	{
@@ -309,6 +333,7 @@ void PlayScreen::Render()
 			{
 				mPlayer2->Render();
 			}
+			mBox->Render();
 		}
 	}
 }

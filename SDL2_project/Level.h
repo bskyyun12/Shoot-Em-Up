@@ -5,11 +5,10 @@
 #include "AudioManager.h"
 #include "Player.h"
 #include "Player2.h"
+#include "Box.h"
 
 class Level : public GameEntity
 {
-public:
-
 public:
 
 	enum LEVEL_STATES

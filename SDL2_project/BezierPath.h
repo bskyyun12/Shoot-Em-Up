@@ -14,6 +14,8 @@ public:
 	BezierPath();
 	~BezierPath();
 
+	void Clear();
+
 	void AddCurve(BezierCurve curve, int samples);
 
 	void Sample(std::vector<Vector2D>* sampledPath);

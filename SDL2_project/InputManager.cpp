@@ -25,6 +25,8 @@ void InputManager::Release()
 
 InputManager::InputManager() 
 {
+	m_bJoysticksInitialised = false;
+
 	mMouseState = SDL_GetMouseState(&mMouseXPos, &mMouseYPos);
 	mPrevMouseState = mMouseState;
 

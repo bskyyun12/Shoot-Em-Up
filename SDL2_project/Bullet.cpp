@@ -13,11 +13,13 @@ Bullet::Bullet()
 	mBullet->Pos(VECTOR2D_ZERO);
 	//Rotate(-45); // bullet will be fired with -45 angle
 
+	mBullet->Active(false);
 	Reload();
 
 	//collider
 	mCollider = Collider::Instance();
 	mCollider->AddCollider(mBullet, Collider::TAG::playerProjectile);
+
 }
 
 Bullet::~Bullet()
@@ -36,12 +38,14 @@ void Bullet::Fire(Vector2D pos)
 {
 	Pos(pos);
 	Active(true);
+	mBullet->Active(true);
 	mAudioManager->PlaySFX("Audios/bullet.wav", 0, 1);
 	mAudioManager->SFXVolume(1, 80);
 }
 
 void Bullet::Reload()
 {
+	Pos(VECTOR2D_ZERO);
 	Active(false);
 }
 
@@ -50,10 +54,6 @@ void Bullet::Update()
 	if (Active())
 	{
 		mBullet->Update();
-		if (mCollider->CollisionCheck(mBullet, Collider::TAG::playerProjectile))
-		{
-			Active(false);
-		}
 		Translate(VECTOR2D_RIGHT * mSpeed * mTimer->DeltaTime(), local);
 
 		Vector2D pos = Pos();
@@ -62,15 +62,22 @@ void Bullet::Update()
 		{
 			Reload();
 		}
+
+		if (!mBullet->Active())
+		{
+			Reload();
+		}
+
 	}
+
 }
 
 void Bullet::Render()
 {
-	if (Active())
-	{
-		mBullet->Render();
-	}
+	//if (active())
+	//{
+	//	mbullet->render();
+	//}
 
-	// only for debug & visualizing. check collider position
+	mBullet->Render();
 }

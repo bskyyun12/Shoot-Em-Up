@@ -3,6 +3,7 @@
 #include "Timer.h"
 #include "AudioManager.h"
 #include "BezierPath.h"
+#include "Collider.h"
 
 class Rocket : public GameEntity
 {
@@ -21,6 +22,9 @@ private:
 	const float EPSILON = 50.0f;
 
 	AnimatedTexture* mRocket = nullptr;
+
+	//collider 
+	Collider* mCollider = nullptr;
 
 public:
 

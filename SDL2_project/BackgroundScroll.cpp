@@ -80,7 +80,7 @@ void BackgroundScroll::Update()
 		//teseting
 		for (int i = 1; i < mBackgrounds.size(); i += 2)
 		{
-			mBackgrounds[i]->Pos(mBackgrounds[i]->Pos() + VECTOR2D_LEFT * mScrollSpeed * i);
+			mBackgrounds[i]->Pos(mBackgrounds[i]->Pos() + VECTOR2D_LEFT * mScrollSpeed * (float)i);
 
 			if (mBackgrounds[i]->Pos().x < mBackgroundEndPos.x)
 				mBackgrounds[i]->Pos(mBackgroundStartPos);
