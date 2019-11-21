@@ -43,6 +43,8 @@ public:
 	Texture(std::string text, std::string fontpath, int size, SDL_Color color);
 	~Texture();
 
+	SDL_Rect GetRect();
+
 	Vector2D ScaledDimensions();
 
 	virtual void Render();

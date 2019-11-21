@@ -159,6 +159,7 @@ void Level::Update()
 			mCurrentState = finished;
 		}
 	}
+
 	if (mGameOver)
 	{
 		// todo: play gameover sound
@@ -173,19 +174,19 @@ void Level::Update()
 		{
 			mCurrentState = gameover;
 		}
-	
-		// Victory
-		if (mVictory)
+	}
+
+	// Victory
+	if (mVictory)
+	{
+		// todo: play victory sound
+
+		// here do somthing before game ends
+
+		mVictoryTimer += mTimer->DeltaTime();
+		if (mVictoryTimer >= mVictoryDelay)
 		{
-			// todo: play victory sound
-
-			// here do somthing before game ends
-
-			mVictoryTimer += mTimer->DeltaTime();
-			if (mVictoryTimer >= mVictoryDelay)
-			{
-				mCurrentState = victory;
-			}
+			mCurrentState = victory;
 		}
 	}
 }

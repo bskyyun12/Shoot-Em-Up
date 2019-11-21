@@ -50,7 +50,10 @@ void Bullet::Update()
 	if (Active())
 	{
 		mBullet->Update();
-		mCollider->Update(mBullet, Collider::TAG::playerProjectile);
+		if (mCollider->CollisionCheck(mBullet, Collider::TAG::playerProjectile))
+		{
+			Active(false);
+		}
 		Translate(VECTOR2D_RIGHT * mSpeed * mTimer->DeltaTime(), local);
 
 		Vector2D pos = Pos();

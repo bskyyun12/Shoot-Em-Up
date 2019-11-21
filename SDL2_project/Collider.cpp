@@ -20,117 +20,92 @@ void Collider::Release()
 Collider::Collider()
 {
 	mDebugBox = new Texture("BoxCollider.png");
-
-	mRect = { 0, 0, 0, 0 };
-
-	mTag = player;
 }
 
 Collider::~Collider()
 {
-	delete mDebugBox;
-	mDebugBox = nullptr;
+	for (int i = 0; i < mDebugBoxes.size(); i++)
+	{
+		delete mDebugBoxes[i];
+		mDebugBoxes[i] = nullptr;
+	}
 }
 
 void Collider::AddCollider(Texture* tex, TAG tag)
 {
+	mColliders.insert(std::make_pair(tex, tag));
+
 	mDebugBox->Scale(tex->ScaledDimensions() / 100.0f);
+	mDebugBox->Pos(VECTOR2D_ZERO);
 	mDebugBox->Parent(tex);
+	mDebugBoxes.push_back(mDebugBox);
 }
 
-void Collider::Update(Texture* tex, TAG tag)
+bool Collider::CollisionCheck(Texture* tex, TAG tag)
 {
-	mRect.x = (int)tex->Pos().x;
-	mRect.y = (int)tex->Pos().y;
-	mRect.w = (int)tex->ScaledDimensions().x;
-	mRect.h = (int)tex->ScaledDimensions().y;
-
-	mTag = tag;
-
-	mColliders[mTag] = mRect;
-
 	for (auto col : mColliders)
 	{
 		switch (tag)
 		{
 		case player:
-
-#pragma region Test purpose. need to delete later
-			switch (col.first)
+			if (col.second == enemy)
 			{
-			case playerProjectile:
-				if (SDL_HasIntersection(&mColliders[tag], &col.second))
+				if (SDL_HasIntersection(&tex->GetRect(), &col.first->GetRect()))
 				{
-					// todo : do something when enemy hits player
-					std::cout << tagEnumToStr(tag) << " hits : " << tagEnumToStr(col.first) << '\n';
-					break;
+					std::cout << tagEnumToStr(tag) << " gets hit by " << tagEnumToStr(col.second) << std::endl;
+					return true;
 				}
-				break;
-			default:
-				break;
 			}
-#pragma endregion Test purpose. need to delete later
+			else if (col.second == enemyProjectile)
+			{
+				if (SDL_HasIntersection(&tex->GetRect(), &col.first->GetRect()))
+				{
+					std::cout << tagEnumToStr(tag) << " gets hit by " << tagEnumToStr(col.second) << std::endl;
+					return true;
+				}
+			}
+
+#pragma region Testing.. Remove later
+			else if (col.second == playerProjectile)
+			{
+				if (SDL_HasIntersection(&tex->GetRect(), &col.first->GetRect()))
+				{
+					std::cout << tagEnumToStr(tag) << " gets hit by " << tagEnumToStr(col.second) << std::endl;
+					return true;
+				}
+			}
+#pragma endregion Testing.. Remove later
 
 			break;
 		case enemy:
-			switch (col.first)
+			if (col.second == playerProjectile)
 			{
-			case player:
-				if (SDL_HasIntersection(&mColliders[tag], &col.second))
+				if (SDL_HasIntersection(&tex->GetRect(), &col.first->GetRect()))
 				{
-					// todo : do something when enemy hits player
-					std::cout << tagEnumToStr(tag) << " hits : " << tagEnumToStr(col.first) << '\n';
-					break;
+					std::cout << tagEnumToStr(tag) << " gets hit by " << tagEnumToStr(col.second) << std::endl;
+					return true;
 				}
-				break;
-			default:
-				break;
-			}
-			break;
-		case playerProjectile:
-			switch (col.first)
-			{
-			case enemy:
-				if (SDL_HasIntersection(&mColliders[tag], &col.second))
-				{
-					// todo : do something when playerProjectile hits enemy
-					std::cout << tagEnumToStr(tag) << " hits : " << tagEnumToStr(col.first) << '\n';
-					break;
-				}
-				break;
-			default:
-				break;
-			}
-			break;
-		case enemyProjectile:
-			switch (col.first)
-			{
-			case player:
-				if (SDL_HasIntersection(&mColliders[tag], &col.second))
-				{
-					// todo : do something when enemyProjectile hits player
-					std::cout << tagEnumToStr(tag) << " hits : " << tagEnumToStr(col.first) << '\n';
-					break;
-				}
-				break;
-			default:
-				break;
 			}
 			break;
 		default:
 			break;
 		}
 	}
+
+	return false;
+}
+
+void Collider::Update()
+{
+
 }
 
 void Collider::Render()
 {
-	mDebugBox->Render();
-}
-
-void Collider::Print(SDL_Rect rect)
-{
-	std::cout << "{" << rect.x << ", " << rect.y << ", " << rect.w << ", " << rect.h << "}" << std::endl;
+	for (int i = 0; i < mDebugBoxes.size(); i++)
+	{
+		mDebugBoxes[i]->Render();
+	}
 }
 
 std::string Collider::tagEnumToStr(int index)

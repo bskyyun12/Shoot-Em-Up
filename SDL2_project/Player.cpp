@@ -20,10 +20,6 @@ Player::Player()
 	mPlayer = new Texture("JumpOrange (32x32).png");
 	mPlayer->Scale(VECTOR2D_ONE * 2);	// scale up to 64x64
 	mPlayer->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
-	
-	// collider 
-	mCollider = Collider::Instance();
-	mCollider->AddCollider(mPlayer, Collider::TAG::player);
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -40,6 +36,10 @@ Player::Player()
 	}
 	mRocketFireTimer = 2.5f;
 	mRocketFireRate = 2.5f;
+
+	// collider 
+	mCollider = Collider::Instance();
+	mCollider->AddCollider(mPlayer, Collider::TAG::player);
 }
 
 Player::~Player()
@@ -63,10 +63,6 @@ Player::~Player()
 		delete mRockets[i];
 		mRockets[i] = nullptr;
 	}
-
-	// collider
-	mCollider = nullptr;
-	
 }
 
 void Player::HandleMovement()
@@ -255,7 +251,10 @@ void Player::Update()
 	if (Active())
 	{
 		HandleMovement();
-		mCollider->Update(mPlayer, Collider::TAG::player);
+		if (mCollider->CollisionCheck(mPlayer, Collider::TAG::player))
+		{
+			std::cout << "player needs to lose life!!" << std::endl;
+		}
 		// Shoot with RCTRL or controller X button or LB button
 		//HandleFiring();
 	}

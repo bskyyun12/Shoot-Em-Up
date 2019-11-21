@@ -243,18 +243,7 @@ void PlayScreen::Update()
 				StartNextLevel();
 			}
 		}
-		// here do something between game starts and level starts(currently for 1 seconds = mLevelStartDelay)
-	}
-	else
-	{
-		// if music is done, game starts
-		if (!Mix_PlayingMusic())
-			mGameStarted = true;
-	}
-
-	if (mGameStarted)
-	{
-		if (mLevelStarted)
+		else
 		{
 			mBackgroundScroll->Update();
 			mLevel->Update();
@@ -266,23 +255,23 @@ void PlayScreen::Update()
 
 		mPlayer->Update();
 		if (mPlayer2 != nullptr)
-		{
 			mPlayer2->Update();
-		}
+
+		// here do something between game starts and level starts(currently for 1 seconds = mLevelStartDelay)
+	}
+	else
+	{
+		// if music is done, game starts
+		if (!Mix_PlayingMusic())
+			mGameStarted = true;
 	}
 
 	// Blinker logic
-	mBlinkTimer += mTimer->DeltaTime();
-	if (mBlinkTimer >= mBlinkInterval)
-	{
-		m1UPVisible = !m1UPVisible;
-		mBlinkTimer = 0.0f;
-	}
-
-	// test purpose
-	//if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN))
+	//mBlinkTimer += mTimer->DeltaTime();
+	//if (mBlinkTimer >= mBlinkInterval)
 	//{
-	//	StartNextLevel();
+	//	m1UPVisible = !m1UPVisible;
+	//	mBlinkTimer = 0.0f;
 	//}
 }
 

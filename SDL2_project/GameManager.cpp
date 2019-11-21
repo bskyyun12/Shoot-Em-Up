@@ -39,6 +39,7 @@ GameManager::GameManager()
 
 	// STEP 3 : Create new instance
 	mScreenManager = ScreenManager::Instance();
+	mCollider = Collider::Instance();
 
 	// STEP 3 : Create new instance
 
@@ -51,6 +52,9 @@ GameManager::~GameManager()
 	// STEP 4 : Delete instance
 	ScreenManager::Release();
 	mScreenManager = nullptr;
+
+	Collider::Release();
+	mCollider = nullptr;
 
 	// STEP 4 : Delete instance
 
@@ -79,6 +83,7 @@ void GameManager::Update()
 {
 	// STEP 5 : Update the instance
 	mScreenManager->Update();
+	mCollider->Update();
 
 	// STEP 5 : Update the instance
 }
@@ -97,6 +102,7 @@ void GameManager::Render()
 
 	// STEP 6 : Render the instance
 	mScreenManager->Render();
+	mCollider->Render();
 
 	// STEP 6 : Render the instance
 

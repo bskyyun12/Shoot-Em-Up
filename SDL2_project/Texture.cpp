@@ -58,6 +58,11 @@ Texture::~Texture()
 	mGraphics = nullptr;
 }
 
+SDL_Rect Texture::GetRect()
+{
+	return mRenderRect;
+}
+
 Vector2D Texture::ScaledDimensions()
 {
 	Vector2D scaledDimensions = Scale();

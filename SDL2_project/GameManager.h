@@ -4,6 +4,7 @@
 #include "Timer.h"
 // STEP 1 : Include the new file you made
 #include "ScreenManager.h"
+#include "Collider.h"
 
 class GameManager
 {
@@ -26,6 +27,7 @@ private:
 
 	// STEP 2 : Create new instance
 	ScreenManager* mScreenManager = nullptr;
+	Collider* mCollider = nullptr;
 
 	// STEP 2 : Create new instance
 
