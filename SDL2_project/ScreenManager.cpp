@@ -63,7 +63,10 @@ void ScreenManager::Update()
 	{
 	case start:
 		mStartScreen->Update();
-		if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN) || (mInputManager->GetButtonState(0, 7)) /* Player 1 Start button */)
+		if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN) || 
+		   (mInputManager->m_bJoysticksInitialised && /* Joysticks initialised */
+		   (mInputManager->GetButtonState(0, 7) || /* Player 1 Start button */
+			mInputManager->GetButtonState(0, 0)))) /* Player 1 A button */
 		{
 			currentScreen = play;
 			mStartScreen->ResetAnimation();

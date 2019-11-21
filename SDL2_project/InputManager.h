@@ -80,6 +80,7 @@ public:
 	void OnJoystickHatMove(SDL_Event& event);
 
 	const int m_joystickDeadZone = 10000;
+	bool m_bJoysticksInitialised;
 
 #pragma endregion
 
@@ -90,7 +91,6 @@ private:
 
 	// Gamepad Input
 	vector<SDL_Joystick*> m_joysticks;
-	bool m_bJoysticksInitialised;
 	vector<pair<Vector2D*, Vector2D*>> m_joystickValues;
 	vector<vector<bool>> m_buttonStates;
 
