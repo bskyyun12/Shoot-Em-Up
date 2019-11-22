@@ -84,9 +84,35 @@ void Player2::HandleMovement()
 	// save player's position before player moves
 	Vector2D prevPlayerPos = Pos(local);
 
+	// Player Input
+	if (mInputManager->KeyDown(SDL_SCANCODE_D))
+	{
+		Translate(VECTOR2D_RIGHT * mMoveSpeed * mTimer->DeltaTime(), world);
+	}
+
+	if (mInputManager->KeyDown(SDL_SCANCODE_A))
+	{
+		Translate(VECTOR2D_LEFT * mMoveSpeed * mTimer->DeltaTime(), world);
+	}
+
+	if (mInputManager->KeyDown(SDL_SCANCODE_W))
+	{
+		Translate(VECTOR2D_UP * mMoveSpeed * mTimer->DeltaTime(), world);
+	}
+
+	if (mInputManager->KeyDown(SDL_SCANCODE_S))
+	{
+		Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
+	}
+
+	if (mInputManager->KeyDown(SDL_SCANCODE_F)) // Shoot
+	{
+		HandleFiring();
+	}
+
 #pragma region Gamepad Input
 
-	if (mInputManager->JoysticksInitialiased())
+	if (mInputManager->JoysticksInitialiased() && mInputManager->GetNumberOfJoysticks() >= 2)
 	{
 
 #pragma region Joysticks
@@ -143,12 +169,14 @@ void Player2::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(1, 6)) // Back/Select button
 		{
-
+			AddHealth();
+			cout << "Player 2 Lives : " << mLives << endl;
 		}
 
 		if (InputManager::Instance()->GetButtonState(1, 7)) // Start button
 		{
-
+			RemoveHealth();
+			cout << "Player 2 Lives : " << mLives << endl;
 		}
 
 		if (InputManager::Instance()->GetButtonState(1, 8)) // Left Stick button
@@ -163,7 +191,8 @@ void Player2::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(1, 10)) // XBOX button
 		{
-
+			AddScore(1);
+			cout << "Player 2 Score : " << mScore << endl;
 		}
 
 #pragma endregion
@@ -235,6 +264,16 @@ void Player2::ToggleTexture()
 	ship = !ship;
 }
 
+void Player2::AddHealth()
+{
+	mLives++;
+}
+
+void Player2::RemoveHealth()
+{
+	mLives--;
+}
+
 void Player2::Update()
 {
 	mFireTimer += mTimer->DeltaTime();
@@ -245,7 +284,7 @@ void Player2::Update()
 	{
 		HandleMovement();
 		//mCollider->Update(mPlayer2, Collider::TAG::player);
-		// Shoot with RCTRL or controller X button or LB button
+		// Shoot with F or controller X button or RB button
 		//HandleFiring();
 	}
 

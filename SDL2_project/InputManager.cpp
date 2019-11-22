@@ -242,6 +242,16 @@ void InputManager::InitialiseJoysticks()
 	}
 }
 
+int InputManager::GetJoystickDeadZone()
+{
+	return m_joystickDeadZone;
+}
+
+int InputManager::GetNumberOfJoysticks() 
+{
+	return m_joysticks.size();
+}
+
 int InputManager::xValue(int joy, int stick)
 {
 	if (m_joystickValues.size() > 0)

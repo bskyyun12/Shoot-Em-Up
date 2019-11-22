@@ -165,13 +165,13 @@ void Player::HandleMovement()
 		if (InputManager::Instance()->GetButtonState(0, 6)) // Back/Select button
 		{
 			AddHealth();
-			cout << "Lives : " << mLives << endl;
+			cout << "Player 1 Lives : " << mLives << endl;
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 7)) // Start button
 		{
 			RemoveHealth();
-			cout << "Lives : " << mLives << endl;
+			cout << "Player 1 Lives : " << mLives << endl;
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 8)) // Left Stick button
@@ -187,7 +187,7 @@ void Player::HandleMovement()
 		if (InputManager::Instance()->GetButtonState(0, 10)) // XBOX button
 		{
 			AddScore(1);
-			cout << "Score : " << mScore << endl;
+			cout << "Player 1 Score : " << mScore << endl;
 		}
 
 #pragma endregion
@@ -282,7 +282,7 @@ void Player::Update()
 		//{
 		//	std::cout << "player needs to lose life!!" << std::endl;
 		//}
-		// Shoot with RCTRL or controller X button or LB button
+		// Shoot with RCTRL or controller X button or RB button
 		//HandleFiring();
 	}
 

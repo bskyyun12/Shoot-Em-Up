@@ -34,7 +34,6 @@ public:
 
 	static void Release();
 
-
 	bool KeyDown(SDL_Scancode scanCode);
 	bool KeyPressed(SDL_Scancode scanCode);
 	bool KeyReleased(SDL_Scancode scanCode);
@@ -78,8 +77,9 @@ public:
 	void OnJoystickButtonDown(SDL_Event& event);
 	void OnJoystickButtonUp(SDL_Event& event);
 	void OnJoystickHatMove(SDL_Event& event);
-
-	const int m_joystickDeadZone = 10000;
+	
+	int GetJoystickDeadZone();
+	int GetNumberOfJoysticks();
 
 #pragma endregion
 
@@ -93,7 +93,7 @@ private:
 	bool m_bJoysticksInitialised = false;
 	vector<pair<Vector2D*, Vector2D*>> m_joystickValues;
 	vector<vector<bool>> m_buttonStates;
-
+	const int m_joystickDeadZone = 10000;
 };
 
 #endif

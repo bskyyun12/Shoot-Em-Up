@@ -54,6 +54,10 @@ public:
 
 	void ToggleTexture();
 
+	// Player health
+	void AddHealth();
+	void RemoveHealth();
+
 	// Get Player's current score
 	int Score();
 	// Get Player's current Lives
