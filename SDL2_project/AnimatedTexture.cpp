@@ -24,6 +24,11 @@ AnimatedTexture::~AnimatedTexture()
 {
 }
 
+bool AnimatedTexture::IsAnimationDone()
+{
+	return mAnimationDone;
+}
+
 void AnimatedTexture::WrapMode(WRAP_MODE mode)
 {
 	mWrapMode = mode;

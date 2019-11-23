@@ -8,21 +8,29 @@ class Box : public GameEntity
 {
 private:
 
+	Timer* mTimer = nullptr;
+
 	// box texture
 	Texture* mBox = nullptr;
-	Texture* mBoxBreak = nullptr;
+	AnimatedTexture* mBoxBreak = nullptr;
+
+	// bullet
+	static const int MAX_BULLETS = 5;
+	Bullet* mBullets[MAX_BULLETS] = { nullptr };
+	float mFireTimer;
+	float mFireRate;
 
 	// collider
 	Collider* mCollider = nullptr;
+	bool mGetDamage;
+	bool mWasHit;
 
-	bool hit = false;
+	int hp;
 
 public:
 
-	Box();
+	Box(Vector2D pos);
 	~Box();
-
-	void Hit();
 
 	void Update();
 	void Render();
