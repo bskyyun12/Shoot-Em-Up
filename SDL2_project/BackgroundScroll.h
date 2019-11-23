@@ -15,13 +15,13 @@ private:
 	float mScrollSpeed;
 
 	// testing	
-	std::vector<Texture*> mBackgrounds;
+	std::vector<Texture*> mBackgrounds = { nullptr };
 	Texture* mTempTex1 = nullptr;
 	Texture* mTempTex2 = nullptr;
 
 public:
 
-	BackgroundScroll(std::string path, int backgroundAmount);
+	BackgroundScroll();
 	~BackgroundScroll();
 
 	static bool mScroll;

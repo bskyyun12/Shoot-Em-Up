@@ -1,6 +1,6 @@
 #include "Bullet.h"
 
-Bullet::Bullet()
+Bullet::Bullet(Collider::TAG tag)
 {
 	mTimer = Timer::Instance();
 	mAudioManager = AudioManager::Instance();
@@ -18,7 +18,7 @@ Bullet::Bullet()
 
 	//collider
 	mCollider = Collider::Instance();
-	mCollider->AddCollider(mBullet, Collider::TAG::playerProjectile);
+	mCollider->AddCollider(mBullet, tag);
 
 }
 

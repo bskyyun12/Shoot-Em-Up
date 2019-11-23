@@ -64,7 +64,7 @@ PlayScreen::PlayScreen()
 	mBox = nullptr;
 
 	// background
-	mBackgroundScroll = new BackgroundScroll("Backgrounds/space/Nebula_Red", 5);
+	mBackgroundScroll = new BackgroundScroll();
 }
 
 PlayScreen::~PlayScreen()

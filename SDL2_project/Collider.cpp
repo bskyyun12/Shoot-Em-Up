@@ -38,7 +38,7 @@ void Collider::Update()
 		{
 			switch (col.second)
 			{
-			case playerProjectile:
+			case player1Projectile:
 				// if playerProjectile is active
 				if (col.first->Active())
 				{
@@ -46,6 +46,20 @@ void Collider::Update()
 					if (col2.second == enemy && SDL_HasIntersection(&col.first->GetRect(), &col2.first->GetRect()))
 					{
 						col.first->Active(false);
+						col2.first->Active(false);
+						std::cout << tagEnumToStr(col.second) << " hits : " << tagEnumToStr(col2.second) << std::endl;
+					}
+				}
+				break;
+			case player2Projectile:
+				// if playerProjectile is active
+				if (col.first->Active())
+				{
+					// if playerProjectile hits enemy
+					if (col2.second == enemy && SDL_HasIntersection(&col.first->GetRect(), &col2.first->GetRect()))
+					{
+						col.first->Active(false);
+						col2.first->Active(false);
 						std::cout << tagEnumToStr(col.second) << " hits : " << tagEnumToStr(col2.second) << std::endl;
 					}
 				}
@@ -54,8 +68,14 @@ void Collider::Update()
 				// if enemyProjectile is active
 				if (col.first->Active())
 				{
-					// if enemyProjectile hits player
-					if (col2.second == player && SDL_HasIntersection(&col.first->GetRect(), &col2.first->GetRect()))
+					// if enemyProjectile hits player1
+					if (col2.second == player1 && SDL_HasIntersection(&col.first->GetRect(), &col2.first->GetRect()))
+					{
+						col.first->Active(false);
+						std::cout << tagEnumToStr(col.second) << " hits : " << tagEnumToStr(col2.second) << std::endl;
+					}
+					// if enemyProjectile hits player2
+					if (col2.second == player2 && SDL_HasIntersection(&col.first->GetRect(), &col2.first->GetRect()))
 					{
 						col.first->Active(false);
 						std::cout << tagEnumToStr(col.second) << " hits : " << tagEnumToStr(col2.second) << std::endl;
@@ -72,13 +92,21 @@ void Collider::Update()
 std::string Collider::tagEnumToStr(int index)
 {
 	// debug purpose
+	//	0 : player1,
+	//	player2,
+	//	enemy,
+	//	player1Projectile,
+	//	player2Projectile,
+	//	enemyProjectile
 	std::string s("unknown");
 	switch (index)
 	{
-	case 0: { s = "Player"; } break;
-	case 1: { s = "Enemy"; } break;
-	case 2: { s = "PlayerProjectile"; } break;
-	case 3: { s = "EnemyProjectile"; } break;
+	case 0: { s = "Player1"; } break;
+	case 1: { s = "Player2"; } break;
+	case 2: { s = "Enemy"; } break;
+	case 3: { s = "Player1Projectile"; } break;
+	case 4: { s = "Player2Projectile"; } break;
+	case 5: { s = "EnemyProjectile"; } break;
 	}
 	return s;
 }

@@ -3,7 +3,7 @@
 
 std::vector<std::vector<Vector2D>> Rocket::sPaths;
 
-Rocket::Rocket()
+Rocket::Rocket(Collider::TAG tag)
 {
 	mTimer = Timer::Instance();
 	mAudioManager = AudioManager::Instance();
@@ -25,7 +25,7 @@ Rocket::Rocket()
 
 	//collider
 	mCollider = Collider::Instance();
-	mCollider->AddCollider(mRocket, Collider::TAG::playerProjectile);
+	mCollider->AddCollider(mRocket, tag);
 }
 
 Rocket::~Rocket()
@@ -71,8 +71,19 @@ void Rocket::CreatePath(Vector2D pos, int pathNum)
 	Vector2D endCtrl = Vector2D((midPoint + end.x) * 0.5f, start.y + ctrlPoint);
 
 	BezierPath* path = new BezierPath();
-	path->Clear();
-	if (pathNum % 2 == 0)
+
+	// add a vector in sPaths if its size is smaller than mCurrentPath(bulletIndex)
+	if (sPaths.size() <= pathNum)
+	{
+		for (size_t i = 0; i <= pathNum; i++)
+		{
+			sPaths.push_back(std::vector<Vector2D>());
+		}
+	}
+
+	mCurrentPath = pathNum;
+
+	if (mCurrentPath % 2 == 0)
 	{
 		path->AddCurve({ start, startCtrl, endCtrl, end }, 25);	// down and up
 	}
@@ -80,13 +91,7 @@ void Rocket::CreatePath(Vector2D pos, int pathNum)
 	{
 		path->AddCurve({ start, Vector2D(startCtrl.x, start.y + ctrlPoint), Vector2D(endCtrl.x, start.y - ctrlPoint), end }, 25); // up and down
 	}
-	mCurrentPath = pathNum;
 
-	// add a vector in sPaths if its size is smaller than mCurrentPath(bulletIndex)
-	if (sPaths.size() <= mCurrentPath)
-	{
-		sPaths.push_back(std::vector<Vector2D>());
-	}
 
 	path->Sample(&sPaths[mCurrentPath]);
 

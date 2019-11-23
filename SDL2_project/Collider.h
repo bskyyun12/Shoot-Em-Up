@@ -10,9 +10,11 @@ public:
 
 	enum TAG
 	{
-		player,
+		player1,
+		player2,
 		enemy,
-		playerProjectile,
+		player1Projectile,
+		player2Projectile,
 		enemyProjectile
 	};
 

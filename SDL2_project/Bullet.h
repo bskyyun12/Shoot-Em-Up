@@ -20,7 +20,7 @@ private:
 
 public:
 
-	Bullet();
+	Bullet(Collider::TAG tag);
 	~Bullet();
 
 	void Fire(Vector2D pos);

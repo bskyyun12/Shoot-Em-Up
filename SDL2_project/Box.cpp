@@ -40,15 +40,10 @@ void Box::Hit()
 
 void Box::Update()
 {
-	//if (mCollider->CollisionCheck(mBox, Collider::TAG::enemy))
-	//{
-	//	std::cout << "enemy needs to lose life!!" << std::endl;
-	//}
-
-	//if (!mBox->Active())
-	//{
-	//	hit = true;
-	//}
+	if (!mBox->Active())
+	{
+		Hit();
+	}
 }
 
 void Box::Render()

@@ -30,7 +30,7 @@ Player::Player()
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
 	{
-		mBullets[i] = new Bullet();
+		mBullets[i] = new Bullet(Collider::TAG::player1Projectile);
 	}
 	mFireTimer = 0.5f;
 	mFireRate = 0.5f;
@@ -38,14 +38,15 @@ Player::Player()
 	// rocket
 	for (int i = 0; i < MAX_ROCKETS; i++)
 	{
-		mRockets[i] = new Rocket();
+		mRockets[i] = new Rocket(Collider::TAG::player1Projectile);
 	}
 	mRocketFireTimer = 2.0f;
 	mRocketFireRate = 2.0f;
 
 	// collider 
 	mCollider = Collider::Instance();
-	mCollider->AddCollider(mPlayerShip, Collider::TAG::player);
+	mCollider->AddCollider(mPlayer, Collider::TAG::player1);
+	mCollider->AddCollider(mPlayerShip, Collider::TAG::player1);
 }
 
 Player::~Player()

@@ -29,13 +29,13 @@ Player2::Player2()
 
 	// collider 
 	mCollider = Collider::Instance();
-	//mCollider->AddCollider(mPlayer2, Collider::TAG::player);
-	//mCollider->AddCollider(mPlayerShip2, Collider::TAG::player);
+	mCollider->AddCollider(mPlayer2, Collider::TAG::player2);
+	mCollider->AddCollider(mPlayerShip2, Collider::TAG::player2);
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
 	{
-		mBullets[i] = new Bullet();
+		mBullets[i] = new Bullet(Collider::TAG::player2Projectile);
 	}
 	mFireTimer = 0.5f;
 	mFireRate = 0.5f;
@@ -43,10 +43,10 @@ Player2::Player2()
 	// rocket
 	for (int i = 0; i < MAX_ROCKETS; i++)
 	{
-		mRockets[i] = new Rocket();
+		mRockets[i] = new Rocket(Collider::TAG::player2Projectile);
 	}
-	mRocketFireTimer = 2.5f;
-	mRocketFireRate = 2.5f;
+	mRocketFireTimer = 2.0f;
+	mRocketFireRate = 2.0f;
 }
 
 Player2::~Player2()
@@ -237,7 +237,7 @@ void Player2::HandleFiring()
 			if (!mRockets[i]->Active())
 			{
 				Vector2D pos = Pos();
-				mRockets[i]->CreatePath(pos, i);
+				mRockets[i]->CreatePath(pos, i+2);
 			}
 		}
 		mRocketFireTimer = 0.0f;
