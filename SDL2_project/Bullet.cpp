@@ -6,9 +6,21 @@ Bullet::Bullet(Collider::TAG tag)
 	mAudioManager = AudioManager::Instance();
 
 	mSpeed = 700.0f;
-
-	mBullet = new AnimatedTexture("On (38x38).png", 0, 0, 38, 38, 8, 0.2f, AnimatedTexture::horizontal);
-	mBullet->Scale(VECTOR2D_ONE * 0.7f);
+	switch (tag)
+	{
+	case Collider::player1Projectile:
+		mBullet = new AnimatedTexture("Pixel Adventure/Traps/Saw/On (38x38).png", 0, 0, 38, 38, 8, 0.2f, AnimatedTexture::horizontal);
+		break;
+	case Collider::player2Projectile:
+		mBullet = new AnimatedTexture("Pixel Adventure/Traps/Trampoline/Jump (28x28).png", 0, 0, 28, 28, 8, 0.2f, AnimatedTexture::horizontal);
+		break;
+	case Collider::enemyProjectile:
+		mBullet = new AnimatedTexture("Pixel Adventure/Traps/Fire/On (16x32).png", 0, 0, 16, 32, 3, 0.2f, AnimatedTexture::horizontal);
+		break;
+	default:
+		break;
+	}
+	mBullet->Scale(Vector2D(32 / mBullet->ScaledDimensions().x, 32 / mBullet->ScaledDimensions().y));
 	mBullet->Parent(this);
 	mBullet->Pos(VECTOR2D_ZERO);
 	//Rotate(-45); // bullet will be fired with -45 angle
@@ -19,6 +31,7 @@ Bullet::Bullet(Collider::TAG tag)
 	//collider
 	mCollider = Collider::Instance();
 	mCollider->AddCollider(mBullet, tag);
+	mTag = tag;
 
 }
 
@@ -54,7 +67,11 @@ void Bullet::Update()
 	if (Active())
 	{
 		mBullet->Update();
-		Translate(VECTOR2D_RIGHT * mSpeed * mTimer->DeltaTime(), local);
+
+		if (mTag == Collider::TAG::player1Projectile || mTag == Collider::TAG::player2Projectile)
+			Translate(VECTOR2D_RIGHT * mSpeed * mTimer->DeltaTime(), local);
+		else
+			Translate(VECTOR2D_LEFT * mSpeed * mTimer->DeltaTime(), local);
 
 		Vector2D pos = Pos();
 		if (pos.x < 0 || pos.x > Graphics::Instance()->SCREEN_WIDTH ||

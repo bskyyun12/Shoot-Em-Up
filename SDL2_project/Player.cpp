@@ -279,10 +279,22 @@ void Player::Update()
 	if (Active())
 	{
 		HandleMovement();
-		//if (mCollider->CollisionCheck(mPlayerShip, Collider::TAG::player))
-		//{
-		//	std::cout << "player needs to lose life!!" << std::endl;
-		//}
+
+		if (!ship)
+		{
+			if (mCollider->CheckCollision(mPlayer, Collider::TAG::player1))
+			{
+				std::cout << "mPlayer gets hit" << std::endl;
+			}
+		}
+		else if (ship)
+		{
+			if (mCollider->CheckCollision(mPlayerShip, Collider::TAG::player1))
+			{
+				std::cout << "mPlayerShip gets hit" << std::endl;
+			}
+		}
+
 		// Shoot with RCTRL or controller X button or RB button
 		//HandleFiring();
 	}

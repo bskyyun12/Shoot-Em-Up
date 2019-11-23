@@ -30,6 +30,43 @@ void Collider::AddCollider(Texture* tex, TAG tag)
 	mColliders.insert(std::make_pair(tex, tag));
 }
 
+bool Collider::CheckCollision(Texture* tex, TAG tag)
+{
+	for (auto col : mColliders)
+	{
+		switch (tag)
+		{
+		case player1:
+		case player2:
+			if (col.second == enemyProjectile)
+			{
+				// if player is hit by a enemyProjectile
+				if (SDL_HasIntersection(&tex->GetRect(), &col.first->GetRect()))
+					return true;
+			}
+			break;
+		case enemy:
+			if (col.second == player1Projectile)
+			{
+				// if enemy is hit by a player1Projectile
+				if (SDL_HasIntersection(&tex->GetRect(), &col.first->GetRect()))
+					return true;
+			}
+			else if (col.second == player2Projectile)
+			{
+				// if enemy is hit by a player2Projectile
+				if (SDL_HasIntersection(&tex->GetRect(), &col.first->GetRect()))
+					return true;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	return false;
+}
+
 void Collider::Update()
 {
 	for (auto col : mColliders)

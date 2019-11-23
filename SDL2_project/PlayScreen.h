@@ -38,9 +38,6 @@ private:
 	Player* mPlayer = nullptr;
 	Player2* mPlayer2 = nullptr;
 
-	// Box
-	Box* mBox = nullptr;
-
 	// background
 	BackgroundScroll* mBackgroundScroll = nullptr;
 

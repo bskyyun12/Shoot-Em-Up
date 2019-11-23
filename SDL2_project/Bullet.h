@@ -17,6 +17,7 @@ private:
 
 	//collider
 	Collider* mCollider = nullptr;
+	Collider::TAG mTag;
 
 public:
 

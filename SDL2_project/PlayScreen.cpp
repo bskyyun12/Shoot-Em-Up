@@ -1,8 +1,4 @@
 #include "PlayScreen.h"
-#include <iostream>
-
-using std::cout;
-using std::endl;
 
 PlayScreen::PlayScreen()
 {
@@ -60,9 +56,6 @@ PlayScreen::PlayScreen()
 	mPlayer = nullptr;
 	mPlayer2 = nullptr;
 
-	// Box
-	mBox = nullptr;
-
 	// background
 	mBackgroundScroll = new BackgroundScroll();
 }
@@ -86,9 +79,6 @@ PlayScreen::~PlayScreen()
 
 	delete mPlayer2;
 	mPlayer2 = nullptr;
-
-	delete mBox;
-	mBox = nullptr;
 
 	// Life
 	delete mLives;
@@ -139,10 +129,6 @@ void PlayScreen::StartNextLevel()
 	mLevelStartTimer = 0.0f;
 	mLevelStarted = true;
 
-	// Create new Level
-	delete mLevel;
-	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2);
-
 	// background change
 	switch (mCurrentStage)
 	{
@@ -187,6 +173,8 @@ void PlayScreen::StartNextLevel()
 		break;
 	}
 
+	// Create new Level
+	delete mLevel;
 	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2);
 }
 
@@ -214,12 +202,6 @@ void PlayScreen::StartNewGame(int mSelectMode)
 		delete mPlayer2;
 		mPlayer2 = nullptr;
 	}
-
-	// Box
-	delete mBox;
-	mBox = new Box();
-	mBox->Parent(this);
-	mBox->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f + 1000, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 
 	SetHighScore(55555);
 	SetLives(mPlayer->Lives());
@@ -277,7 +259,6 @@ void PlayScreen::Update()
 			mPlayer->Update();
 			if (mPlayer2 != nullptr)
 				mPlayer2->Update();
-			mBox->Update();
 		}
 
 		// here do something between game starts and level starts(currently for 1 seconds = mLevelStartDelay)
@@ -333,7 +314,6 @@ void PlayScreen::Render()
 			{
 				mPlayer2->Render();
 			}
-			mBox->Render();
 		}
 	}
 }
