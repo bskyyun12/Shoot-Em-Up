@@ -84,32 +84,17 @@ void Box::Update()
 			mBullets[i]->Update();
 		}
 
-#pragma region collision & getting damage
-		// 1. check if mWasHit is true,
-		if (mWasHit)
-		{
-			mGetDamage = true;
-			mWasHit = false;
-		}
+#pragma region Collision detection
 
-		// 2. if mGetDamage is false, check collision
-		if (!mGetDamage)
-		{
-			if (mCollider->CheckCollision(mBox, Collider::TAG::enemy))
-			{
-				mWasHit = true;
-				AudioManager::Instance()->PlaySFX("Audios/chunky_explosion.wav");
-			}
-		}
-
-		// 3. check mGetDamage is true, lose life
-		if (mGetDamage)
+		if (!mBox->Active())
 		{
 			hp--;
-			std::cout << "current hp is : " << hp << std::endl;
-			mGetDamage = false;
+			std::cout << "Box gets damage. Current hp is : " << hp << "." << std::endl;
+			AudioManager::Instance()->PlaySFX("Audios/chunky_explosion.wav");
+			mBox->Active(true);
 		}
-#pragma endregion collision & getting damage
+
+#pragma endregion Collision detection
 
 		if (hp <= 0)
 		{

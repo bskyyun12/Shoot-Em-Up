@@ -30,43 +30,6 @@ void Collider::AddCollider(Texture* tex, TAG tag)
 	mColliders.insert(std::make_pair(tex, tag));
 }
 
-bool Collider::CheckCollision(Texture* tex, TAG tag)
-{
-	for (auto col : mColliders)
-	{
-		switch (tag)
-		{
-		case player1:
-		case player2:
-			if (col.second == enemyProjectile)
-			{
-				// if player is hit by a enemyProjectile
-				if (SDL_HasIntersection(&tex->GetRect(), &col.first->GetRect()))
-					return true;
-			}
-			break;
-		case enemy:
-			if (col.second == player1Projectile)
-			{
-				// if enemy is hit by a player1Projectile
-				if (SDL_HasIntersection(&tex->GetRect(), &col.first->GetRect()))
-					return true;
-			}
-			else if (col.second == player2Projectile)
-			{
-				// if enemy is hit by a player2Projectile
-				if (SDL_HasIntersection(&tex->GetRect(), &col.first->GetRect()))
-					return true;
-			}
-			break;
-		default:
-			break;
-		}
-	}
-
-	return false;
-}
-
 void Collider::Update()
 {
 	for (auto col : mColliders)
@@ -109,12 +72,14 @@ void Collider::Update()
 					if (col2.second == player1 && SDL_HasIntersection(&col.first->GetRect(), &col2.first->GetRect()))
 					{
 						col.first->Active(false);
+						col2.first->Active(false);
 						std::cout << tagEnumToStr(col.second) << " hits : " << tagEnumToStr(col2.second) << std::endl;
 					}
 					// if enemyProjectile hits player2
 					if (col2.second == player2 && SDL_HasIntersection(&col.first->GetRect(), &col2.first->GetRect()))
 					{
 						col.first->Active(false);
+						col2.first->Active(false);
 						std::cout << tagEnumToStr(col.second) << " hits : " << tagEnumToStr(col2.second) << std::endl;
 					}
 				}

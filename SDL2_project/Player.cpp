@@ -280,20 +280,26 @@ void Player::Update()
 	{
 		HandleMovement();
 
-		if (!ship)
+#pragma region Collision detection
+
+		if (!mPlayerShip->Active())
 		{
-			if (mCollider->CheckCollision(mPlayer, Collider::TAG::player1))
-			{
-				std::cout << "mPlayer gets hit" << std::endl;
-			}
+			std::cout << "mPlayerShip gets damage." << std::endl;
+
+			// here do things like losing life
+
+			mPlayerShip->Active(true);
 		}
-		else if (ship)
+		else if (!mPlayer->Active())
 		{
-			if (mCollider->CheckCollision(mPlayerShip, Collider::TAG::player1))
-			{
-				std::cout << "mPlayerShip gets hit" << std::endl;
-			}
+			std::cout << "mPlayer gets damage." << std::endl;
+
+			// here do things like losing life
+
+			mPlayer->Active(true);
 		}
+
+#pragma endregion Collision detection
 
 		// Shoot with RCTRL or controller X button or RB button
 		//HandleFiring();
