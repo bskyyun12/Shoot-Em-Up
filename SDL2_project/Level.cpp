@@ -69,8 +69,8 @@ Level::Level(int stage, Player* player, Player2* player2)
 	// Enemy
 	for (int i = 0; i < mCurrentStage; i++)
 	{
-		float ranX = (rand() % 8 + 7) * 100; // 700 ~ 1400
-		float ranY = (rand() % 5 + 2) * 100; // 200 ~ 600
+		float ranX = (float)(rand() % 8 + 7) * 100; // 700 ~ 1400
+		float ranY = (float)(rand() % 5 + 2) * 100; // 200 ~ 600
 		mBoxes.push_back(new Box(Vector2D(ranX, ranY)));
 	}
 }

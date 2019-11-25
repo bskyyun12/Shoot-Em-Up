@@ -253,7 +253,7 @@ int InputManager::GetJoystickDeadZone()
 
 int InputManager::GetNumberOfJoysticks() 
 {
-	return m_joysticks.size();
+	return (int)m_joysticks.size();
 }
 
 int InputManager::xValue(int joy, int stick)
@@ -262,11 +262,11 @@ int InputManager::xValue(int joy, int stick)
 	{
 		if (stick == 1)
 		{
-			return m_joystickValues[joy].first->GetX();
+			return (int)m_joystickValues[joy].first->GetX();
 		}
 		else if (stick == 2)
 		{
-			return m_joystickValues[joy].second->GetX();
+			return (int)m_joystickValues[joy].second->GetX();
 		}
 	}
 	return 0;
@@ -278,11 +278,11 @@ int InputManager::yValue(int joy, int stick)
 	{
 		if (stick == 1)
 		{
-			return m_joystickValues[joy].first->GetY();
+			return (int)m_joystickValues[joy].first->GetY();
 		}
 		else if (stick == 2)
 		{
-			return m_joystickValues[joy].second->GetY();
+			return (int)m_joystickValues[joy].second->GetY();
 		}
 	}
 	return 0;

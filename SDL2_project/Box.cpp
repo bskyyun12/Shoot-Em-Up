@@ -152,7 +152,7 @@ void Box::Update()
 			Translate(VECTOR2D_LEFT * mMoveSpeed * mTimer->DeltaTime());
 
 			if (Pos().x < 0)
-				Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH, Pos().y));
+				Pos(Vector2D((float)Graphics::Instance()->SCREEN_WIDTH, Pos().y));
 		}
 	}
 

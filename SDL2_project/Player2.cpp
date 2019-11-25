@@ -127,7 +127,7 @@ void Player2::HandleMovement()
 			mInputManager->yValue(1, 1) > 0 || mInputManager->yValue(1, 1) < 0)
 		{
 			//cout << "LeftStickMove" << endl;
-			Translate(Vector2D(mInputManager->xValue(1, 1), mInputManager->yValue(1, 1)).Normalized() * mMoveSpeed * mTimer->DeltaTime(), world);
+			Translate(Vector2D((float)mInputManager->xValue(1, 1), (float)mInputManager->yValue(1, 1)).Normalized() * mMoveSpeed * mTimer->DeltaTime(), world);
 		}
 
 		// right stick move
@@ -135,7 +135,7 @@ void Player2::HandleMovement()
 			mInputManager->yValue(1, 2) > 0 || mInputManager->yValue(1, 2) < 0)
 		{
 			//cout << "RightStickMove" << endl;
-			Translate(Vector2D(mInputManager->xValue(1, 2), mInputManager->yValue(1, 2)).Normalized() * mMoveSpeed * mTimer->DeltaTime(), world);
+			Translate(Vector2D((float)mInputManager->xValue(1, 2), (float)mInputManager->yValue(1, 2)).Normalized() * mMoveSpeed * mTimer->DeltaTime(), world);
 		}
 
 #pragma endregion
