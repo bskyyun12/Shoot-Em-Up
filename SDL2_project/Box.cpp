@@ -6,6 +6,7 @@ Box::Box(Vector2D pos)
 	playOnce = true;
 	mMoveSpeed = 100.0f;
 	mTimer = Timer::Instance();
+	mAudioManager = AudioManager::Instance();
 
 	// box texture
 	mBox = new Texture("Pixel Adventure/Items/Boxes/Box3/Idle.png");
@@ -28,7 +29,7 @@ Box::Box(Vector2D pos)
 	mBoxPieceDownRight->Parent(this);
 	mBoxPieceUpRight = new BoxPiece(true, true, false);
 	mBoxPieceUpRight->Parent(this);
-	
+
 	Pos(pos);
 
 	// bullet
@@ -51,8 +52,13 @@ Box::Box(Vector2D pos)
 Box::~Box()
 {
 	mTimer = nullptr;
+	mAudioManager = nullptr;
 
 	playOnce = false;
+
+	// collider
+	mCollider->RemoveCollider(mBox);
+	mCollider = nullptr;
 
 	delete mBox;
 	mBox = nullptr;
@@ -81,9 +87,6 @@ Box::~Box()
 		delete mBullets[i];
 		mBullets[i] = nullptr;
 	}
-
-	// collider
-	mCollider = nullptr;
 }
 
 void Box::Update()
@@ -128,7 +131,8 @@ void Box::Update()
 			// death animation
 			if (playOnce) // Ugly code
 			{
-				AudioManager::Instance()->PlaySFX("Audios/chunky_explosion.wav");
+				mAudioManager->PlaySFX("Audios/chunky_explosion.wav", 0, 3);
+				mAudioManager->SFXVolume(3, 20);
 				playOnce = false;
 			}
 			mBoxPieceUp->Update();
@@ -146,9 +150,12 @@ void Box::Update()
 		else
 		{
 			Translate(VECTOR2D_LEFT * mMoveSpeed * mTimer->DeltaTime());
+
+			if (Pos().x < 0)
+				Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH, Pos().y));
 		}
 	}
-	
+
 	//if (mCollider->CollisionCheck(mBox, Collider::TAG::enemy))
 	//{
 	//	std::cout << "enemy needs to lose life!!" << std::endl;

@@ -1,6 +1,6 @@
 #include "Level.h"
 
-Level::Level(int stage, Player* player, Player2* player2, Box* box)
+Level::Level(int stage, Player* player, Player2* player2)
 {
 	mTimer = Timer::Instance();
 	mAudioManager = AudioManager::Instance();
@@ -67,9 +67,6 @@ Level::Level(int stage, Player* player, Player2* player2, Box* box)
 	}
 
 	// Enemy
-	mBox = box;
-	mBox->Active(false);
-
 	for (int i = 0; i < mCurrentStage; i++)
 	{
 		float ranX = (rand() % 8 + 7) * 100; // 700 ~ 1400
@@ -100,8 +97,6 @@ Level::~Level()
 
 	mPlayer = nullptr;
 	mPlayer2 = nullptr;
-
-	mBox = nullptr;
 
 	for (int i = 0; i < mBoxes.size(); i++)
 	{
@@ -153,7 +148,6 @@ void Level::StartStage()
 	{
 		mPlayer2->Active(true);
 	}
-	mBox->Active(true);
 
 	mLabelTimer = 0.0f;
 }
@@ -238,7 +232,6 @@ void Level::Update()
 		{
 			mPlayer2->Active(false);
 		}
-		mBox->Active(false);
 
 		mGameOverTimer += mTimer->DeltaTime();
 		if (mGameOverTimer >= mGameOverDelay)

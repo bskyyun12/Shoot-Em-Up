@@ -27,11 +27,6 @@ Player2::Player2()
 	mPlayerShip2->Scale(VECTOR2D_ONE * 4);	// scale up to 64x64
 	mPlayerShip2->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 
-	// collider 
-	mCollider = Collider::Instance();
-	mCollider->AddCollider(mPlayer2, Collider::TAG::player2);
-	mCollider->AddCollider(mPlayerShip2, Collider::TAG::player2);
-
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
 	{
@@ -47,12 +42,21 @@ Player2::Player2()
 	}
 	mRocketFireTimer = 2.0f;
 	mRocketFireRate = 2.0f;
+
+	// collider 
+	mCollider = Collider::Instance();
+	mCollider->AddCollider(mPlayer2, Collider::TAG::player2);
+	mCollider->AddCollider(mPlayerShip2, Collider::TAG::player2);
+
 }
 
 Player2::~Player2()
 {
 	mTimer = nullptr;
 	mInputManager = nullptr;
+
+	// collider
+	mCollider = nullptr;
 
 	delete mPlayer2;
 	mPlayer2 = nullptr;
@@ -73,10 +77,6 @@ Player2::~Player2()
 		delete mRockets[i];
 		mRockets[i] = nullptr;
 	}
-
-	// collider
-	mCollider = nullptr;
-
 }
 
 void Player2::HandleMovement()
@@ -270,6 +270,17 @@ void Player2::AddScore(int score)
 void Player2::ToggleTexture()
 {
 	ship = !ship;
+
+	if (ship)
+	{
+		mCollider->RemoveCollider(mPlayer2);
+		mCollider->AddCollider(mPlayerShip2, Collider::TAG::player1);
+	}
+	else
+	{
+		mCollider->RemoveCollider(mPlayerShip2);
+		mCollider->AddCollider(mPlayer2, Collider::TAG::player1);
+	}
 }
 
 void Player2::AddHealth()

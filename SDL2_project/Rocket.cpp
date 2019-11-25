@@ -33,11 +33,12 @@ Rocket::~Rocket()
 	mTimer = nullptr;
 	mAudioManager = nullptr;
 
+	// collider
+	mCollider->RemoveCollider(mRocket);
+	mCollider = nullptr;
+
 	delete mRocket;
 	mRocket = nullptr;
-
-	// collider
-	mCollider = nullptr;
 }
 
 void Rocket::Reload()

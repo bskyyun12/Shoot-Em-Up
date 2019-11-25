@@ -23,6 +23,7 @@ private:
 	static Collider* sInstance;
 
 	std::map<Texture*, TAG> mColliders;
+	std::map<Texture*, TAG>::iterator it;
 
 public:
 
@@ -30,6 +31,8 @@ public:
 	static void Release();
 
 	void AddCollider(Texture* tex, TAG tag);
+
+	void RemoveCollider(Texture* tex);
 
 	void Update();
 

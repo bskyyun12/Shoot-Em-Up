@@ -40,11 +40,12 @@ Bullet::~Bullet()
 	mTimer = nullptr;
 	mAudioManager = nullptr;
 
+	// collider
+	mCollider->RemoveCollider(mBullet);
+	mCollider = nullptr;
+
 	delete mBullet;
 	mBullet = nullptr;
-
-	// collider
-	mCollider = nullptr;
 }
 
 void Bullet::Fire(Vector2D pos)

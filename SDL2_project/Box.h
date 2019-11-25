@@ -9,6 +9,8 @@ class Box : public GameEntity
 {
 private:
 
+	AudioManager* mAudioManager = nullptr;
+
 	// box texture
 	Texture* mBox = nullptr;
 	AnimatedTexture* mExplosion = nullptr;

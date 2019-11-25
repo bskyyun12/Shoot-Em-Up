@@ -54,6 +54,9 @@ Player::~Player()
 	mTimer = nullptr;
 	mInputManager = nullptr;
 
+	// collider
+	mCollider = nullptr;
+
 	delete mPlayer;
 	mPlayer = nullptr;
 
@@ -266,6 +269,17 @@ void Player::AddScore(int score)
 void Player::ToggleTexture()
 {
 	ship = !ship;
+
+	if (ship)
+	{
+		mCollider->RemoveCollider(mPlayer);
+		mCollider->AddCollider(mPlayerShip, Collider::TAG::player1);
+	}
+	else
+	{
+		mCollider->RemoveCollider(mPlayerShip);
+		mCollider->AddCollider(mPlayer, Collider::TAG::player1);
+	}
 }
 
 void Player::AddHealth()
