@@ -211,6 +211,7 @@ void Level::Update()
 		if (mBoxes.size() == 0 || InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
 		{
 			mAudioManager->PauseMusic();
+			mAudioManager->PlayMusic("Audios/victory.wav", 0);
 			mCurrentState = finished;
 		}
 

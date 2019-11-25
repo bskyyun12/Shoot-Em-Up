@@ -106,7 +106,7 @@ void Player::HandleMovement()
 		FireBullet();
 	}
 
-	if (mInputManager->KeyDown(SDL_SCANCODE_RSHIFT)) // Fire Rocket
+	if (mInputManager->KeyDown(SDL_SCANCODE_RETURN)) // Fire Rocket
 	{
 		FireRocket();
 	}

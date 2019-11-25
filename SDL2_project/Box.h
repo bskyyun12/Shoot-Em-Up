@@ -35,6 +35,7 @@ private:
 	Timer* mTimer = nullptr;
 
 	int hp;
+	bool playOnce;
 
 public:
 

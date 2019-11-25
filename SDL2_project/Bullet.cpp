@@ -9,10 +9,10 @@ Bullet::Bullet(Collider::TAG tag)
 	switch (tag)
 	{
 	case Collider::player1Projectile:
-		mBullet = new AnimatedTexture("Pixel Adventure/Traps/Saw/On (38x38).png", 0, 0, 38, 38, 8, 0.2f, AnimatedTexture::horizontal);
+		mBullet = new AnimatedTexture("laserRed.png", 0, 0, 50, 16, 9, 0.5f, AnimatedTexture::horizontal);
 		break;
 	case Collider::player2Projectile:
-		mBullet = new AnimatedTexture("Pixel Adventure/Traps/Trampoline/Jump (28x28).png", 0, 0, 28, 28, 8, 0.2f, AnimatedTexture::horizontal);
+		mBullet = new AnimatedTexture("laserBlue.png", 0, 0, 50, 16, 9, 0.5f, AnimatedTexture::horizontal);
 		break;
 	case Collider::enemyProjectile:
 		mBullet = new AnimatedTexture("Pixel Adventure/Traps/Fire/On (16x32).png", 0, 0, 16, 32, 3, 0.2f, AnimatedTexture::horizontal);

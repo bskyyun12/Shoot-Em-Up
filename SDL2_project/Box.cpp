@@ -3,6 +3,7 @@
 
 Box::Box(Vector2D pos)
 {
+	playOnce = true;
 	mMoveSpeed = 100.0f;
 	mTimer = Timer::Instance();
 
@@ -51,8 +52,13 @@ Box::~Box()
 {
 	mTimer = nullptr;
 
+	playOnce = false;
+
 	delete mBox;
 	mBox = nullptr;
+
+	delete mExplosion;
+	mExplosion = nullptr;
 
 	delete mBoxPieceUp;
 	mBoxPieceUp = nullptr;
@@ -120,8 +126,11 @@ void Box::Update()
 		if (hp <= 0)
 		{
 			// death animation
-			//Translate((VECTOR2D_RIGHT) * mMoveSpeed * mTimer->DeltaTime());
-			AudioManager::Instance()->PlaySFX("Audios/chunky_explosion.wav");
+			if (playOnce) // Ugly code
+			{
+				AudioManager::Instance()->PlaySFX("Audios/chunky_explosion.wav");
+				playOnce = false;
+			}
 			mBoxPieceUp->Update();
 			mBoxPieceDown->Update();
 			mBoxPieceRight->Update();

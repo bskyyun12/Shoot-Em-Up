@@ -159,6 +159,11 @@ void PlayScreen::StartNextLevel()
 		mBackgroundScroll->SetBackground("Backgrounds/cyberpunk/cyberpunk", 3);
 		break;
 	case 5:
+		mPlayer->ToggleTexture(); // Change to mPlayerShip texture
+		if (mPlayer2 != nullptr)
+		{
+			mPlayer2->ToggleTexture(); // Change to mPlayerShip2 texture
+		}
 		mBackgroundScroll->SetBackground("Backgrounds/spaceblue/Nebula_Blue", 5);
 		break;
 	case 6:
@@ -168,6 +173,11 @@ void PlayScreen::StartNextLevel()
 		mBackgroundScroll->SetBackground("Backgrounds/planets/planets", 5);
 		break;
 	case 8:
+		mPlayer->ToggleTexture(); // Change to mPlayer texture
+		if (mPlayer2 != nullptr)
+		{
+			mPlayer2->ToggleTexture(); // Change to mPlayer2 texture
+		}
 		mBackgroundScroll->SetBackground("Backgrounds/yellowforest/yellowforest", 4);
 		break;
 	case 9:
