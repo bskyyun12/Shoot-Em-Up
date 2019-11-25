@@ -61,6 +61,8 @@ bool InputManager::KeyReleased(SDL_Scancode scanCode)
 	return (mPrevKeyboardState[scanCode] != 0) && (mKeyboardState[scanCode] == 0);
 }
 
+#pragma region Mouse Input
+
 Vector2D InputManager::MousePos() 
 {
 	return Vector2D((float)mMouseXPos, (float)mMouseYPos);
@@ -159,6 +161,8 @@ bool InputManager::MouseButtonReleased(MOUSE_BUTTON button)
 	//return true if the mask exists in the previous mouse state, but does not exist in the current one
 	return ((mPrevMouseState & mask) != 0) && ((mMouseState & mask) == 0);
 }
+
+#pragma endregion
 
 void InputManager::Update() 
 {

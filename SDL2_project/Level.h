@@ -49,6 +49,8 @@ private:
 	Player* mPlayer = nullptr;
 	Player2* mPlayer2 = nullptr;
 
+	Box* mBox = nullptr;
+
 	// GameOverLabel
 	Texture* mGameOverLabel = nullptr;
 	bool mGameOver;
@@ -70,7 +72,7 @@ private:
 
 public:
 
-	Level(int stage, Player* player, Player2* player2);
+	Level(int stage, Player* player, Player2* player2, Box* box);
 	~Level();
 
 	LEVEL_STATES State();

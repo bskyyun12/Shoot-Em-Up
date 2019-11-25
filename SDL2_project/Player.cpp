@@ -22,7 +22,7 @@ Player::Player()
 	mPlayer->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 
 	// PlayerShip AnimatedTexture
-	mPlayerShip = new AnimatedTexture("ship_80x48.png", 0, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
+	mPlayerShip = new AnimatedTexture("ship_80x48.png", 32, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
 	mPlayerShip->Rotate(90);
 	mPlayerShip->Scale(VECTOR2D_ONE * 4);	// scale up to 64x64
 	mPlayerShip->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
@@ -45,7 +45,7 @@ Player::Player()
 
 	// collider 
 	mCollider = Collider::Instance();
-	mCollider->AddCollider(mPlayerShip, Collider::TAG::player);
+	//mCollider->AddCollider(mPlayerShip, Collider::TAG::player);
 }
 
 Player::~Player()
@@ -100,9 +100,14 @@ void Player::HandleMovement()
 		Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
 
-	if (mInputManager->KeyDown(SDL_SCANCODE_RCTRL)) // Shoot
+	if (mInputManager->KeyDown(SDL_SCANCODE_RCTRL)) // Fire Bullet
 	{
-		HandleFiring();
+		FireBullet();
+	}
+
+	if (mInputManager->KeyDown(SDL_SCANCODE_RSHIFT)) // Fire Rocket
+	{
+		FireRocket();
 	}
 
 #pragma region Gamepad Input
@@ -116,7 +121,7 @@ void Player::HandleMovement()
 		if (mInputManager->xValue(0, 1) > 0 || mInputManager->xValue(0, 1) < 0 ||
 			mInputManager->yValue(0, 1) > 0 || mInputManager->yValue(0, 1) < 0)
 		{
-			cout << "LeftStickMove" << endl;
+			//cout << "LeftStickMove" << endl;
 			Translate(Vector2D(mInputManager->xValue(0, 1), mInputManager->yValue(0, 1)).Normalized() * mMoveSpeed * mTimer->DeltaTime(), world);
 		}
 
@@ -124,7 +129,7 @@ void Player::HandleMovement()
 		if (mInputManager->xValue(0, 2) > 0 || mInputManager->xValue(0, 2) < 0 ||
 			mInputManager->yValue(0, 2) > 0 || mInputManager->yValue(0, 2) < 0)
 		{
-			cout << "RightStickMove" << endl;
+			//cout << "RightStickMove" << endl;
 			Translate(Vector2D(mInputManager->xValue(0, 2), mInputManager->yValue(0, 2)).Normalized() * mMoveSpeed * mTimer->DeltaTime(), world);
 		}
 
@@ -144,7 +149,7 @@ void Player::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(0, 2)) // Blue (X) button
 		{
-			HandleFiring(); // Shoot
+			FireBullet(); // Fire bullet
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 3)) // Yellow (Y) button
@@ -159,7 +164,7 @@ void Player::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(0, 5)) // RB button
 		{
-			HandleFiring(); // Shoot
+			FireRocket(); // Fire Rocket
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 6)) // Back/Select button
@@ -208,7 +213,7 @@ void Player::HandleMovement()
 	}
 }
 
-void Player::HandleFiring()
+void Player::FireBullet()
 {
 	if (mFireTimer > mFireRate)
 	{
@@ -223,7 +228,10 @@ void Player::HandleFiring()
 		}
 		mFireTimer = 0.0f;
 	}
+}
 
+void Player::FireRocket()
+{
 	if (mRocketFireTimer > mRocketFireRate)
 	{
 		// rocket
@@ -278,12 +286,13 @@ void Player::Update()
 	if (Active())
 	{
 		HandleMovement();
+
 		//if (mCollider->CollisionCheck(mPlayerShip, Collider::TAG::player))
 		//{
 		//	std::cout << "player needs to lose life!!" << std::endl;
 		//}
-		// Shoot with RCTRL or controller X button or RB button
-		//HandleFiring();
+		// Use This
+		//RemoveHealth();
 	}
 
 	// bullet

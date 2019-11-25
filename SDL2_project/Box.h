@@ -1,8 +1,8 @@
 #pragma once
+
 #include "AnimatedTexture.h"
-#include "InputManager.h"
-#include "Bullet.h"
-#include "Rocket.h"
+#include "Collider.h"
+#include "BoxPiece.h"
 
 class Box : public GameEntity
 {
@@ -10,12 +10,17 @@ private:
 
 	// box texture
 	Texture* mBox = nullptr;
-	Texture* mBoxBreak = nullptr;
+	AnimatedTexture* mBoxBreak = nullptr;
+
+	BoxPiece* mBoxPieceUp = nullptr;
+	BoxPiece* mBoxPieceDown = nullptr;
 
 	// collider
 	Collider* mCollider = nullptr;
 
 	bool hit = false;
+	float mMoveSpeed;
+	Timer* mTimer = nullptr;
 
 public:
 

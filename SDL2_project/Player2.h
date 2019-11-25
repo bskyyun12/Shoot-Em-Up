@@ -44,8 +44,9 @@ private:
 	// Player movemonet logic
 	void HandleMovement();
 
-	// bullet fire logic
-	void HandleFiring();
+	// fire logic
+	void FireBullet();
+	void FireRocket();
 
 public:
 

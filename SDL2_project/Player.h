@@ -48,19 +48,20 @@ private:
 	// Player movemonet logic
 	void HandleMovement();
 
-	// bullet fire logic
-	void HandleFiring();
+	// fire logic
+	void FireBullet();
+	void FireRocket();
 
 public:
+
+	Player();
+	~Player();
 
 	void ToggleTexture();
 
 	// Player health
 	void AddHealth();
 	void RemoveHealth();
-
-	Player();
-	~Player();
 
 	// Get Player's current score
 	int Score();

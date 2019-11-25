@@ -139,6 +139,7 @@
     <ClInclude Include="BackgroundScroll.h" />
     <ClInclude Include="BezierPath.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="BoxPiece.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="GameEntity.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="BackgroundScroll.cpp" />
     <ClCompile Include="BezierPath.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="BoxPiece.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="GameEntity.cpp" />

@@ -1,6 +1,6 @@
 #include "Level.h"
 
-Level::Level(int stage, Player* player, Player2* player2)
+Level::Level(int stage, Player* player, Player2* player2, Box* box)
 {
 	mTimer = Timer::Instance();
 	mAudioManager = AudioManager::Instance();
@@ -65,6 +65,10 @@ Level::Level(int stage, Player* player, Player2* player2)
 	{
 		mPlayer2->Active(false);
 	}
+
+	// Enemy
+	mBox = box;
+	mBox->Active(false);
 }
 
 Level::~Level()
@@ -89,6 +93,7 @@ Level::~Level()
 
 	mPlayer = nullptr;
 	mPlayer2 = nullptr;
+	mBox = nullptr;
 }
 
 void Level::StartStage()
@@ -135,6 +140,7 @@ void Level::StartStage()
 	{
 		mPlayer2->Active(true);
 	}
+	mBox->Active(true);
 
 	mLabelTimer = 0.0f;
 }
@@ -194,6 +200,18 @@ void Level::Update()
 			mAudioManager->PauseMusic();
 			mCurrentState = finished;
 		}
+
+		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_O))
+		{
+			if (mBox->Active())
+			{
+				mBox->Active(false);
+			}
+			else
+			{
+				mBox->Active(true);
+			}
+		}
 	}
 
 	if (mGameOver)
@@ -204,6 +222,7 @@ void Level::Update()
 		{
 			mPlayer2->Active(false);
 		}
+		mBox->Active(false);
 
 		mGameOverTimer += mTimer->DeltaTime();
 		if (mGameOverTimer >= mGameOverDelay)
