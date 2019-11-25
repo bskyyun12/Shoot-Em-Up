@@ -17,10 +17,11 @@ private:
 
 	//collider
 	Collider* mCollider = nullptr;
+	Collider::TAG mTag;
 
 public:
 
-	Bullet();
+	Bullet(Collider::TAG tag);
 	~Bullet();
 
 	void Fire(Vector2D pos);

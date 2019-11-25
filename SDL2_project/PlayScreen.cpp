@@ -1,8 +1,4 @@
 #include "PlayScreen.h"
-#include <iostream>
-
-using std::cout;
-using std::endl;
 
 PlayScreen::PlayScreen()
 {
@@ -60,11 +56,8 @@ PlayScreen::PlayScreen()
 	mPlayer = nullptr;
 	mPlayer2 = nullptr;
 
-	// Box
-	mBox = nullptr;
-
 	// background
-	mBackgroundScroll = new BackgroundScroll("Backgrounds/space/Nebula_Red", 5);
+	mBackgroundScroll = new BackgroundScroll();
 }
 
 PlayScreen::~PlayScreen()
@@ -86,9 +79,6 @@ PlayScreen::~PlayScreen()
 
 	delete mPlayer2;
 	mPlayer2 = nullptr;
-
-	delete mBox;
-	mBox = nullptr;
 
 	// Life
 	delete mLives;
@@ -139,10 +129,13 @@ void PlayScreen::StartNextLevel()
 	mLevelStartTimer = 0.0f;
 	mLevelStarted = true;
 
+<<<<<<< HEAD
 	// Create new Level
 	delete mLevel;
 	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2, mBox);
 
+=======
+>>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 	// background change
 	switch (mCurrentStage)
 	{
@@ -187,7 +180,13 @@ void PlayScreen::StartNextLevel()
 		break;
 	}
 
+<<<<<<< HEAD
 	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2, mBox);
+=======
+	// Create new Level
+	delete mLevel;
+	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2);
+>>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 }
 
 void PlayScreen::StartNewGame(int mSelectMode)
@@ -215,6 +214,7 @@ void PlayScreen::StartNewGame(int mSelectMode)
 		mPlayer2 = nullptr;
 	}
 
+<<<<<<< HEAD
 	// Box
 	delete mBox;
 	mBox = new Box();
@@ -222,6 +222,8 @@ void PlayScreen::StartNewGame(int mSelectMode)
 	mBox->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f + 1000, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 	mBox->Active(false);
 
+=======
+>>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 	SetHighScore(55555);
 	SetLives(mPlayer->Lives());
 	SetPlayerScore(mPlayer->Score(), (mSelectMode == 2) ? mPlayer2->Score() : 0);
@@ -278,7 +280,6 @@ void PlayScreen::Update()
 			mPlayer->Update();
 			if (mPlayer2 != nullptr)
 				mPlayer2->Update();
-			mBox->Update();
 		}
 
 		// here do something between game starts and level starts(currently for 1 seconds = mLevelStartDelay)
@@ -334,7 +335,6 @@ void PlayScreen::Render()
 			{
 				mPlayer2->Render();
 			}
-			mBox->Render();
 		}
 	}
 }

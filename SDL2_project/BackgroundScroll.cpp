@@ -3,9 +3,8 @@
 
 bool BackgroundScroll::mScroll = true;
 
-BackgroundScroll::BackgroundScroll(std::string path, int backgroundAmount)
+BackgroundScroll::BackgroundScroll()
 {
-
 	// Timer
 	mTimer = Timer::Instance();
 
@@ -13,8 +12,6 @@ BackgroundScroll::BackgroundScroll(std::string path, int backgroundAmount)
 	mBackgroundStartPos = Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f);
 	mBackgroundEndPos = Vector2D(-Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f);
 	mScrollSpeed = 0.8f;
-
-	SetBackground(path, backgroundAmount);
 }
 
 BackgroundScroll::~BackgroundScroll()
@@ -48,6 +45,8 @@ void BackgroundScroll::AddBackgroundImage(std::string path, bool scroll)
 
 void BackgroundScroll::SetBackground(std::string path, int backgroundAmount)
 {
+	mTempTex1 = nullptr;
+	mTempTex2 = nullptr;
 	for (int i = 0; i < mBackgrounds.size(); i++)
 	{
 		delete mBackgrounds[i];

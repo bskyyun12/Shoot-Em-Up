@@ -24,6 +24,8 @@ private:
 	Timer* mTimer = nullptr;
 	AudioManager* mAudioManager = nullptr;
 
+	LEVEL_STATES mCurrentState;
+
 	int mCurrentStage = 1;
 	bool mStageStarted;
 
@@ -45,12 +47,15 @@ private:
 	float mGoLabelOnScreen;
 	float mGoLabelOffScreen;
 
+<<<<<<< HEAD
 	// Player - currently using this just to make it active
 	Player* mPlayer = nullptr;
 	Player2* mPlayer2 = nullptr;
 
 	Box* mBox = nullptr;
 
+=======
+>>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 	// GameOverLabel
 	Texture* mGameOverLabel = nullptr;
 	bool mGameOver;
@@ -63,7 +68,12 @@ private:
 	float mVictoryDelay;
 	float mVictoryTimer;
 
-	LEVEL_STATES mCurrentState;
+	// Player - currently using this just to make it active
+	Player* mPlayer = nullptr;
+	Player2* mPlayer2 = nullptr;
+
+	// Enemy
+	std::vector<Box*> mBoxes;
 
 private:
 

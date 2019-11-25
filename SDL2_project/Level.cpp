@@ -6,6 +6,8 @@ Level::Level(int stage, Player* player, Player2* player2, Box* box)
 	mAudioManager = AudioManager::Instance();
 	mAudioManager->PlayMusic("Audios/ready_set_go.wav", 0);
 
+	mCurrentState = running;
+
 	mCurrentStage = stage;
 	mStageStarted = false;
 
@@ -55,8 +57,6 @@ Level::Level(int stage, Player* player, Player2* player2, Box* box)
 	mVictoryDelay = 6.0f;
 	mVictoryTimer = 0.0f;
 
-	mCurrentState = running;
-
 	// Player
 	mPlayer = player;
 	mPlayer->Active(false);
@@ -67,8 +67,17 @@ Level::Level(int stage, Player* player, Player2* player2, Box* box)
 	}
 
 	// Enemy
+<<<<<<< HEAD
 	mBox = box;
 	mBox->Active(false);
+=======
+	for (int i = 0; i < mCurrentStage; i++)
+	{
+		float ranX = (rand() % 8 + 7) * 100; // 700 ~ 1400
+		float ranY = (rand() % 5 + 2) * 100; // 200 ~ 600
+		mBoxes.push_back(new Box(Vector2D(ranX, ranY)));
+	}
+>>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 }
 
 Level::~Level()
@@ -93,7 +102,16 @@ Level::~Level()
 
 	mPlayer = nullptr;
 	mPlayer2 = nullptr;
+<<<<<<< HEAD
 	mBox = nullptr;
+=======
+
+	for (int i = 0; i < mBoxes.size(); i++)
+	{
+		delete mBoxes[i];
+		mBoxes[i] = nullptr;
+	}
+>>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 }
 
 void Level::StartStage()
@@ -134,7 +152,6 @@ void Level::StartStage()
 		break;
 	}
 	
-
 	mPlayer->Active(true);
 	if (mPlayer2 != nullptr)
 	{
@@ -195,12 +212,13 @@ void Level::Update()
 		}
 
 		// condition needs to be changed -> if all enemies have died,
-		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
+		if (mBoxes.size() == 0 || InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
 		{
 			mAudioManager->PauseMusic();
 			mCurrentState = finished;
 		}
 
+<<<<<<< HEAD
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_O))
 		{
 			if (mBox->Active())
@@ -210,6 +228,19 @@ void Level::Update()
 			else
 			{
 				mBox->Active(true);
+=======
+		for (int i = 0; i < mBoxes.size(); i++)
+		{
+			if (!mBoxes[i]->Active())
+			{
+				delete mBoxes[i];
+				mBoxes[i] = nullptr;
+				mBoxes.erase(mBoxes.begin() + i);
+			}
+			else
+			{
+				mBoxes[i]->Update();
+>>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 			}
 		}
 	}
@@ -266,6 +297,11 @@ void Level::Render()
 	}
 	else
 	{
+		for (int i = 0; i < mBoxes.size(); i++)
+		{
+			mBoxes[i]->Render();
+		}
+
 		if (mGameOver)
 		{
 			// wait 1 sec and display GAME OVER

@@ -28,7 +28,7 @@ private:
 
 public:
 
-	Rocket();
+	Rocket(Collider::TAG tag);
 	~Rocket();
 
 	void CreatePath(Vector2D pos, int pathNum);

@@ -72,9 +72,6 @@
     <ClInclude Include="ScoreBoard.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="ScreenManager.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="PlayScreen.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
@@ -90,20 +87,23 @@
     <ClInclude Include="Bullet.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="BezierPath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Rocket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Player2.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BezierPath.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Box.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rocket.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="BoxPiece.h">
       <Filter>Header Files</Filter>
@@ -149,9 +149,6 @@
     <ClCompile Include="ScoreBoard.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="ScreenManager.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="PlayScreen.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
@@ -167,20 +164,23 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="BezierPath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Rocket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Player2.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Rocket.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
     <ClCompile Include="Collider.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="BezierPath.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenManager.cpp">
+      <Filter>Source Files\Managers</Filter>
     </ClCompile>
     <ClCompile Include="Box.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="BoxPiece.cpp">
       <Filter>Source Files</Filter>

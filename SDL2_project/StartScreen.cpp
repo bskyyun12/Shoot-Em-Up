@@ -3,7 +3,8 @@
 
 StartScreen::StartScreen()
 {
-	mBackgroundScroll = new BackgroundScroll("Backgrounds/space/Nebula_Red", 5);
+	mBackgroundScroll = new BackgroundScroll();
+	mBackgroundScroll->SetBackground("Backgrounds/space/Nebula_Red", 5);
 
 	mTimer = Timer::Instance();
 	mInputManager = InputManager::Instance();

@@ -30,7 +30,7 @@ Player::Player()
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
 	{
-		mBullets[i] = new Bullet();
+		mBullets[i] = new Bullet(Collider::TAG::player1Projectile);
 	}
 	mFireTimer = 0.5f;
 	mFireRate = 0.5f;
@@ -38,14 +38,19 @@ Player::Player()
 	// rocket
 	for (int i = 0; i < MAX_ROCKETS; i++)
 	{
-		mRockets[i] = new Rocket();
+		mRockets[i] = new Rocket(Collider::TAG::player1Projectile);
 	}
 	mRocketFireTimer = 2.0f;
 	mRocketFireRate = 2.0f;
 
 	// collider 
 	mCollider = Collider::Instance();
+<<<<<<< HEAD
 	//mCollider->AddCollider(mPlayerShip, Collider::TAG::player);
+=======
+	mCollider->AddCollider(mPlayer, Collider::TAG::player1);
+	mCollider->AddCollider(mPlayerShip, Collider::TAG::player1);
+>>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 }
 
 Player::~Player()
@@ -287,12 +292,38 @@ void Player::Update()
 	{
 		HandleMovement();
 
+<<<<<<< HEAD
 		//if (mCollider->CollisionCheck(mPlayerShip, Collider::TAG::player))
 		//{
 		//	std::cout << "player needs to lose life!!" << std::endl;
 		//}
 		// Use This
 		//RemoveHealth();
+=======
+#pragma region Collision detection
+
+		if (!mPlayerShip->Active())
+		{
+			std::cout << "mPlayerShip gets damage." << std::endl;
+
+			// here do things like losing life
+
+			mPlayerShip->Active(true);
+		}
+		else if (!mPlayer->Active())
+		{
+			std::cout << "mPlayer gets damage." << std::endl;
+
+			// here do things like losing life
+
+			mPlayer->Active(true);
+		}
+
+#pragma endregion Collision detection
+
+		// Shoot with RCTRL or controller X button or RB button
+		//HandleFiring();
+>>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 	}
 
 	// bullet
