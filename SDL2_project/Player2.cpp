@@ -291,15 +291,11 @@ void Player2::Update()
 	if (Active())
 	{
 		HandleMovement();
-<<<<<<< HEAD
 		
 		//if (mCollider->CollisionCheck(mPlayerShip, Collider::TAG::player))
 		//{
 		//	std::cout << "player needs to lose life!!" << std::endl;
 		//}
-		// Use This
-		//RemoveHealth();
-=======
 
 #pragma region Collision detection
 
@@ -308,7 +304,7 @@ void Player2::Update()
 			std::cout << "mPlayerShip2 gets damage." << std::endl;
 
 			// here do things like losing life
-
+			RemoveHealth();
 			mPlayerShip2->Active(true);
 		}
 		else if (!mPlayer2->Active())
@@ -316,15 +312,12 @@ void Player2::Update()
 			std::cout << "mPlayer2 gets damage." << std::endl;
 
 			// here do things like losing life
-
+			RemoveHealth();
 			mPlayer2->Active(true);
 		}
 
 #pragma endregion Collision detection
 
-		// Shoot with F or controller X button or RB button
-		//HandleFiring();
->>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 	}
 
 	// bullet

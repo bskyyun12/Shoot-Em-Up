@@ -45,12 +45,8 @@ Player::Player()
 
 	// collider 
 	mCollider = Collider::Instance();
-<<<<<<< HEAD
-	//mCollider->AddCollider(mPlayerShip, Collider::TAG::player);
-=======
 	mCollider->AddCollider(mPlayer, Collider::TAG::player1);
 	mCollider->AddCollider(mPlayerShip, Collider::TAG::player1);
->>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 }
 
 Player::~Player()
@@ -292,14 +288,11 @@ void Player::Update()
 	{
 		HandleMovement();
 
-<<<<<<< HEAD
 		//if (mCollider->CollisionCheck(mPlayerShip, Collider::TAG::player))
 		//{
 		//	std::cout << "player needs to lose life!!" << std::endl;
 		//}
-		// Use This
-		//RemoveHealth();
-=======
+
 #pragma region Collision detection
 
 		if (!mPlayerShip->Active())
@@ -307,7 +300,7 @@ void Player::Update()
 			std::cout << "mPlayerShip gets damage." << std::endl;
 
 			// here do things like losing life
-
+			RemoveHealth();
 			mPlayerShip->Active(true);
 		}
 		else if (!mPlayer->Active())
@@ -315,15 +308,12 @@ void Player::Update()
 			std::cout << "mPlayer gets damage." << std::endl;
 
 			// here do things like losing life
-
+			RemoveHealth();
 			mPlayer->Active(true);
 		}
 
 #pragma endregion Collision detection
 
-		// Shoot with RCTRL or controller X button or RB button
-		//HandleFiring();
->>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 	}
 
 	// bullet

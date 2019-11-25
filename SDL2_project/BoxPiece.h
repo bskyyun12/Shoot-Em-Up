@@ -14,15 +14,16 @@ private:
 	// collider
 	Collider* mCollider = nullptr;
 
-	bool hit = false;
 	float mMoveSpeed;
 	Timer* mTimer = nullptr;
 
 	bool mUp;
+	bool mRight;
+	bool mDown;
 
 public:
 
-	BoxPiece(bool up);
+	BoxPiece(bool up, bool right, bool down);
 	~BoxPiece();
 
 	void Update();

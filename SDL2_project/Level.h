@@ -47,15 +47,12 @@ private:
 	float mGoLabelOnScreen;
 	float mGoLabelOffScreen;
 
-<<<<<<< HEAD
 	// Player - currently using this just to make it active
 	Player* mPlayer = nullptr;
 	Player2* mPlayer2 = nullptr;
 
 	Box* mBox = nullptr;
 
-=======
->>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 	// GameOverLabel
 	Texture* mGameOverLabel = nullptr;
 	bool mGameOver;
@@ -67,10 +64,6 @@ private:
 	bool mVictory;
 	float mVictoryDelay;
 	float mVictoryTimer;
-
-	// Player - currently using this just to make it active
-	Player* mPlayer = nullptr;
-	Player2* mPlayer2 = nullptr;
 
 	// Enemy
 	std::vector<Box*> mBoxes;
@@ -89,7 +82,6 @@ public:
 
 	void Update();
 	void Render();
-
 
 };
 

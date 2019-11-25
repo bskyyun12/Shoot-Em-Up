@@ -67,17 +67,15 @@ Level::Level(int stage, Player* player, Player2* player2, Box* box)
 	}
 
 	// Enemy
-<<<<<<< HEAD
 	mBox = box;
 	mBox->Active(false);
-=======
+
 	for (int i = 0; i < mCurrentStage; i++)
 	{
 		float ranX = (rand() % 8 + 7) * 100; // 700 ~ 1400
 		float ranY = (rand() % 5 + 2) * 100; // 200 ~ 600
 		mBoxes.push_back(new Box(Vector2D(ranX, ranY)));
 	}
->>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 }
 
 Level::~Level()
@@ -102,16 +100,14 @@ Level::~Level()
 
 	mPlayer = nullptr;
 	mPlayer2 = nullptr;
-<<<<<<< HEAD
+
 	mBox = nullptr;
-=======
 
 	for (int i = 0; i < mBoxes.size(); i++)
 	{
 		delete mBoxes[i];
 		mBoxes[i] = nullptr;
 	}
->>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 }
 
 void Level::StartStage()
@@ -218,17 +214,6 @@ void Level::Update()
 			mCurrentState = finished;
 		}
 
-<<<<<<< HEAD
-		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_O))
-		{
-			if (mBox->Active())
-			{
-				mBox->Active(false);
-			}
-			else
-			{
-				mBox->Active(true);
-=======
 		for (int i = 0; i < mBoxes.size(); i++)
 		{
 			if (!mBoxes[i]->Active())
@@ -240,7 +225,6 @@ void Level::Update()
 			else
 			{
 				mBoxes[i]->Update();
->>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 			}
 		}
 	}

@@ -129,13 +129,10 @@ void PlayScreen::StartNextLevel()
 	mLevelStartTimer = 0.0f;
 	mLevelStarted = true;
 
-<<<<<<< HEAD
 	// Create new Level
 	delete mLevel;
 	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2, mBox);
 
-=======
->>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 	// background change
 	switch (mCurrentStage)
 	{
@@ -180,13 +177,9 @@ void PlayScreen::StartNextLevel()
 		break;
 	}
 
-<<<<<<< HEAD
-	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2, mBox);
-=======
 	// Create new Level
 	delete mLevel;
-	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2);
->>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
+	mLevel = new Level(mCurrentStage, mPlayer, mPlayer2, mBox);
 }
 
 void PlayScreen::StartNewGame(int mSelectMode)
@@ -214,16 +207,12 @@ void PlayScreen::StartNewGame(int mSelectMode)
 		mPlayer2 = nullptr;
 	}
 
-<<<<<<< HEAD
 	// Box
 	delete mBox;
-	mBox = new Box();
+	mBox = new Box((Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f + 1000, Graphics::Instance()->SCREEN_HEIGHT * 0.5f)));
 	mBox->Parent(this);
-	mBox->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.08f + 1000, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 	mBox->Active(false);
 
-=======
->>>>>>> 481c551444346b1af0d70987500dda6a0221fb93
 	SetHighScore(55555);
 	SetLives(mPlayer->Lives());
 	SetPlayerScore(mPlayer->Score(), (mSelectMode == 2) ? mPlayer2->Score() : 0);
