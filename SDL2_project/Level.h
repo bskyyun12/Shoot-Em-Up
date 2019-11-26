@@ -78,6 +78,8 @@ public:
 
 	LEVEL_STATES State();
 
+	void GameOver();
+
 	void Update();
 	void Render();
 

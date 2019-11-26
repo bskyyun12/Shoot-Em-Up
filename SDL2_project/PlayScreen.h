@@ -24,7 +24,8 @@ private:
 	Texture* mLifeTextures[MAX_LIFE_TEXTURES] = { nullptr };
 	// Player 2
 	Texture* mLifeTextures2[MAX_LIFE_TEXTURES] = { nullptr };
-	int mTotalLives;
+	int mPlayerLives;
+	int mPlayer2Lives;
 
 	// level
 	Level* mLevel = nullptr;
@@ -52,9 +53,10 @@ public:
 
 	void StartNewGame(int mSelectMode);
 
-	void SetHighScore(int score);
-	void SetPlayerScore(int score, int scorePlayer2);
-	void SetLives(int lives);
+	void SetHighScore(unsigned int score);
+	unsigned int GetCurrentHighScore();
+	void SetPlayerScore(unsigned int scorePlayer, unsigned int scorePlayer2);
+	void SetLives(int playerlives, int player2lives);
 
 	int GetCurrentStageNum();
 

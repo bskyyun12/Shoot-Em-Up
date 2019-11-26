@@ -179,6 +179,14 @@ Level::LEVEL_STATES Level::State()
 	return mCurrentState;
 }
 
+void Level::GameOver()
+{
+	mGameOver = true;
+	mAudioManager->PlaySFX("Audios/gameover0.wav", 0);
+	mAudioManager->PlayMusic("Audios/gameover1.wav", 0); // low volume
+	mAudioManager->MusicVolume(128); // Set max volume
+}
+
 void Level::Update()
 {
 
@@ -191,9 +199,7 @@ void Level::Update()
 		// labels test
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
 		{
-			mGameOver = true;
-			mAudioManager->PlaySFX("Audios/gameover0.wav", 0);
-			mAudioManager->PlayMusic("Audios/gameover1.wav", 0); // low volume
+			GameOver();
 		}
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_V))
 		{

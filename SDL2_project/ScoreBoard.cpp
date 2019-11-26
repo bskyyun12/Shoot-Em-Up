@@ -11,8 +11,32 @@ ScoreManager::ScoreManager(SDL_Color color, int fontSize)
 }
 
 ScoreManager::~ScoreManager()
-{
+{	
 	ClearScore();
+}
+
+void ScoreManager::ReadHighScoreFromFile()
+{
+	std::cout << "Reading HighScore from file" << std::endl;
+	std::string mHighScoreString;
+	std::ifstream mHighScoreFile("highscore.txt");
+	if (mHighScoreFile.is_open())
+	{
+		getline(mHighScoreFile, mHighScoreString);
+		mHighScoreFile.close();
+	}
+	mHighScore = std::stoi(mHighScoreString); // convert string to int
+}
+
+void ScoreManager::WriteHighScoreToFile()
+{
+	std::cout << "Writing HighScore to file" << std::endl;
+	std::ofstream mHighScoreFile("highscore.txt");
+	if (mHighScoreFile.is_open())
+	{
+		mHighScoreFile << mHighScore;
+		mHighScoreFile.close();
+	}
 }
 
 void ScoreManager::ClearScore()
@@ -34,8 +58,14 @@ void ScoreManager::Render()
 	}
 }
 
-void ScoreManager::Score(int score)
+void ScoreManager::Score(unsigned int score)
 {
+	// Set current highscore
+	if (score > mHighScore)
+	{
+		mHighScore = score;
+	}
+
 	ClearScore();
 
 	if (score == 0)
@@ -63,6 +93,11 @@ void ScoreManager::Score(int score)
 	}
 }
 
+unsigned int ScoreManager::GetCurrentHighScore()
+{
+	return mHighScore;
+}
+
 ScoreBoard::ScoreBoard()
 {
 	//Top Bar Entities
@@ -87,7 +122,8 @@ ScoreBoard::ScoreBoard()
 	mPlayerOneScoreBoard->Pos(mPlayerOne->Pos(local) + Vector2D(0.0f, 32.0f));
 	mPlayerTwoScoreBoard->Pos(mPlayerTwo->Pos(local) + Vector2D(0.0f, 32.0f));
 	mHighScoreBoard->Pos(mHighScore->Pos(local) + Vector2D(0.0f, 32.0f));
-	mHighScoreBoard->Score(123456);
+	mHighScoreBoard->ReadHighScoreFromFile(); // Read highscore from file
+	mHighScoreBoard->Score(mHighScoreBoard->GetCurrentHighScore());
 
 	mTopBar->Parent(this);
 }

@@ -13,7 +13,7 @@ Player2::Player2()
 	mBoundsOffset = 32.0f;	// half of player image's size
 
 	// init current score and lives
-	mScore = 2222222;
+	mScore = 0;
 	mLives = 3;
 
 	// player texture
@@ -47,7 +47,6 @@ Player2::Player2()
 	mCollider = Collider::Instance();
 	mCollider->AddCollider(mPlayer2, Collider::TAG::player2);
 	mCollider->AddCollider(mPlayerShip2, Collider::TAG::player2);
-
 }
 
 Player2::~Player2()
@@ -113,6 +112,7 @@ void Player2::HandleMovement()
 	if (mInputManager->KeyDown(SDL_SCANCODE_SPACE)) // Fire Rocket
 	{
 		FireRocket();
+		AddScore(1);
 	}
 
 #pragma region Gamepad Input
@@ -209,7 +209,7 @@ void Player2::HandleMovement()
 	// Set Player Move Bounds
 	if (
 		Pos().x < mBoundsOffset ||
-		Pos().x > 950.0f ||
+		Pos().x > Graphics::Instance()->SCREEN_WIDTH - mBoundsOffset ||
 		Pos().y < mBoundsOffset + 90.0f ||
 		Pos().y > Graphics::Instance()->SCREEN_HEIGHT - mBoundsOffset
 		)
@@ -252,7 +252,7 @@ void Player2::FireRocket()
 	}
 }
 
-int Player2::Score()
+unsigned int Player2::Score()
 {
 	return mScore;
 }
@@ -262,7 +262,7 @@ int Player2::Lives()
 	return mLives;
 }
 
-void Player2::AddScore(int score)
+void Player2::AddScore(unsigned int score)
 {
 	mScore += score;
 }

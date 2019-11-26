@@ -42,7 +42,8 @@ PlayScreen::PlayScreen()
 		mLifeTextures2[i]->Scale(VECTOR2D_ONE * 0.5f);
 		mLifeTextures2[i]->Pos(mScoreBoard->mPlayerTwo->Pos() + Vector2D(60.0f * (i % 3) + 120.0f, 70.0f * (i / 3)));
 	}
-	mTotalLives = 3;
+	mPlayerLives = 3;
+	mPlayer2Lives = 3;
 
 	// level
 	mLevel = nullptr;
@@ -62,6 +63,8 @@ PlayScreen::PlayScreen()
 
 PlayScreen::~PlayScreen()
 {
+	mScoreBoard->mHighScoreBoard->WriteHighScoreToFile(); // Write highscore to file
+
 	mTimer = nullptr;
 	mAudioManager = nullptr;
 
@@ -97,20 +100,56 @@ PlayScreen::~PlayScreen()
 	mBackgroundScroll = nullptr;
 }
 
-void PlayScreen::SetHighScore(int score)
+void PlayScreen::SetHighScore(unsigned int score)
 {
 	mScoreBoard->mHighScoreBoard->Score(score);
 }
 
-void PlayScreen::SetPlayerScore(int scorePlayer1, int scorePlayer2)
+unsigned int PlayScreen::GetCurrentHighScore()
 {
-	mScoreBoard->mPlayerOneScoreBoard->Score(scorePlayer1);
+	return mScoreBoard->mHighScoreBoard->GetCurrentHighScore();
+}
+
+void PlayScreen::SetPlayerScore(unsigned int scorePlayer, unsigned int scorePlayer2)
+{
+	mScoreBoard->mPlayerOneScoreBoard->Score(scorePlayer);
 	mScoreBoard->mPlayerTwoScoreBoard->Score(scorePlayer2);
 }
 
-void PlayScreen::SetLives(int lives)
+void PlayScreen::SetLives(int playerlives, int player2lives)
 {
-	mTotalLives = lives;
+	mPlayerLives = playerlives;
+
+	if (mPlayer2 != nullptr)
+	{
+		mPlayer2Lives = player2lives;
+	}
+	else
+	{
+		// Singleplayer Player dies
+		if (mPlayerLives <= 0)
+		{
+			mLevel->GameOver();
+		}
+	}
+
+	// Multiplayer Player dies
+	if (mPlayerLives <= 0)
+	{
+		mPlayer->Active(false);
+	}
+
+	// Multiplayer Player 2 dies
+	if(mPlayer2Lives <= 0)
+	{
+		mPlayer2->Active(false);
+	}
+
+	// Multiplayer Player and Player 2 dies
+	if (mPlayerLives <= 0 && mPlayer2Lives <= 0)
+	{
+		mLevel->GameOver();
+	}
 }
 
 int PlayScreen::GetCurrentStageNum()
@@ -120,7 +159,7 @@ int PlayScreen::GetCurrentStageNum()
 
 void PlayScreen::StartNextLevel()
 {
-	// test 3 - increse stage level and create new level instance
+	// test 3 - increase stage level and create new level instance
 	mCurrentStage++;
 	if (mCurrentStage > 9)
 	{
@@ -213,8 +252,8 @@ void PlayScreen::StartNewGame(int mSelectMode)
 		mPlayer2 = nullptr;
 	}
 
-	SetHighScore(55555);
-	SetLives(mPlayer->Lives());
+	// Initial setup
+	SetLives(mPlayer->Lives(), (mSelectMode == 2) ? mPlayer2->Lives() : 0);
 	SetPlayerScore(mPlayer->Score(), (mSelectMode == 2) ? mPlayer2->Score() : 0);
 
 	BackgroundScroll::mScroll = false;
@@ -233,7 +272,17 @@ bool PlayScreen::GameOver()
 	if (!mLevelStarted)
 		return false;
 
-	return (mLevel->State() == Level::gameover);
+	if (mLevel->State() == Level::gameover)
+	{
+		// Write highscore to file
+		// Do we want this behaviour?
+		mScoreBoard->mHighScoreBoard->WriteHighScoreToFile();	
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 bool PlayScreen::Victory()
@@ -241,7 +290,16 @@ bool PlayScreen::Victory()
 	if (!mLevelStarted)
 		return false;
 
-	return (mLevel->State() == Level::victory);
+	if (mLevel->State() == Level::victory)
+	{
+		// Write highscore to file
+		mScoreBoard->mHighScoreBoard->WriteHighScoreToFile();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void PlayScreen::Update()
@@ -263,6 +321,8 @@ void PlayScreen::Update()
 			mLevel->Update();
 			if (mLevel->State() == Level::finished)
 			{
+				// Write highscore to file
+				mScoreBoard->mHighScoreBoard->WriteHighScoreToFile(); 
 				mLevelStarted = false;
 			}
 
@@ -288,6 +348,23 @@ void PlayScreen::Update()
 	//	m1UPVisible = !m1UPVisible;
 	//	mBlinkTimer = 0.0f;
 	//}
+
+	if (mPlayerLives > 0 || mPlayer2Lives > 0)
+	{
+		SetLives(mPlayer->Lives(), (mPlayer2 != nullptr) ? mPlayer2->Lives() : 0);
+	}
+	SetPlayerScore(mPlayer->Score(), (mPlayer2 != nullptr) ? mPlayer2->Score() : 0);
+
+	// Update HighScore
+	if (mPlayer->Score() > GetCurrentHighScore())
+	{
+		SetHighScore(mPlayer->Score());
+	}
+
+	if (mPlayer2 != nullptr && (mPlayer2->Score() > GetCurrentHighScore()))
+	{
+		SetHighScore(mPlayer2->Score());
+	}
 }
 
 void PlayScreen::Render()
@@ -308,20 +385,25 @@ void PlayScreen::Render()
 			mBackgroundScroll->Render();
 			mLevel->Render();
 			mScoreBoard->Render();
-			for (int i = 0; i < MAX_LIFE_TEXTURES && i < mTotalLives; i++)
+
+			// Player 1
+			for (int i = 0; i < MAX_LIFE_TEXTURES && i < mPlayerLives; i++)
 			{
-				// Player 1
 				mLifeTextures[i]->Render();
-				// Player 2
-				if (mPlayer2 != nullptr)
-				{
-					mLifeTextures2[i]->Render();
-				}
 			}
 
 			mPlayer->Render();
+
+			// Player 2
 			if (mPlayer2 != nullptr)
 			{
+				for (int i = 0; i < MAX_LIFE_TEXTURES && i < mPlayer2Lives; i++)
+				{
+					{
+						mLifeTextures2[i]->Render();
+					}
+				}
+
 				mPlayer2->Render();
 			}
 		}

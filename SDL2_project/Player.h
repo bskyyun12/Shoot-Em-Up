@@ -16,7 +16,7 @@ private:
 	float mBoundsOffset;
 
 	// init current score and lives
-	int mScore;
+	unsigned int mScore;
 	int mLives;
 
 	// player texture
@@ -64,12 +64,12 @@ public:
 	void RemoveHealth();
 
 	// Get Player's current score
-	int Score();
+	unsigned int Score();
 	// Get Player's current Lives
 	int Lives();
 
 	// Add score to Player's current score
-	void AddScore(int score);
+	void AddScore(unsigned int score);
 
 	void Update();
 	void Render();
