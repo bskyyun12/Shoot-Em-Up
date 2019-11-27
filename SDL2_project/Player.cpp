@@ -9,6 +9,7 @@ Player::Player()
 	// handle movement
 	mTimer = Timer::Instance();
 	mInputManager = InputManager::Instance();
+	mAudioManager = AudioManager::Instance();
 	mMoveSpeed = 500.0f;	// per second
 	mBoundsOffset = 32.0f;	// half of player image's size
 
@@ -26,6 +27,7 @@ Player::Player()
 	mPlayerShip->Rotate(90);
 	mPlayerShip->Scale(VECTOR2D_ONE * 4);	// scale up to 64x64
 	mPlayerShip->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
+	ship = false;
 
 	// Impact texture
 	mImpact = new AnimatedTexture("impact.png", 0, 0, 50, 50, 8, 0.1f, AnimatedTexture::horizontal);
@@ -39,6 +41,14 @@ Player::Player()
 	mShield->Parent(this);
 	mShield->Translate(VECTOR2D_RIGHT * 40);
 	shield = false;
+
+	// Explosion Texture
+	mExplosion = new AnimatedTexture("explosion.png", 0, 0, 64, 64, 16, 1, AnimatedTexture::ANIM_DIR::horizontal);
+	mExplosion->WrapMode(AnimatedTexture::WRAP_MODE::once);
+	mExplosion->Scale(VECTOR2D_ONE * 3);
+	mExplosion->Parent(this);	// set mExplosion as a child of this script(in this way, it's easier to change the box's transform in other scripts)
+	exploded = false;
+	playOnce = true;
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -66,6 +76,7 @@ Player::~Player()
 {
 	mTimer = nullptr;
 	mInputManager = nullptr;
+	mAudioManager = nullptr;
 
 	// collider
 	mCollider = nullptr;
@@ -82,6 +93,11 @@ Player::~Player()
 
 	delete mShield;
 	mShield = nullptr;
+
+	delete mExplosion;
+	mExplosion = nullptr;
+
+	playOnce = false;
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -103,48 +119,58 @@ void Player::HandleMovement()
 	// save player's position before player moves
 	Vector2D prevPlayerPos = Pos(local);
 
-	// Player Input
-	if (mInputManager->KeyDown(SDL_SCANCODE_RIGHT))
-	{
-		Translate(VECTOR2D_RIGHT * mMoveSpeed * mTimer->DeltaTime(), world);
-	}
+#pragma region Keyboard Input
 
-	if (mInputManager->KeyDown(SDL_SCANCODE_LEFT))
-	{
-		Translate(VECTOR2D_LEFT * mMoveSpeed * mTimer->DeltaTime(), world);
-	}
+	//if (!(mInputManager->JoysticksInitialiased()))
+	//{
+		if (mInputManager->KeyDown(SDL_SCANCODE_RIGHT))
+		{
+			Translate(VECTOR2D_RIGHT * mMoveSpeed * mTimer->DeltaTime(), world);
+		}
 
-	if (mInputManager->KeyDown(SDL_SCANCODE_UP))
-	{
-		Translate(VECTOR2D_UP * mMoveSpeed * mTimer->DeltaTime(), world);
-	}
+		if (mInputManager->KeyDown(SDL_SCANCODE_LEFT))
+		{
+			Translate(VECTOR2D_LEFT * mMoveSpeed * mTimer->DeltaTime(), world);
+		}
 
-	if (mInputManager->KeyDown(SDL_SCANCODE_DOWN))
-	{
-		Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
-	}
+		if (mInputManager->KeyDown(SDL_SCANCODE_UP))
+		{
+			Translate(VECTOR2D_UP * mMoveSpeed * mTimer->DeltaTime(), world);
+		}
 
-	if (mInputManager->KeyDown(SDL_SCANCODE_RCTRL) && !shield) // Fire Bullet
-	{
-		FireBullet();
-	}
+		if (mInputManager->KeyDown(SDL_SCANCODE_DOWN))
+		{
+			Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
+		}
 
-	if (mInputManager->KeyDown(SDL_SCANCODE_RETURN) && !shield) // Fire Rocket
-	{
-		FireRocket();
-		AddScore(1);
-	}
+		// Fire Bullet
+		if (mInputManager->KeyDown(SDL_SCANCODE_RCTRL) && !shield)
+		{
+			FireBullet();
+		}
 
-	if (mInputManager->KeyDown(SDL_SCANCODE_BACKSPACE)) // Raise Shield 
-	{
-		mShield->Update();
-		shield = true;
-	}
+		// Fire Rocket
+		if (mInputManager->KeyDown(SDL_SCANCODE_RETURN) && !shield)
+		{
+			FireRocket();
+			AddScore(1);
+		}
 
-	if (mInputManager->KeyReleased(SDL_SCANCODE_BACKSPACE)) // Lower Shield
-	{
-		shield = false;
-	}
+		// Raise Shield 
+		if (mInputManager->KeyDown(SDL_SCANCODE_BACKSPACE))
+		{
+			mShield->Update();
+			shield = true;
+		}
+
+		// Lower Shield
+		if (mInputManager->KeyReleased(SDL_SCANCODE_BACKSPACE))
+		{
+			shield = false;
+		}
+	//}
+
+#pragma endregion
 
 #pragma region Gamepad Input
 
@@ -157,7 +183,6 @@ void Player::HandleMovement()
 		if (mInputManager->xValue(0, 1) > 0 || mInputManager->xValue(0, 1) < 0 ||
 			mInputManager->yValue(0, 1) > 0 || mInputManager->yValue(0, 1) < 0)
 		{
-			//cout << "LeftStickMove" << endl;
 			Translate(Vector2D((float)mInputManager->xValue(0, 1), (float)mInputManager->yValue(0, 1)).Normalized() * mMoveSpeed * mTimer->DeltaTime(), world);
 		}
 
@@ -165,7 +190,6 @@ void Player::HandleMovement()
 		if (mInputManager->xValue(0, 2) > 0 || mInputManager->xValue(0, 2) < 0 ||
 			mInputManager->yValue(0, 2) > 0 || mInputManager->yValue(0, 2) < 0)
 		{
-			//cout << "RightStickMove" << endl;
 			Translate(Vector2D((float)mInputManager->xValue(0, 2), (float)mInputManager->yValue(0, 2)).Normalized() * mMoveSpeed * mTimer->DeltaTime(), world);
 		}
 
@@ -173,66 +197,78 @@ void Player::HandleMovement()
 
 #pragma region Buttons
 
-		if (InputManager::Instance()->GetButtonState(0, 0)) // Green (A) button
+		// Green (A) button
+		if (InputManager::Instance()->GetButtonState(0, 0)) 
 		{
 			mPlayer->Rotate(90);
 		}
 
-		if (InputManager::Instance()->GetButtonState(0, 1)) // Red (B) button
+		// Red (B) button
+		if (InputManager::Instance()->GetButtonState(0, 1)) 
 		{
 
 		}
 
-		if (InputManager::Instance()->GetButtonState(0, 2) && !shield) // Blue (X) button
+		// Blue (X) button
+		if (InputManager::Instance()->GetButtonState(0, 2) && !shield) 
 		{
 			FireBullet(); // Fire bullet
 		}
 
-		if (InputManager::Instance()->GetButtonState(0, 3)) // Yellow (Y) button
+		// Yellow (Y) button
+		if (InputManager::Instance()->GetButtonState(0, 3)) 
 		{
 
 		}
 
-		if (InputManager::Instance()->GetButtonState(0, 4)) // LB button
+		// LB button
+		if (InputManager::Instance()->GetButtonState(0, 4)) 
 		{
 			mShield->Update();
 			shield = true;		// Raise Shield
 		}
 
-		// LB button
-		if (!(InputManager::Instance()->GetButtonState(0, 4)) && shield && !(mInputManager->KeyDown(SDL_SCANCODE_BACKSPACE)))
+		// Released LB button
+		if (!(InputManager::Instance()->GetButtonState(0, 4)) && 
+			shield && !(mInputManager->KeyDown(SDL_SCANCODE_BACKSPACE)))
 		{
 			shield = false;		// Lower Shield
 		}
 
-		if (InputManager::Instance()->GetButtonState(0, 5) && !shield) // RB button
+		// RB button
+		if (InputManager::Instance()->GetButtonState(0, 5) && !shield) 
 		{
-			FireRocket(); // Fire Rocket
+			FireRocket();		// Fire Rocket
 		}
 
-		if (InputManager::Instance()->GetButtonState(0, 6)) // Back/Select button
+		// Back/Select button
+		if (InputManager::Instance()->GetButtonState(0, 6)) 
 		{
 			AddHealth();
 			cout << "Player 1 Lives : " << mLives << endl;
 		}
 
-		if (InputManager::Instance()->GetButtonState(0, 7)) // Start button
+		// Start button
+		if (InputManager::Instance()->GetButtonState(0, 7)) 
 		{
 			RemoveHealth();
 			cout << "Player 1 Lives : " << mLives << endl;
 		}
 
-		if (InputManager::Instance()->GetButtonState(0, 8)) // Left Stick button
+		// Left Stick button
+		if (InputManager::Instance()->GetButtonState(0, 8)) 
 		{
 
 		}
 
-		if (InputManager::Instance()->GetButtonState(0, 9)) // Right Stick button
+		// Right Stick button
+		if (InputManager::Instance()->GetButtonState(0, 9)) 
 		{
 
 		}
 
-		if (InputManager::Instance()->GetButtonState(0, 10)) // XBOX button
+		// XBOX button
+		if (InputManager::Instance()->GetButtonState(0, 10)) 
 		{
 			AddScore(1);
 			cout << "Player 1 Score : " << mScore << endl;
@@ -326,6 +362,11 @@ void Player::Impact()
 	impact = true;
 }
 
+void Player::Explode()
+{
+	exploded = true;
+}
+
 void Player::AddHealth()
 {
 	mLives++;
@@ -346,11 +387,6 @@ void Player::Update()
 	{
 		HandleMovement();
 
-		//if (mCollider->CollisionCheck(mPlayerShip, Collider::TAG::player))
-		//{
-		//	std::cout << "player needs to lose life!!" << std::endl;
-		//}
-
 #pragma region Collision detection
 
 		if (!mPlayerShip->Active())
@@ -358,11 +394,15 @@ void Player::Update()
 			std::cout << "mPlayerShip gets damage." << std::endl;
 
 			// here do things like losing life
+			Impact();
 			if (!shield)
 			{
 				RemoveHealth();
+				if (mLives <= 0)
+				{
+					exploded = true;
+				}
 			}
-			Impact();
 			mPlayerShip->Active(true);
 		}
 		else if (!mPlayer->Active())
@@ -370,17 +410,21 @@ void Player::Update()
 			std::cout << "mPlayer gets damage." << std::endl;
 
 			// here do things like losing life
+			Impact();
 			if (!shield)
 			{
 				RemoveHealth();
+				if (mLives <= 0)
+				{
+					exploded = true;
+				}
 			}
-			Impact();
 			mPlayer->Active(true);
 		}
 
 #pragma endregion Collision detection
 
-		if (impact)
+		if (impact && !exploded)
 		{
 			mImpact->Update();
 		}
@@ -389,6 +433,30 @@ void Player::Update()
 		{
 			mImpact->ResetAnimationTimer();
 			impact = false;
+		}
+	}
+
+	// exploded
+	if (exploded)
+	{
+		if (playOnce) // Ugly code but it works
+		{
+			if (ship)
+			{
+				mCollider->RemoveCollider(mPlayerShip);
+			}
+			else
+			{
+				mCollider->RemoveCollider(mPlayer);
+			}
+			mAudioManager->PlaySFX("Audios/chunky_explosion.wav", 0, 3);
+			mAudioManager->SFXVolume(3, 20);
+			playOnce = false;
+		}
+		mExplosion->Update();
+		if (mExplosion->IsAnimationDone())
+		{
+			Active(false);
 		}
 	}
 
@@ -419,7 +487,14 @@ void Player::Render()
 		mRockets[i]->Render();
 	}
 
-	if (!ship)
+	if (exploded)
+	{
+		if (!mExplosion->IsAnimationDone())
+		{
+			mExplosion->Render();
+		}
+	}
+	else if (!ship)
 	{
 		mPlayer->Render();
 	}
@@ -428,7 +503,7 @@ void Player::Render()
 		mPlayerShip->Render();
 	}
 
-	if (impact)
+	if (impact && !exploded)
 	{
 		mImpact->Render();
 	}

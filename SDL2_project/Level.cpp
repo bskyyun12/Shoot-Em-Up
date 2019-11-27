@@ -189,9 +189,9 @@ Level::LEVEL_STATES Level::State()
 void Level::GameOver()
 {
 	mGameOver = true;
-	mAudioManager->PlaySFX("Audios/gameover0.wav", 0);
+	//mAudioManager->PlaySFX("Audios/gameover0.wav", 0);
 	mAudioManager->PlayMusic("Audios/gameover1.wav", 0); // low volume
-	mAudioManager->MusicVolume(128); // Set max volume
+	mAudioManager->MusicVolume(100); // Set max volume
 }
 
 void Level::Update()

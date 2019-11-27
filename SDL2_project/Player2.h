@@ -11,6 +11,7 @@ private:
 	// handel movement
 	Timer* mTimer = nullptr;
 	InputManager* mInputManager = nullptr;
+	AudioManager* mAudioManager = nullptr;
 	float mMoveSpeed;
 	float mBoundsOffset;
 
@@ -46,6 +47,11 @@ private:
 	AnimatedTexture* mImpact = nullptr;
 	bool impact;
 
+	// Explosion
+	AnimatedTexture* mExplosion = nullptr;
+	bool exploded;
+	bool playOnce;
+
 private:
 
 	// Player movemonet logic
@@ -62,6 +68,7 @@ public:
 
 	void ToggleTexture();
 	void Impact();
+	void Explode();
 
 	// Player health
 	void AddHealth();

@@ -159,7 +159,7 @@ void Box::Update()
 		if (hp <= 0)
 		{
 			// death animation
-			if (playOnce) // Ugly code
+			if (playOnce) // Ugly code but it works
 			{
 				mAudioManager->PlaySFX("Audios/chunky_explosion.wav", 0, 3);
 				mAudioManager->SFXVolume(3, 20);
