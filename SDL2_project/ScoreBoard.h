@@ -8,6 +8,8 @@ private:
 
 	std::vector<Texture*> mScores;
 
+	int mCurrentScore;
+
 	int mFontSize;
 
 	SDL_Color mColor = { 0, 0, 0, 0 };
@@ -22,7 +24,8 @@ public:
 	ScoreManager(SDL_Color color, int fontSize = 32);
 	~ScoreManager();
 
-	void Score(int score);
+	int GetScore();
+	void SetScore(int score);
 
 	void Render();
 
@@ -36,9 +39,12 @@ class ScoreBoard : public GameEntity
 {
 private:
 
+	static ScoreBoard* sInstance;
+
 public:
-	ScoreBoard();
-	~ScoreBoard();
+
+	static ScoreBoard* Instance();
+	static void Release();
 
 	//Top Bar Entities
 	GameEntity* mTopBar = nullptr;
@@ -51,6 +57,11 @@ public:
 	ScoreManager* mHighScoreBoard = nullptr;
 
 	void Render();
+
+private:
+
+	ScoreBoard();
+	~ScoreBoard();
 
 };
 

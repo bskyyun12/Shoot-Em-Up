@@ -50,12 +50,16 @@ Level::Level(int stage, Player* player, Player2* player2)
 	mGameOver = false;
 	mGameOverDelay = 6.0f;
 	mGameOverTimer = 0.0f;
-	mGameOverLabelOnScreen = 1.0f;
+	mGameOverLabelOnScreen = 1.5f;
 
 	// Victory
+	mVictoryLabel = new Texture("VICTORY!", Graphics::Instance()->FONT_Emulogic, 64, { 255, 20, 147 });
+	mVictoryLabel->Parent(this);
+	mVictoryLabel->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 	mVictory = false;
 	mVictoryDelay = 6.0f;
 	mVictoryTimer = 0.0f;
+	mGameOverLabelOnScreen = 1.5f;
 
 	// Player
 	mPlayer = player;
@@ -94,6 +98,9 @@ Level::~Level()
 
 	delete mGameOverLabel;
 	mGameOverLabel = nullptr;
+
+	delete mVictoryLabel;
+	mVictoryLabel = nullptr;
 
 	mPlayer = nullptr;
 	mPlayer2 = nullptr;
@@ -188,13 +195,15 @@ void Level::Update()
 	}
 	else
 	{
-		// labels test
+		// todo: gameover condition
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
 		{
 			mGameOver = true;
 			mAudioManager->PlaySFX("Audios/gameover0.wav", 0);
 			mAudioManager->PlayMusic("Audios/gameover1.wav", 0); // low volume
 		}
+
+		// todo : victory condition
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_V))
 		{
 			mVictory = true;
@@ -282,10 +291,19 @@ void Level::Render()
 
 		if (mGameOver)
 		{
-			// wait 1 sec and display GAME OVER
+			// wait 1.5 sec and display GAME OVER
 			if (mGameOverTimer >= mGameOverLabelOnScreen)
 			{
 				mGameOverLabel->Render();
+			}
+		}
+
+		if (mVictory)
+		{
+			// wait 1.5 sec and display VICTORY
+			if (mGameOverTimer >= mVictoryLabelOnScreen)
+			{
+				mVictoryLabel->Render();
 			}
 		}
 	}

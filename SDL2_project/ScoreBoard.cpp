@@ -6,7 +6,7 @@ ScoreManager::ScoreManager() : ScoreManager({ 230, 230, 230 }, 32)
 ScoreManager::ScoreManager(SDL_Color color, int fontSize)
 {
 	mColor = color;
-	Score(0);
+	SetScore(0);
 	mFontSize = fontSize;
 }
 
@@ -34,9 +34,15 @@ void ScoreManager::Render()
 	}
 }
 
-void ScoreManager::Score(int score)
+int ScoreManager::GetScore()
+{
+	return mCurrentScore;
+}
+
+void ScoreManager::SetScore(int score)
 {
 	ClearScore();
+	mCurrentScore = score;
 
 	if (score == 0)
 	{
@@ -63,6 +69,23 @@ void ScoreManager::Score(int score)
 	}
 }
 
+ScoreBoard* ScoreBoard::sInstance = nullptr;
+
+ScoreBoard* ScoreBoard::Instance()
+{
+	if (sInstance == nullptr)
+	{
+		sInstance = new ScoreBoard();
+	}
+	return sInstance;
+}
+
+void ScoreBoard::Release()
+{
+	delete sInstance;
+	sInstance = nullptr;
+}
+
 ScoreBoard::ScoreBoard()
 {
 	//Top Bar Entities
@@ -87,7 +110,7 @@ ScoreBoard::ScoreBoard()
 	mPlayerOneScoreBoard->Pos(mPlayerOne->Pos(local) + Vector2D(0.0f, 32.0f));
 	mPlayerTwoScoreBoard->Pos(mPlayerTwo->Pos(local) + Vector2D(0.0f, 32.0f));
 	mHighScoreBoard->Pos(mHighScore->Pos(local) + Vector2D(0.0f, 32.0f));
-	mHighScoreBoard->Score(123456);
+	mHighScoreBoard->SetScore(123456);
 
 	mTopBar->Parent(this);
 }

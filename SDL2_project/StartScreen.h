@@ -50,6 +50,7 @@ public:
 	~StartScreen();
 
 	void ResetAnimation();
+	bool IsAnimationDone();
 
 	int GetSelectMode();
 

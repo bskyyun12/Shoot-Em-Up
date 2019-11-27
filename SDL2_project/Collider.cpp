@@ -30,21 +30,20 @@ void Collider::AddCollider(Texture* tex, TAG tag)
 	if (mColliders.find(tex) == mColliders.end())
 	{
 		mColliders.insert(std::make_pair(tex, tag));
-		std::cout << "Added " << tagEnumToStr(tag) << "! mColliders size() : " << mColliders.size() << std::endl;
+		//std::cout << "Added " << tagEnumToStr(tag) << "! mColliders size() : " << mColliders.size() << std::endl;
 	}
 	else
 	{
-		std::cout << tagEnumToStr(tag) << " exists already! mColliders size() : " << mColliders.size() << std::endl;
+		//std::cout << tagEnumToStr(tag) << " exists already! mColliders size() : " << mColliders.size() << std::endl;
 	}
 }
 
 void Collider::RemoveCollider(Texture* tex)
 {
 	it = mColliders.find(tex);
-	std::cout << "Removed " << tagEnumToStr(it->second);
+	//std::cout << "Removed " << tagEnumToStr(it->second);
 	mColliders.erase(it);
-
-	std::cout << "! mColliders size() : " << mColliders.size() << std::endl;
+	//std::cout << "! mColliders size() : " << mColliders.size() << std::endl;
 }
 
 void Collider::Update()

@@ -108,6 +108,9 @@
     <ClInclude Include="BoxPiece.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EndingScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logger.cpp">
@@ -183,6 +186,9 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="BoxPiece.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

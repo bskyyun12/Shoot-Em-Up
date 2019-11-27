@@ -10,7 +10,6 @@ private:
 	AudioManager* mAudioManager = nullptr;
 	ScoreBoard* mScoreBoard = nullptr;
 	Texture* mStartLabel = nullptr;
-	//Texture* mBottomBarBackground = nullptr;
 
 	// Blinker
 	float mBlinkTimer;
@@ -19,12 +18,13 @@ private:
 
 	// Life
 	static const int MAX_LIFE_TEXTURES = 3;
+	int mTotalLives;
 	GameEntity* mLives = nullptr;
+
 	// Player 1
 	Texture* mLifeTextures[MAX_LIFE_TEXTURES] = { nullptr };
 	// Player 2
 	Texture* mLifeTextures2[MAX_LIFE_TEXTURES] = { nullptr };
-	int mTotalLives;
 
 	// level
 	Level* mLevel = nullptr;
