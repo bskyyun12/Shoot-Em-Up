@@ -129,7 +129,7 @@ void PlayScreen::SetLives(int playerlives, int player2lives)
 	}
 
 	// Multiplayer Player 2 dies
-	if(mPlayer2Lives <= 0)
+	if (mPlayer2Lives <= 0)
 	{
 		mPlayer2->Active(false);
 	}
@@ -265,7 +265,7 @@ bool PlayScreen::GameOver()
 	{
 		// Write highscore to file
 		// Do we want this behaviour?
-		mScoreBoard->mHighScoreBoard->WriteHighScoreToFile();	
+		mScoreBoard->mHighScoreBoard->WriteHighScoreToFile();
 		return true;
 	}
 	else
@@ -311,7 +311,7 @@ void PlayScreen::Update()
 			if (mLevel->State() == Level::finished)
 			{
 				// Write highscore to file
-				mScoreBoard->mHighScoreBoard->WriteHighScoreToFile(); 
+				mScoreBoard->mHighScoreBoard->WriteHighScoreToFile();
 				mLevelStarted = false;
 			}
 
@@ -338,6 +338,7 @@ void PlayScreen::Update()
 	//	mBlinkTimer = 0.0f;
 	//}
 
+
 	if (mPlayerLives > 0 || mPlayer2Lives > 0)
 	{
 		SetLives(mPlayer->Lives(), (mPlayer2 != nullptr) ? mPlayer2->Lives() : 0);
@@ -354,6 +355,7 @@ void PlayScreen::Update()
 	{
 		SetHighScore(mPlayer2->Score());
 	}
+
 }
 
 void PlayScreen::Render()
@@ -375,12 +377,12 @@ void PlayScreen::Render()
 			mLevel->Render();
 			mScoreBoard->Render();
 
+
 			// Player 1
 			for (int i = 0; i < MAX_LIFE_TEXTURES && i < mPlayerLives; i++)
 			{
 				mLifeTextures[i]->Render();
 			}
-
 			mPlayer->Render();
 
 			// Player 2
@@ -392,7 +394,6 @@ void PlayScreen::Render()
 						mLifeTextures2[i]->Render();
 					}
 				}
-
 				mPlayer2->Render();
 			}
 		}

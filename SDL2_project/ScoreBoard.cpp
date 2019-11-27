@@ -11,7 +11,7 @@ ScoreManager::ScoreManager(SDL_Color color, int fontSize)
 }
 
 ScoreManager::~ScoreManager()
-{	
+{
 	ClearScore();
 }
 
@@ -96,6 +96,23 @@ void ScoreManager::Score(unsigned int score)
 unsigned int ScoreManager::GetCurrentHighScore()
 {
 	return mHighScore;
+}
+
+ScoreBoard* ScoreBoard::sInstance = nullptr;
+
+ScoreBoard* ScoreBoard::Instance()
+{
+	if (sInstance == nullptr)
+	{
+		sInstance = new ScoreBoard();
+	}
+	return sInstance;
+}
+
+void ScoreBoard::Release()
+{
+	delete sInstance;
+	sInstance = nullptr;
 }
 
 ScoreBoard* ScoreBoard::sInstance = nullptr;

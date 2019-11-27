@@ -17,14 +17,15 @@ private:
 	bool m1UPVisible;
 
 	// Life
-	static const int MAX_LIFE_TEXTURES = 3;
 	GameEntity* mLives = nullptr;
+	static const int MAX_LIFE_TEXTURES = 3;
+	int mPlayerLives;
+	int mPlayer2Lives;
+
 	// Player 1
 	Texture* mLifeTextures[MAX_LIFE_TEXTURES] = { nullptr };
 	// Player 2
 	Texture* mLifeTextures2[MAX_LIFE_TEXTURES] = { nullptr };
-	int mPlayerLives;
-	int mPlayer2Lives;
 
 	// level
 	Level* mLevel = nullptr;
