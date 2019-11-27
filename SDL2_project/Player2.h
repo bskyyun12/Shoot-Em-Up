@@ -21,6 +21,11 @@ private:
 	// player texture
 	Texture* mPlayer2 = nullptr;
 	AnimatedTexture* mPlayerShip2 = nullptr;
+	bool ship;
+
+	// shield texture
+	AnimatedTexture* mShield = nullptr;
+	bool shield;
 
 	// bullet
 	static const int MAX_BULLETS = 5;
@@ -37,7 +42,9 @@ private:
 	// collider
 	Collider* mCollider = nullptr;
 
-	bool ship;
+	// Impact
+	AnimatedTexture* mImpact = nullptr;
+	bool impact;
 
 private:
 
@@ -54,6 +61,7 @@ public:
 	~Player2();
 
 	void ToggleTexture();
+	void Impact();
 
 	// Player health
 	void AddHealth();

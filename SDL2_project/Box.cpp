@@ -13,6 +13,7 @@ Box::Box(Vector2D pos)
 	mBox->Scale(Vector2D(64 / mBox->ScaledDimensions().x, 64 / mBox->ScaledDimensions().y)); // scale up to 64x64
 	mBox->Parent(this);	// set mBox as a child of this script(in this way, it's easier to change the box's transform in other scripts)
 
+	// Explosion Texture
 	mExplosion = new AnimatedTexture("explosion.png", 0, 0, 64, 64, 16, 1, AnimatedTexture::ANIM_DIR::horizontal);
 	mExplosion->WrapMode(AnimatedTexture::WRAP_MODE::once);
 	mExplosion->Scale(VECTOR2D_ONE * 2);
@@ -29,6 +30,14 @@ Box::Box(Vector2D pos)
 	mBoxPieceDownRight->Parent(this);
 	mBoxPieceUpRight = new BoxPiece(true, true, false);
 	mBoxPieceUpRight->Parent(this);
+
+	// Impact texture
+	mImpact = new AnimatedTexture("impact.png", 0, 0, 50, 50, 8, 0.1f, AnimatedTexture::horizontal);
+	mImpact->WrapMode(AnimatedTexture::WRAP_MODE::once);
+	mImpact->Parent(this);
+	mImpact->Rotate(180);
+	mImpact->Translate(VECTOR2D_RIGHT * 40);
+	impact = false;
 
 	Pos(pos);
 
@@ -60,6 +69,7 @@ Box::~Box()
 	mCollider->RemoveCollider(mBox);
 	mCollider = nullptr;
 
+	// Textures
 	delete mBox;
 	mBox = nullptr;
 
@@ -81,12 +91,20 @@ Box::~Box()
 	delete mBoxPieceUpRight;
 	mBoxPieceUpRight = nullptr;
 
+	delete mImpact;
+	mImpact = nullptr;
+
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
 	{
 		delete mBullets[i];
 		mBullets[i] = nullptr;
 	}
+}
+
+void Box::Impact()
+{
+	impact = true;
 }
 
 void Box::Update()
@@ -120,11 +138,22 @@ void Box::Update()
 		if (!mBox->Active())
 		{
 			hp--;
+			Impact();
 			std::cout << "Box gets damage. Current hp is : " << hp << "." << std::endl;
 			mBox->Active(true);
 		}
 
 #pragma endregion Collision detection
+
+		if (impact)
+		{
+			mImpact->Update();
+		}
+
+		if (mImpact->IsAnimationDone())
+		{
+			impact = false;
+		}
 
 		if (hp <= 0)
 		{
@@ -188,5 +217,10 @@ void Box::Render()
 		{
 			mBox->Render();
 		}
+	}
+
+	if (impact)
+	{
+		mImpact->Render();
 	}
 }

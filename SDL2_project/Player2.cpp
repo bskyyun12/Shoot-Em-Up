@@ -9,7 +9,7 @@ Player2::Player2()
 	// handle movement
 	mTimer = Timer::Instance();
 	mInputManager = InputManager::Instance();
-	mMoveSpeed = 300.0f;	// per second
+	mMoveSpeed = 500.0f;	// per second
 	mBoundsOffset = 32.0f;	// half of player image's size
 
 	// init current score and lives
@@ -17,15 +17,28 @@ Player2::Player2()
 	mLives = 3;
 
 	// player texture
-	mPlayer2 = new Texture("JumpBlue (32x32).png");
+	mPlayer2 = new Texture("jumpBlue.png");
 	mPlayer2->Scale(VECTOR2D_ONE * 2);	// scale up to 64x64
 	mPlayer2->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 
 	// PlayerShip AnimatedTexture
-	mPlayerShip2 = new AnimatedTexture("Blueship_80x48.png", 32, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
+	mPlayerShip2 = new AnimatedTexture("shipBlue.png", 32, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
 	mPlayerShip2->Rotate(90);
 	mPlayerShip2->Scale(VECTOR2D_ONE * 4);	// scale up to 64x64
 	mPlayerShip2->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
+
+	// Impact texture
+	mImpact = new AnimatedTexture("impact.png", 0, 0, 50, 50, 8, 0.1f, AnimatedTexture::horizontal);
+	mImpact->WrapMode(AnimatedTexture::WRAP_MODE::once);
+	mImpact->Parent(this);
+	mImpact->Translate(VECTOR2D_RIGHT * 60);
+	impact = false;
+
+	// Shield texture
+	mShield = new AnimatedTexture("shieldPurple.png", 0, 0, 45, 100, 4, 0.25f, AnimatedTexture::horizontal);
+	mShield->Parent(this);
+	mShield->Translate(VECTOR2D_RIGHT * 40);
+	shield = false;
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -57,11 +70,18 @@ Player2::~Player2()
 	// collider
 	mCollider = nullptr;
 
+	// textures
 	delete mPlayer2;
 	mPlayer2 = nullptr;
 
 	delete mPlayerShip2;
 	mPlayerShip2 = nullptr;
+
+	delete mImpact;
+	mImpact = nullptr;
+
+	delete mShield;
+	mShield = nullptr;
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -104,15 +124,26 @@ void Player2::HandleMovement()
 		Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
 
-	if (mInputManager->KeyDown(SDL_SCANCODE_F)) // Fire Bullet
+	if (mInputManager->KeyDown(SDL_SCANCODE_F) && !shield) // Fire Bullet
 	{
 		FireBullet();
 	}
 
-	if (mInputManager->KeyDown(SDL_SCANCODE_SPACE)) // Fire Rocket
+	if (mInputManager->KeyDown(SDL_SCANCODE_SPACE) && !shield) // Fire Rocket
 	{
 		FireRocket();
 		AddScore(1);
+	}
+
+	if (mInputManager->KeyDown(SDL_SCANCODE_Q)) // Raise Shield 
+	{
+		mShield->Update();
+		shield = true;
+	}
+
+	if (mInputManager->KeyReleased(SDL_SCANCODE_Q)) // Lower Shield
+	{
+		shield = false;
 	}
 
 #pragma region Gamepad Input
@@ -144,7 +175,7 @@ void Player2::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(1, 0)) // Green (A) button
 		{
-
+			mPlayer2->Rotate(90);
 		}
 
 		if (InputManager::Instance()->GetButtonState(1, 1)) // Red (B) button
@@ -164,7 +195,14 @@ void Player2::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(1, 4)) // LB button
 		{
-			mPlayer2->Rotate(90);
+			mShield->Update();
+			shield = true;		// Raise Shield
+		}
+
+		// LB button
+		if (!(InputManager::Instance()->GetButtonState(1, 4)) && shield && !(mInputManager->KeyDown(SDL_SCANCODE_Q)))
+		{
+			shield = false;		// Lower Shield
 		}
 
 		if (InputManager::Instance()->GetButtonState(1, 5)) // RB button
@@ -283,6 +321,11 @@ void Player2::ToggleTexture()
 	}
 }
 
+void Player2::Impact()
+{
+	impact = true;
+}
+
 void Player2::AddHealth()
 {
 	mLives++;
@@ -315,7 +358,11 @@ void Player2::Update()
 			std::cout << "mPlayerShip2 gets damage." << std::endl;
 
 			// here do things like losing life
-			RemoveHealth();
+			if (!shield)
+			{
+				RemoveHealth();
+			}
+			Impact();
 			mPlayerShip2->Active(true);
 		}
 		else if (!mPlayer2->Active())
@@ -323,12 +370,25 @@ void Player2::Update()
 			std::cout << "mPlayer2 gets damage." << std::endl;
 
 			// here do things like losing life
-			RemoveHealth();
+			if (!shield)
+			{
+				RemoveHealth();
+			}
+			Impact();
 			mPlayer2->Active(true);
 		}
 
 #pragma endregion Collision detection
 
+		if (impact)
+		{
+			mImpact->Update();
+		}
+
+		if (mImpact->IsAnimationDone())
+		{
+			impact = false;
+		}
 	}
 
 	// bullet
@@ -365,5 +425,15 @@ void Player2::Render()
 	else if (ship)
 	{
 		mPlayerShip2->Render();
+	}
+
+	if (impact)
+	{
+		mImpact->Render();
+	}
+
+	if (shield)
+	{
+		mShield->Render();
 	}
 }

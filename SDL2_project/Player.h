@@ -3,7 +3,6 @@
 #include "InputManager.h"
 #include "Bullet.h"
 #include "Rocket.h"
-#include "Collider.h"
 
 class Player : public GameEntity
 {
@@ -22,6 +21,11 @@ private:
 	// player texture
 	Texture* mPlayer = nullptr;
 	AnimatedTexture* mPlayerShip = nullptr;
+	bool ship;
+
+	// shield texture
+	AnimatedTexture* mShield = nullptr;
+	bool shield;
 	
 	// bullet
 	static const int MAX_BULLETS = 5;
@@ -38,10 +42,9 @@ private:
 	// collider
 	Collider* mCollider = nullptr;
 
-	// health
-	float mPlayerHealth;
-
-	bool ship;
+	// Impact
+	AnimatedTexture* mImpact = nullptr;
+	bool impact;
 
 private:
 
@@ -58,6 +61,7 @@ public:
 	~Player();
 
 	void ToggleTexture();
+	void Impact();
 
 	// Player health
 	void AddHealth();

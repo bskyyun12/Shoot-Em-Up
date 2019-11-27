@@ -15,7 +15,7 @@ Bullet::Bullet(Collider::TAG tag)
 		mBullet = new AnimatedTexture("laserBlue.png", 0, 0, 50, 16, 9, 0.5f, AnimatedTexture::horizontal);
 		break;
 	case Collider::enemyProjectile:
-		mBullet = new AnimatedTexture("Pixel Adventure/Traps/Fire/On (16x32).png", 0, 0, 16, 32, 3, 0.2f, AnimatedTexture::horizontal);
+		mBullet = new AnimatedTexture("plasmaCyan.png", 0, 0, 70, 65, 9, 0.5f, AnimatedTexture::horizontal);
 		break;
 	default:
 		break;
@@ -87,7 +87,6 @@ void Bullet::Update()
 		}
 
 	}
-
 }
 
 void Bullet::Render()

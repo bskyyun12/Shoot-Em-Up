@@ -14,8 +14,8 @@ StartScreen::StartScreen()
 	mScoreBoard = ScoreBoard::Instance();
 
 	// Logo Entities
-	mLogo = new Texture("ship_80x48.png", 32, 0, 16, 24);
-	mAnimatedLogo = new AnimatedTexture("ship_80x48.png", 0, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
+	mLogo = new Texture("shipRed.png", 32, 0, 16, 24);
+	mAnimatedLogo = new AnimatedTexture("shipRed.png", 0, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
 
 	mLogo->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.3f));
 	mAnimatedLogo->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.3f));
@@ -30,7 +30,7 @@ StartScreen::StartScreen()
 	mPlayModes = new GameEntity(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 	mOnePlayerMode = new Texture("1 Player", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
 	mTwoPlayerMode = new Texture("2 Players", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
-	mCursor = new AnimatedTexture("ship_80x48.png", 0, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
+	mCursor = new AnimatedTexture("shipRed.png", 0, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
 	mSelectMode = 1;
 
 	mOnePlayerMode->Parent(mPlayModes);

@@ -9,7 +9,7 @@ Player::Player()
 	// handle movement
 	mTimer = Timer::Instance();
 	mInputManager = InputManager::Instance();
-	mMoveSpeed = 300.0f;	// per second
+	mMoveSpeed = 500.0f;	// per second
 	mBoundsOffset = 32.0f;	// half of player image's size
 
 	// init current score and lives
@@ -17,15 +17,28 @@ Player::Player()
 	mLives = 3;
 
 	// player texture
-	mPlayer = new Texture("JumpOrange (32x32).png");
+	mPlayer = new Texture("jumpOrange.png");
 	mPlayer->Scale(VECTOR2D_ONE * 2);	// scale up to 64x64
 	mPlayer->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 
 	// PlayerShip AnimatedTexture
-	mPlayerShip = new AnimatedTexture("ship_80x48.png", 32, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
+	mPlayerShip = new AnimatedTexture("shipRed.png", 32, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
 	mPlayerShip->Rotate(90);
 	mPlayerShip->Scale(VECTOR2D_ONE * 4);	// scale up to 64x64
 	mPlayerShip->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
+
+	// Impact texture
+	mImpact = new AnimatedTexture("impact.png", 0, 0, 50, 50, 8, 0.1f, AnimatedTexture::horizontal);
+	mImpact->WrapMode(AnimatedTexture::WRAP_MODE::once);
+	mImpact->Parent(this);
+	mImpact->Translate(VECTOR2D_RIGHT * 60);
+	impact = false;
+
+	// Shield texture
+	mShield = new AnimatedTexture("shieldBlue.png", 0, 0, 45, 100, 4, 0.25f, AnimatedTexture::horizontal);
+	mShield->Parent(this);
+	mShield->Translate(VECTOR2D_RIGHT * 40);
+	shield = false;
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -57,11 +70,18 @@ Player::~Player()
 	// collider
 	mCollider = nullptr;
 
+	// textures
 	delete mPlayer;
 	mPlayer = nullptr;
 
 	delete mPlayerShip;
 	mPlayerShip = nullptr;
+
+	delete mImpact;
+	mImpact = nullptr;
+
+	delete mShield;
+	mShield = nullptr;
 
 	// bullet
 	for (int i = 0; i < MAX_BULLETS; i++)
@@ -104,15 +124,26 @@ void Player::HandleMovement()
 		Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
 	}
 
-	if (mInputManager->KeyDown(SDL_SCANCODE_RCTRL)) // Fire Bullet
+	if (mInputManager->KeyDown(SDL_SCANCODE_RCTRL) && !shield) // Fire Bullet
 	{
 		FireBullet();
 	}
 
-	if (mInputManager->KeyDown(SDL_SCANCODE_RETURN)) // Fire Rocket
+	if (mInputManager->KeyDown(SDL_SCANCODE_RETURN) && !shield) // Fire Rocket
 	{
 		FireRocket();
 		AddScore(1);
+	}
+
+	if (mInputManager->KeyDown(SDL_SCANCODE_BACKSPACE)) // Raise Shield 
+	{
+		mShield->Update();
+		shield = true;
+	}
+
+	if (mInputManager->KeyReleased(SDL_SCANCODE_BACKSPACE)) // Lower Shield
+	{
+		shield = false;
 	}
 
 #pragma region Gamepad Input
@@ -144,7 +175,7 @@ void Player::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(0, 0)) // Green (A) button
 		{
-
+			mPlayer->Rotate(90);
 		}
 
 		if (InputManager::Instance()->GetButtonState(0, 1)) // Red (B) button
@@ -152,7 +183,7 @@ void Player::HandleMovement()
 
 		}
 
-		if (InputManager::Instance()->GetButtonState(0, 2)) // Blue (X) button
+		if (InputManager::Instance()->GetButtonState(0, 2) && !shield) // Blue (X) button
 		{
 			FireBullet(); // Fire bullet
 		}
@@ -164,10 +195,17 @@ void Player::HandleMovement()
 
 		if (InputManager::Instance()->GetButtonState(0, 4)) // LB button
 		{
-			mPlayer->Rotate(90);
+			mShield->Update();
+			shield = true;		// Raise Shield
 		}
 
-		if (InputManager::Instance()->GetButtonState(0, 5)) // RB button
+		// LB button
+		if (!(InputManager::Instance()->GetButtonState(0, 4)) && shield && !(mInputManager->KeyDown(SDL_SCANCODE_BACKSPACE)))
+		{
+			shield = false;		// Lower Shield
+		}
+
+		if (InputManager::Instance()->GetButtonState(0, 5) && !shield) // RB button
 		{
 			FireRocket(); // Fire Rocket
 		}
@@ -283,6 +321,11 @@ void Player::ToggleTexture()
 	}
 }
 
+void Player::Impact()
+{
+	impact = true;
+}
+
 void Player::AddHealth()
 {
 	mLives++;
@@ -315,7 +358,11 @@ void Player::Update()
 			std::cout << "mPlayerShip gets damage." << std::endl;
 
 			// here do things like losing life
-			RemoveHealth();
+			if (!shield)
+			{
+				RemoveHealth();
+			}
+			Impact();
 			mPlayerShip->Active(true);
 		}
 		else if (!mPlayer->Active())
@@ -323,12 +370,25 @@ void Player::Update()
 			std::cout << "mPlayer gets damage." << std::endl;
 
 			// here do things like losing life
-			RemoveHealth();
+			if (!shield)
+			{
+				RemoveHealth();
+			}
+			Impact();
 			mPlayer->Active(true);
 		}
 
 #pragma endregion Collision detection
 
+		if (impact)
+		{
+			mImpact->Update();
+		}
+
+		if (mImpact->IsAnimationDone())
+		{
+			impact = false;
+		}
 	}
 
 	// bullet
@@ -365,5 +425,15 @@ void Player::Render()
 	else if (ship)
 	{
 		mPlayerShip->Render();
+	}
+
+	if (impact)
+	{
+		mImpact->Render();
+	}
+
+	if (shield)
+	{
+		mShield->Render();
 	}
 }

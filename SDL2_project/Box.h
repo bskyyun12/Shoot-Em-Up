@@ -39,10 +39,16 @@ private:
 	int hp;
 	bool playOnce;
 
+	// Impact
+	AnimatedTexture* mImpact = nullptr;
+	bool impact;
+
 public:
 
 	Box(Vector2D pos);
 	~Box();
+
+	void Impact();
 
 	void Update();
 	void Render();
