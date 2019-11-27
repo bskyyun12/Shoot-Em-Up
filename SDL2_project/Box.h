@@ -4,6 +4,7 @@
 #include "Collider.h"
 #include "BoxPiece.h"
 #include "Bullet.h"
+#include "AudioManager.h"
 
 class Box : public GameEntity
 {

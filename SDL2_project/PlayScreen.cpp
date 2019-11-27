@@ -345,6 +345,7 @@ void PlayScreen::Update()
 	{
 		SetLives(mPlayer->Lives(), (mPlayer2 != nullptr) ? mPlayer2->Lives() : 0);
 	}
+
 	SetPlayerScore(mPlayer->Score(), (mPlayer2 != nullptr) ? mPlayer2->Score() : 0);
 
 	// Update HighScore

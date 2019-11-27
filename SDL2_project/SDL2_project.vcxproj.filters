@@ -106,10 +106,10 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="BoxPiece.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="EndingScreen.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -186,10 +186,10 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="BoxPiece.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="EndingScreen.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
