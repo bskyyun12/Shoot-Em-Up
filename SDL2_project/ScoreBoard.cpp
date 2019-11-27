@@ -106,7 +106,7 @@ ScoreBoard* ScoreBoard::Instance()
 	{
 		sInstance = new ScoreBoard();
 	}
-	return sInstance;
+	return sInstance; 
 }
 
 void ScoreBoard::Release()
