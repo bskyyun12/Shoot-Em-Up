@@ -45,6 +45,7 @@ public:
 	~AnimatedTexture();
 
 	bool IsAnimationDone();
+	void ResetAnimationTimer();
 
 	void WrapMode(WRAP_MODE mode);
 

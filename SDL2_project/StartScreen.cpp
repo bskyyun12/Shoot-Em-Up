@@ -49,9 +49,9 @@ StartScreen::StartScreen()
 
 	//Bottom Bar Entities
 	mBottomBar = new GameEntity(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.7f));
-	mNamco = new Texture("namcot", Graphics::Instance()->FONT_Emulogic, 36, { 200, 0, 0 });
-	mDates = new Texture("1981 1985 NAMCO LTD.", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
-	mRights = new Texture("ALL RIGHTS RESERVED", Graphics::Instance()->FONT_Emulogic, 32, { 200, 0, 0 });
+	mNamco = new Texture("PROGRAMMERS", Graphics::Instance()->FONT_Emulogic, 36, { 200, 0, 0 });
+	mDates = new Texture("2019 FUTUREGAMES", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
+	mRights = new Texture("ALL RIGHTS WAIVED", Graphics::Instance()->FONT_Emulogic, 32, { 200, 0, 0 });
 
 	mNamco->Parent(mBottomBar);
 	mDates->Parent(mBottomBar);

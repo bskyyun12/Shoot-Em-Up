@@ -387,6 +387,7 @@ void Player::Update()
 
 		if (mImpact->IsAnimationDone())
 		{
+			mImpact->ResetAnimationTimer();
 			impact = false;
 		}
 	}

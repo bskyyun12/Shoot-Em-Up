@@ -108,36 +108,38 @@ void PlayScreen::SetPlayerScore(unsigned int scorePlayer, unsigned int scorePlay
 void PlayScreen::SetLives(int playerlives, int player2lives)
 {
 	mPlayerLives = playerlives;
+	mPlayer2Lives = player2lives;
 
-	if (mPlayer2 != nullptr)
+	// Singleplayer
+	if (mPlayer2 == nullptr)
 	{
-		mPlayer2Lives = player2lives;
-	}
-	else
-	{
-		// Singleplayer Player dies
+		// Player dies
 		if (mPlayerLives <= 0)
 		{
 			mLevel->GameOver();
 		}
 	}
 
-	// Multiplayer Player dies
-	if (mPlayerLives <= 0)
+	// Multiplayer
+	if (mPlayer2 != nullptr)
 	{
-		mPlayer->Active(false);
-	}
+		// Player 2 dies
+		if (mPlayer2Lives <= 0)
+		{
+			mPlayer2->Active(false);
+		}
 
-	// Multiplayer Player 2 dies
-	if (mPlayer2Lives <= 0)
-	{
-		mPlayer2->Active(false);
-	}
+		// Player dies
+		if (mPlayerLives <= 0)
+		{
+			mPlayer->Active(false);
+		}
 
-	// Multiplayer Player and Player 2 dies
-	if (mPlayerLives <= 0 && mPlayer2Lives <= 0)
-	{
-		mLevel->GameOver();
+		// Player and Player 2 dies
+		if (mPlayerLives <= 0 && mPlayer2Lives <= 0)
+		{
+			mLevel->GameOver();
+		}
 	}
 }
 
@@ -242,7 +244,7 @@ void PlayScreen::StartNewGame(int mSelectMode)
 	}
 
 	// Initial setup
-	SetLives(mPlayer->Lives(), (mSelectMode == 2) ? mPlayer2->Lives() : 0);
+	SetLives(mPlayer->Lives(), (mSelectMode == 2) ? mPlayer2->Lives() : 3);
 	SetPlayerScore(mPlayer->Score(), (mSelectMode == 2) ? mPlayer2->Score() : 0);
 
 	BackgroundScroll::mScroll = false;

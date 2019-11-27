@@ -24,7 +24,7 @@ EndingScreen::EndingScreen()
 
 	//Bottom Bar Entities
 	mBottomBar = new GameEntity(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.75f));
-	mCredit = new Texture("Credit", Graphics::Instance()->FONT_Emulogic, 36, { 200, 0, 0 });
+	mCredit = new Texture("Credits", Graphics::Instance()->FONT_Emulogic, 36, { 200, 0, 0 });
 	mNames = new Texture("Fredrik Gwangyeong Mattias", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
 	mFredrik = new AnimatedTexture("Pixel Adventure/Main Characters/Virtual Guy/Run (32x32).png", 0, 0, 32, 32, 12, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
 	mGwangyeong = new AnimatedTexture("Pixel Adventure/Main Characters/Pink Man/Run (32x32).png", 0, 0, 32, 32, 12, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);

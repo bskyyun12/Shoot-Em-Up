@@ -29,6 +29,12 @@ bool AnimatedTexture::IsAnimationDone()
 	return mAnimationDone;
 }
 
+void AnimatedTexture::ResetAnimationTimer()
+{
+	mAnimationTimer = 0.0f;
+	mAnimationDone = false;
+}
+
 void AnimatedTexture::WrapMode(WRAP_MODE mode)
 {
 	mWrapMode = mode;
