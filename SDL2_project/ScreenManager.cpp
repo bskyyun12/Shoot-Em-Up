@@ -73,7 +73,6 @@ void ScreenManager::Update()
 			mInputManager->GetButtonState(0, 0)))) /* Player 1 A button */
 		{
 			currentScreen = play;
-			mStartScreen->ResetAnimation();
 			mPlayScreen->StartNewGame(mStartScreen->GetSelectMode());
 		}
 		break;
@@ -81,13 +80,12 @@ void ScreenManager::Update()
 		mPlayScreen->Update();
 		if (mPlayScreen->GameOver())
 		{
-			currentScreen = start;
 			mStartScreen->ResetAnimation();
+			currentScreen = start;
 		}
 		else if (mPlayScreen->Victory())
 		{
 			currentScreen = ending;
-			mStartScreen->ResetAnimation();
 		}
 		break;
 	case ending:

@@ -12,7 +12,6 @@ StartScreen::StartScreen()
 
 	//Top Bar
 	mScoreBoard = ScoreBoard::Instance();
-	mScoreBoard->Parent(this);
 
 	// Logo Entities
 	mLogo = new Texture("ship_80x48.png", 32, 0, 16, 24);
@@ -107,7 +106,9 @@ StartScreen::~StartScreen()
 }
 
 void StartScreen::ResetAnimation()
-{	
+{
+	mScoreBoard->Parent(this);
+
 	// Screen Animation Variables
 	mAnimationStartPos = Vector2D((float)Graphics::Instance()->SCREEN_WIDTH * 0.5f, (float)Graphics::Instance()->SCREEN_HEIGHT);
 	mAnimationEndPos = VECTOR2D_ZERO;
