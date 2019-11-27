@@ -427,6 +427,8 @@ void Player::Update()
 		if (impact && !exploded)
 		{
 			mImpact->Update();
+			mAudioManager->PlaySFX("Audios/laserHit.wav", 0, 4);
+			mAudioManager->SFXVolume(4, 80);
 		}
 
 		if (mImpact->IsAnimationDone())
@@ -441,14 +443,6 @@ void Player::Update()
 	{
 		if (playOnce) // Ugly code but it works
 		{
-			if (ship)
-			{
-				mCollider->RemoveCollider(mPlayerShip);
-			}
-			else
-			{
-				mCollider->RemoveCollider(mPlayer);
-			}
 			mAudioManager->PlaySFX("Audios/chunky_explosion.wav", 0, 3);
 			mAudioManager->SFXVolume(3, 20);
 			playOnce = false;

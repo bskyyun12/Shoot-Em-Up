@@ -53,12 +53,12 @@ void Bullet::Fire(Vector2D pos)
 	Pos(pos);
 	Active(true);
 	mBullet->Active(true);
-	mAudioManager->PlaySFX("Audios/bullet.wav", 0, 1);
+	mAudioManager->PlaySFX("Audios/laser.wav", 0, 1);
 	mAudioManager->SFXVolume(1, 80);
 }
 
 void Bullet::Reload()
-{
+{	
 	Pos(VECTOR2D_ONE * -100.0f);
 	Active(false);
 }
