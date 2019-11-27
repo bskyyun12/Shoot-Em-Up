@@ -11,7 +11,7 @@ StartScreen::StartScreen()
 	mAudioManager = AudioManager::Instance();
 
 	//Top Bar
-	mScoreBoard = new ScoreBoard();
+	mScoreBoard = ScoreBoard::Instance();
 	mScoreBoard->Parent(this);
 
 	// Logo Entities
@@ -73,9 +73,6 @@ StartScreen::~StartScreen()
 	mTimer = nullptr;
 	mInputManager = nullptr;
 	mAudioManager = nullptr;
-
-	//Freeing Top Bar
-	delete mScoreBoard;
 	mScoreBoard = nullptr;
 
 	//Freeing Logo Entities
@@ -124,6 +121,11 @@ void StartScreen::ResetAnimation()
 	mAudioManager->MusicVolume(10);
 }
 
+bool StartScreen::IsAnimationDone()
+{
+	return mAnimationDone;
+}
+
 int StartScreen::GetSelectMode()
 {
 	return mSelectMode;
@@ -164,6 +166,7 @@ void StartScreen::Update()
 	}
 	else
 	{
+		mScoreBoard->Parent(nullptr);
 		mAnimatedLogo->Update();
 		mCursor->Update();
 

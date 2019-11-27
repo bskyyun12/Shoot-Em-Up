@@ -59,9 +59,11 @@ private:
 	float mGameOverLabelOnScreen;
 
 	// Victory
+	Texture* mVictoryLabel = nullptr;
 	bool mVictory;
 	float mVictoryDelay;
 	float mVictoryTimer;
+	float mVictoryLabelOnScreen;
 
 	// Enemy
 	std::vector<Box*> mBoxes;

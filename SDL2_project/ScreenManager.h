@@ -1,7 +1,8 @@
 #pragma once
+#include "BackgroundScroll.h"
 #include "StartScreen.h"
 #include "PlayScreen.h"
-#include "BackgroundScroll.h"
+#include "EndingScreen.h"
 
 class ScreenManager
 {
@@ -20,7 +21,7 @@ private:
 
 	StartScreen* mStartScreen = nullptr;
 	PlayScreen* mPlayScreen = nullptr;
-	//EndingScreen* mEndingScreen = nullptr;
+	EndingScreen* mEndingScreen = nullptr;
 	
 
 	SCREENS currentScreen;

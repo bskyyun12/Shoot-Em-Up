@@ -10,7 +10,6 @@ private:
 	AudioManager* mAudioManager = nullptr;
 	ScoreBoard* mScoreBoard = nullptr;
 	Texture* mStartLabel = nullptr;
-	//Texture* mBottomBarBackground = nullptr;
 
 	// Blinker
 	float mBlinkTimer;

@@ -98,6 +98,23 @@ unsigned int ScoreManager::GetCurrentHighScore()
 	return mHighScore;
 }
 
+ScoreBoard* ScoreBoard::sInstance = nullptr;
+
+ScoreBoard* ScoreBoard::Instance()
+{
+	if (sInstance == nullptr)
+	{
+		sInstance = new ScoreBoard();
+	}
+	return sInstance;
+}
+
+void ScoreBoard::Release()
+{
+	delete sInstance;
+	sInstance = nullptr;
+}
+
 ScoreBoard::ScoreBoard()
 {
 	//Top Bar Entities

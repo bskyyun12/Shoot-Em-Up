@@ -42,10 +42,12 @@ private:
 class ScoreBoard : public GameEntity
 {
 private:
+	static ScoreBoard* sInstance;
 
 public:
-	ScoreBoard();
-	~ScoreBoard();
+
+	static ScoreBoard* Instance();
+	static void Release();
 
 	//Top Bar Entities
 	GameEntity* mTopBar = nullptr;
@@ -58,6 +60,11 @@ public:
 	ScoreManager* mHighScoreBoard = nullptr;
 
 	void Render();
+
+private:
+
+	ScoreBoard();
+	~ScoreBoard();
 
 };
 

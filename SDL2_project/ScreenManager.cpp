@@ -24,6 +24,7 @@ ScreenManager::ScreenManager()
 
 	mStartScreen = new StartScreen();
 	mPlayScreen = new PlayScreen();
+	mEndingScreen = new EndingScreen();
 
 	currentScreen = start;
 }
@@ -37,6 +38,9 @@ ScreenManager::~ScreenManager()
 
 	delete mPlayScreen;
 	mPlayScreen = nullptr;
+
+	delete mEndingScreen;
+	mEndingScreen = nullptr;
 }
 
 
@@ -63,8 +67,8 @@ void ScreenManager::Update()
 	{
 	case start:
 		mStartScreen->Update();
-		if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN) || 
-		   (mInputManager->JoysticksInitialiased() && /* Joysticks initialised */
+		if (mStartScreen->IsAnimationDone() && mInputManager->KeyPressed(SDL_SCANCODE_RETURN) ||
+		   (mStartScreen->IsAnimationDone() && mInputManager->JoysticksInitialiased() && /* Joysticks initialised */
 		   (mInputManager->GetButtonState(0, 7) || /* Player 1 Start button */
 			mInputManager->GetButtonState(0, 0)))) /* Player 1 A button */
 		{
@@ -87,6 +91,15 @@ void ScreenManager::Update()
 		}
 		break;
 	case ending:
+		mEndingScreen->Update();
+		if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN) ||
+			(mInputManager->JoysticksInitialiased() && /* Joysticks initialised */
+			(mInputManager->GetButtonState(0, 7) || /* Player 1 Start button */
+				mInputManager->GetButtonState(0, 0)))) /* Player 1 A button */
+		{
+			currentScreen = start;
+			mStartScreen->ResetAnimation();
+		}
 		break;
 	default:
 		break;
@@ -104,6 +117,7 @@ void ScreenManager::Render()
 		mPlayScreen->Render();
 		break;
 	case ending:
+		mEndingScreen->Render();
 		break;
 	default:
 		break;
