@@ -54,7 +54,8 @@ PlayScreen::PlayScreen()
 
 PlayScreen::~PlayScreen()
 {
-	mScoreBoard->mHighScoreBoard->WriteHighScoreToFile(); // Write highscore to file
+	// Write highscore to file
+	mScoreBoard->mHighScoreBoard->WriteHighScoreToFile();
 
 	mTimer = nullptr;
 	mAudioManager = nullptr;
