@@ -119,7 +119,7 @@ void StartScreen::ResetAnimation()
 	Pos(mAnimationStartPos);
 
 	mAudioManager->PlayMusic("Audios/intro_bmg.wav");
-	mAudioManager->MusicVolume(10);
+	mAudioManager->MusicVolume(20);
 }
 
 bool StartScreen::IsAnimationDone()

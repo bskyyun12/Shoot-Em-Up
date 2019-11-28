@@ -152,7 +152,7 @@ void Enemy::Render()
 
 		for (int i = 0; i < sPaths[mCurrentPath].size() -1; i++)
 		{
-			Graphics::Instance()->DrawLine(sPaths[mCurrentPath][i].x, sPaths[mCurrentPath][i].y, sPaths[mCurrentPath][i + 1].x, sPaths[mCurrentPath][i + 1].y);
+			//Graphics::Instance()->DrawLine(sPaths[mCurrentPath][i].x, sPaths[mCurrentPath][i].y, sPaths[mCurrentPath][i + 1].x, sPaths[mCurrentPath][i + 1].y);
 		}
 	}
 }

@@ -81,6 +81,8 @@ public:
 	LEVEL_STATES State();
 
 	void GameOver();
+	void Victory();
+	void LevelWon();
 
 	void Update();
 	void Render();

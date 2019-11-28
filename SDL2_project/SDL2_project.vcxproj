@@ -140,9 +140,12 @@
     <ClInclude Include="BezierPath.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="BoxPiece.h" />
+    <ClInclude Include="Boxxy.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="EndingScreen.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Formation.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Graphics.h" />
@@ -168,9 +171,12 @@
     <ClCompile Include="BezierPath.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="BoxPiece.cpp" />
+    <ClCompile Include="Boxxy.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="EndingScreen.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Formation.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Graphics.cpp" />

@@ -16,6 +16,8 @@ Player2::Player2()
 	// init current score and lives
 	mScore = 0;
 	mLives = 3;
+	mScoreTimer = 0.5f;
+	mScoreRate = 0.5f;
 
 	// player texture
 	mPlayer2 = new Texture("jumpBlue.png");
@@ -37,9 +39,21 @@ Player2::Player2()
 	impact = false;
 
 	// Shield texture
-	mShield = new AnimatedTexture("shieldPurple.png", 0, 0, 45, 100, 4, 0.25f, AnimatedTexture::horizontal);
-	mShield->Parent(this);
-	mShield->Translate(VECTOR2D_RIGHT * 40);
+	mShieldFront = new AnimatedTexture("shieldPurple.png", 0, 0, 45, 100, 4, 0.25f, AnimatedTexture::horizontal);
+	mShieldBack = new AnimatedTexture("shieldPurple.png", 0, 0, 45, 100, 4, 0.25f, AnimatedTexture::horizontal);
+	mShieldUp = new AnimatedTexture("shieldPurple.png", 0, 0, 45, 100, 4, 0.25f, AnimatedTexture::horizontal);
+	mShieldDown = new AnimatedTexture("shieldPurple.png", 0, 0, 45, 100, 4, 0.25f, AnimatedTexture::horizontal);
+	mShieldFront->Parent(this);
+	mShieldBack->Parent(this);
+	mShieldUp->Parent(this);
+	mShieldDown->Parent(this);
+	mShieldFront->Translate(VECTOR2D_RIGHT * 40);
+	mShieldBack->Translate(VECTOR2D_LEFT * 40);
+	mShieldBack->Rotate(180);
+	mShieldUp->Translate(VECTOR2D_UP * 40);
+	mShieldUp->Rotate(270);
+	mShieldDown->Translate(VECTOR2D_DOWN * 40);
+	mShieldDown->Rotate(90);
 	shield = false;
 
 	// Explosion Texture
@@ -91,8 +105,15 @@ Player2::~Player2()
 	delete mImpact;
 	mImpact = nullptr;
 
-	delete mShield;
-	mShield = nullptr;
+	// Shields
+	delete mShieldFront;
+	mShieldFront = nullptr;
+	delete mShieldBack;
+	mShieldBack = nullptr;
+	delete mShieldUp;
+	mShieldUp = nullptr;
+	delete mShieldDown;
+	mShieldDown = nullptr;
 
 	delete mExplosion;
 	mExplosion = nullptr;
@@ -143,24 +164,32 @@ void Player2::HandleMovement()
 			Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
 		}
 
-		if (mInputManager->KeyDown(SDL_SCANCODE_F) && !shield) // Fire Bullet
+		// Fire Bullet
+		if (mInputManager->KeyDown(SDL_SCANCODE_F) && !shield)
 		{
 			FireBullet();
 		}
 
-		if (mInputManager->KeyDown(SDL_SCANCODE_SPACE) && !shield) // Fire Rocket
+		// Fire Rocket
+		if (mInputManager->KeyDown(SDL_SCANCODE_SPACE) && !shield)
 		{
 			FireRocket();
 			AddScore(1);
 		}
 
-		if (mInputManager->KeyDown(SDL_SCANCODE_Q)) // Raise Shield 
+		// Raise Shield 
+		if (mInputManager->KeyDown(SDL_SCANCODE_Q) && mScore > 0)
 		{
-			mShield->Update();
+			mShieldFront->Update();
+			mShieldBack->Update();
+			mShieldUp->Update();
+			mShieldDown->Update();
 			shield = true;
+			RemoveScore(1);
 		}
 
-		if (mInputManager->KeyReleased(SDL_SCANCODE_Q)) // Lower Shield
+		// Lower Shield
+		if (mInputManager->KeyReleased(SDL_SCANCODE_Q))
 		{
 			shield = false;
 		}
@@ -218,14 +247,19 @@ void Player2::HandleMovement()
 		}
 
 		// LB button
-		if (InputManager::Instance()->GetButtonState(1, 4)) 
+		if (InputManager::Instance()->GetButtonState(1, 4) && mScore > 0)
 		{
-			mShield->Update();
+			mShieldFront->Update();
+			mShieldBack->Update();
+			mShieldUp->Update();
+			mShieldDown->Update();
 			shield = true;		// Raise Shield
+			RemoveScore(1);
 		}
 
 		// Released LB button
-		if (!(InputManager::Instance()->GetButtonState(1, 4)) && shield && !(mInputManager->KeyDown(SDL_SCANCODE_Q)))
+		if (!(InputManager::Instance()->GetButtonState(1, 4)) && 
+			shield && !(mInputManager->KeyDown(SDL_SCANCODE_Q)))
 		{
 			shield = false;		// Lower Shield
 		}
@@ -239,15 +273,13 @@ void Player2::HandleMovement()
 		// Back/Select button
 		if (InputManager::Instance()->GetButtonState(1, 6)) 
 		{
-			AddHealth();
-			cout << "Player 2 Lives : " << mLives << endl;
+
 		}
 
 		// Start button
 		if (InputManager::Instance()->GetButtonState(1, 7)) 
 		{
-			RemoveHealth();
-			cout << "Player 2 Lives : " << mLives << endl;
+
 		}
 
 		// Left Stick button
@@ -265,8 +297,7 @@ void Player2::HandleMovement()
 		// XBOX button
 		if (InputManager::Instance()->GetButtonState(1, 10)) 
 		{
-			AddScore(1);
-			cout << "Player 2 Score : " << mScore << endl;
+	
 		}
 
 #pragma endregion
@@ -333,7 +364,23 @@ int Player2::Lives()
 
 void Player2::AddScore(unsigned int score)
 {
-	mScore += score;
+	if (mScoreTimer > mScoreRate)
+	{
+		mScore += score;
+		mScoreTimer = 0.0f;
+	}
+}
+
+void Player2::RemoveScore(unsigned int score)
+{
+	if (mScoreTimer > mScoreRate)
+	{
+		mScore -= score;
+		if (mScore <= 0)
+		{
+			shield = false;
+		}
+	}
 }
 
 void Player2::ToggleTexture()
@@ -376,11 +423,13 @@ void Player2::Update()
 {
 	mFireTimer += mTimer->DeltaTime();
 	mRocketFireTimer += mTimer->DeltaTime();
+	mScoreTimer += mTimer->DeltaTime();
 
 	// player won't do anything during stage preparation
 	if (Active())
 	{
 		HandleMovement();
+		AddScore(1);
 
 #pragma region Collision detection
 
@@ -499,6 +548,9 @@ void Player2::Render()
 
 	if (shield)
 	{
-		mShield->Render();
+		mShieldFront->Render();
+		mShieldBack->Render();
+		mShieldUp->Render();
+		mShieldDown->Render();
 	}
 }

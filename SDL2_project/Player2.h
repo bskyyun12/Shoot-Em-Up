@@ -18,6 +18,8 @@ private:
 	// init current score and lives
 	unsigned int mScore;
 	int mLives;
+	float mScoreTimer;
+	float mScoreRate;
 
 	// player texture
 	Texture* mPlayer2 = nullptr;
@@ -25,7 +27,10 @@ private:
 	bool ship;
 
 	// shield texture
-	AnimatedTexture* mShield = nullptr;
+	AnimatedTexture* mShieldFront = nullptr;
+	AnimatedTexture* mShieldBack = nullptr;
+	AnimatedTexture* mShieldUp = nullptr;
+	AnimatedTexture* mShieldDown = nullptr;
 	bool shield;
 
 	// bullet
@@ -79,8 +84,9 @@ public:
 	// Get Player's current Lives
 	int Lives();
 
-	// Add score to Player's current score
+	// Add and remove score to Player's current score
 	void AddScore(unsigned int score);
+	void RemoveScore(unsigned int score);
 
 	void Update();
 	void Render();

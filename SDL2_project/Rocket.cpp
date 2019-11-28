@@ -53,7 +53,7 @@ void Rocket::CreatePath(Vector2D pos, int pathNum)
 	Pos(pos);
 	Active(true);
 	mAudioManager->PlaySFX("Audios/fireball.wav", 0, 2);
-	mAudioManager->SFXVolume(2, 20);
+	mAudioManager->SFXVolume(2, 80);
 
 	if (Graphics::Instance()->SCREEN_WIDTH - pos.x < 200)
 	{
