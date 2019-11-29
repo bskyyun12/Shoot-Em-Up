@@ -140,18 +140,7 @@ Player2::~Player2()
 	}
 
 	// Collider
-	for (auto col : mShipColliders)
-	{
-		delete col.first;
-		mShipColliders.erase(col.first);
-	}
 	mShipColliders.clear();
-
-	for (auto col : mPlayerColliders)
-	{
-		delete col.first;
-		mPlayerColliders.erase(col.first);
-	}
 	mPlayerColliders.clear();
 }
 

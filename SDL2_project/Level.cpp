@@ -159,7 +159,7 @@ void Level::StartStage()
 	default:
 		break;
 	}
-	
+
 	mPlayer->Active(true);
 	if (mPlayer2 != nullptr)
 	{
@@ -228,20 +228,15 @@ void Level::Update()
 	}
 	else
 	{
-		// todo: gameover condition
-		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
+		if ((mPlayer->Lives() <= 0 && mPlayer->Lives() <= 0) || InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
 		{
 			GameOver();
 		}
-
-		// todo : victory condition
-		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_V))
+		else if ((mBoxes.size() == 0 && mCurrentStage == 9) || InputManager::Instance()->KeyPressed(SDL_SCANCODE_V))
 		{
 			Victory();
 		}
-
-		// condition needs to be changed -> if all enemies have died,
-		if (mBoxes.size() == 0 || InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
+		else if (mBoxes.size() == 0 || InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
 		{
 			LevelWon();
 		}
