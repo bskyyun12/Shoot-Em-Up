@@ -201,6 +201,15 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="highscore0.txt" />
+    <Text Include="highscore1.txt" />
+    <Text Include="highscore2.txt" />
+    <Text Include="highscore3.txt" />
+    <Text Include="highscore4.txt" />
+    <Text Include="highscore5.txt" />
+    <Text Include="highscore6.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
