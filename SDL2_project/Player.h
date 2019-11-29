@@ -3,8 +3,11 @@
 #include "InputManager.h"
 #include "Bullet.h"
 #include "Rocket.h"
+#include "PhysicsEntity.h"
+#include "BoxCollider.h"
+#include "PhysicsManager.h"
 
-class Player : public GameEntity
+class Player : public PhysicsEntity
 {
 private:
 
@@ -41,7 +44,7 @@ private:
 	float mRocketFireRate;
 
 	// collider
-	Collider* mCollider = nullptr;
+	bool mWasHit;
 
 	// Impact
 	AnimatedTexture* mImpact = nullptr;
@@ -73,6 +76,10 @@ public:
 	// Player health
 	void AddHealth();
 	void RemoveHealth();
+
+	// Collider
+	void Hit(PhysicsEntity* other) override;
+	bool IgnoreCollisions();
 
 	// Get Player's current score
 	unsigned int Score();

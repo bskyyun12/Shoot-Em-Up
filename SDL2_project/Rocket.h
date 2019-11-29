@@ -3,9 +3,11 @@
 #include "Timer.h"
 #include "AudioManager.h"
 #include "BezierPath.h"
-#include "Collider.h"
+#include "PhysicsEntity.h"
+#include "PhysicsManager.h"
+#include "BoxCollider.h"
 
-class Rocket : public GameEntity
+class Rocket : public PhysicsEntity
 {
 private:
 
@@ -23,8 +25,8 @@ private:
 
 	AnimatedTexture* mRocket = nullptr;
 
-	//collider 
-	Collider* mCollider = nullptr;
+	//collider
+	Collider::TAG mTag;
 
 public:
 
@@ -34,7 +36,15 @@ public:
 	void CreatePath(Vector2D pos, int pathNum);
 	void Reload();
 
+	//collider
+	void Hit(PhysicsEntity* other) override;
+
 	void Update();
 	void Render();
+
+private:
+
+	//collider
+	bool IgnoreCollisions() override;
 };
 

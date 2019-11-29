@@ -2,9 +2,11 @@
 #include "AnimatedTexture.h"
 #include "Timer.h"
 #include "AudioManager.h"
-#include "Collider.h"
+#include "PhysicsEntity.h"
+#include "PhysicsManager.h"
+#include "BoxCollider.h"
 
-class Bullet : public GameEntity
+class Bullet : public PhysicsEntity
 {
 private:
 
@@ -16,7 +18,6 @@ private:
 	AnimatedTexture* mBullet = nullptr;
 
 	//collider
-	Collider* mCollider = nullptr;
 	Collider::TAG mTag;
 
 public:
@@ -27,7 +28,15 @@ public:
 	void Fire(Vector2D pos);
 	void Reload();
 
+	//collider
+	void Hit(PhysicsEntity* other) override;
+
 	void Update();
 	void Render();
+
+private:
+
+	//collider
+	bool IgnoreCollisions() override;
 };
 

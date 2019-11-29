@@ -1,12 +1,13 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Collider::TAG tag)
+Bullet::Bullet(Collider::TAG tag) : mTag(tag)
 {
 	mTimer = Timer::Instance();
 	mAudioManager = AudioManager::Instance();
 
 	mSpeed = 700.0f;
-	switch (tag)
+
+	switch (mTag)
 	{
 	case Collider::player1Projectile:
 		mBullet = new AnimatedTexture("laserRed.png", 0, 0, 50, 16, 9, 0.5f, AnimatedTexture::horizontal);
@@ -25,24 +26,24 @@ Bullet::Bullet(Collider::TAG tag)
 	mBullet->Pos(VECTOR2D_ZERO);
 	//Rotate(-45); // bullet will be fired with -45 angle
 
-	mBullet->Active(false);
 	Reload();
 
 	//collider
-	mCollider = Collider::Instance();
-	mCollider->AddCollider(mBullet, tag);
-	mTag = tag;
-
+	AddCollider(new BoxCollider(mBullet->ScaledDimensions(), mTag));
+	if (mTag == Collider::player1Projectile || mTag == Collider::player2Projectile)
+	{
+		mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::PlayerProjectiles);
+	}
+	else if (mTag == Collider::enemyProjectile)
+	{
+		mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::EnemyProjectiles);
+	}
 }
 
 Bullet::~Bullet()
 {
 	mTimer = nullptr;
 	mAudioManager = nullptr;
-
-	// collider
-	mCollider->RemoveCollider(mBullet);
-	mCollider = nullptr;
 
 	delete mBullet;
 	mBullet = nullptr;
@@ -52,15 +53,23 @@ void Bullet::Fire(Vector2D pos)
 {
 	Pos(pos);
 	Active(true);
-	mBullet->Active(true);
 	mAudioManager->PlaySFX("Audios/laser.wav", 0, 1);
 	mAudioManager->SFXVolume(1, 80);
 }
 
 void Bullet::Reload()
 {	
-	Pos(VECTOR2D_ONE * -100.0f);
 	Active(false);
+}
+
+void Bullet::Hit(PhysicsEntity* other)
+{
+	Reload();
+}
+
+bool Bullet::IgnoreCollisions()
+{
+	return !Active();
 }
 
 void Bullet::Update()
@@ -80,21 +89,16 @@ void Bullet::Update()
 		{
 			Reload();
 		}
-
-		if (!mBullet->Active())
-		{
-			Reload();
-		}
-
 	}
 }
 
 void Bullet::Render()
 {
-	//if (active())
-	//{
-	//	mbullet->render();
-	//}
+	if (Active())
+	{
+		mBullet->Render();
 
-	mBullet->Render();
+		// Debug colliderbox
+		PhysicsEntity::Render();
+	}
 }

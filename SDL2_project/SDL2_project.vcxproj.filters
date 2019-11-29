@@ -31,6 +31,18 @@
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{6eb744ab-5f86-4b58-9eb6-17071517c849}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game\Projectiles">
+      <UniqueIdentifier>{2c9445ab-966d-4b0f-aee2-3ef922018b93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Colliders">
+      <UniqueIdentifier>{762def12-a217-41ce-97fb-b3b93fc39b0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Colliders">
+      <UniqueIdentifier>{0b28d11f-eb87-47ce-9005-3c23daa6c8c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Projectiles">
+      <UniqueIdentifier>{9d3af9eb-9f02-42df-9c0c-df1efd81f258}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
@@ -84,9 +96,6 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Player2.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
@@ -96,20 +105,35 @@
     <ClInclude Include="Box.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="ScreenManager.h">
       <Filter>Header Files\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Rocket.h">
-      <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="BoxPiece.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="EndingScreen.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEntity.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files\Game\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>Header Files\Game\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files\Game\Projectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Rocket.h">
+      <Filter>Header Files\Game\Projectiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -164,16 +188,7 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Player2.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Rocket.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="BezierPath.cpp">
@@ -190,6 +205,24 @@
     </ClCompile>
     <ClCompile Include="EndingScreen.cpp">
       <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsEntity.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Source Files\Game\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Source Files\Game\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\Game\Projectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Rocket.cpp">
+      <Filter>Source Files\Game\Projectiles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

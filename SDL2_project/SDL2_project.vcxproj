@@ -139,9 +139,11 @@
     <ClInclude Include="BackgroundScroll.h" />
     <ClInclude Include="BezierPath.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="BoxPiece.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="PhysicsEntity.h" />
     <ClInclude Include="EndingScreen.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameManager.h" />
@@ -150,6 +152,8 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MathHelper.h" />
+    <ClInclude Include="PhysicsHelper.h" />
+    <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Player2.h" />
     <ClInclude Include="PlayScreen.h" />
@@ -167,9 +171,11 @@
     <ClCompile Include="BackgroundScroll.cpp" />
     <ClCompile Include="BezierPath.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="BoxPiece.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="PhysicsEntity.cpp" />
     <ClCompile Include="EndingScreen.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -178,6 +184,7 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Player2.cpp" />
     <ClCompile Include="PlayScreen.cpp" />

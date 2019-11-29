@@ -3,7 +3,7 @@
 
 std::vector<std::vector<Vector2D>> Rocket::sPaths;
 
-Rocket::Rocket(Collider::TAG tag)
+Rocket::Rocket(Collider::TAG tag) : mTag(tag)
 {
 	mTimer = Timer::Instance();
 	mAudioManager = AudioManager::Instance();
@@ -20,12 +20,18 @@ Rocket::Rocket(Collider::TAG tag)
 	mCurrentWayPoint = 0;
 	midPoint = 0.0f;
 
-	mRocket->Active(false);
 	Reload();
 
 	//collider
-	mCollider = Collider::Instance();
-	mCollider->AddCollider(mRocket, tag);
+	AddCollider(new BoxCollider(mRocket->ScaledDimensions(), mTag));
+	if (mTag == Collider::player1Projectile || mTag == Collider::player2Projectile)
+	{
+		mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::PlayerProjectiles);
+	}
+	else if (mTag == Collider::enemyProjectile)
+	{
+		mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::EnemyProjectiles);
+	}
 }
 
 Rocket::~Rocket()
@@ -33,23 +39,12 @@ Rocket::~Rocket()
 	mTimer = nullptr;
 	mAudioManager = nullptr;
 
-	// collider
-	mCollider->RemoveCollider(mRocket);
-	mCollider = nullptr;
-
 	delete mRocket;
 	mRocket = nullptr;
 }
 
-void Rocket::Reload()
-{
-	Pos(VECTOR2D_ONE * -100.0f);
-	Active(false);
-}
-
 void Rocket::CreatePath(Vector2D pos, int pathNum)
 {
-	mRocket->Active(true);
 	Pos(pos);
 	Active(true);
 	mAudioManager->PlaySFX("Audios/fireball.wav", 0, 2);
@@ -93,10 +88,26 @@ void Rocket::CreatePath(Vector2D pos, int pathNum)
 		path->AddCurve({ start, Vector2D(startCtrl.x, start.y + ctrlPoint), Vector2D(endCtrl.x, start.y - ctrlPoint), end }, 25); // up and down
 	}
 
-
 	path->Sample(&sPaths[mCurrentPath]);
 
 	delete path;
+}
+
+void Rocket::Reload()
+{
+	Active(false);
+}
+
+void Rocket::Hit(PhysicsEntity* other)
+{
+	mCurrentWayPoint = 0;
+	sPaths[mCurrentPath].clear();
+	Reload();
+}
+
+bool Rocket::IgnoreCollisions()
+{
+	return !Active();
 }
 
 void Rocket::Update()
@@ -128,21 +139,16 @@ void Rocket::Update()
 			sPaths[mCurrentPath].clear();
 			Reload();
 		}
-
-
-		if (!mRocket->Active())
-		{
-			mCurrentWayPoint = 0;
-			sPaths[mCurrentPath].clear();
-			Reload();
-		}
 	}
 }
 
 void Rocket::Render()
 {
-	//if (Active())
-	//	mRocket->Render();
+	if (Active())
+	{
+		mRocket->Render();
 
-	mRocket->Render();
+		// Debug colliderbox
+		PhysicsEntity::Render();
+	}
 }

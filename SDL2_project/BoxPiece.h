@@ -1,7 +1,6 @@
 #pragma once
 
 #include "AnimatedTexture.h"
-#include "Collider.h"
 #include "Timer.h"
 
 class BoxPiece : public GameEntity
@@ -10,9 +9,6 @@ private:
 
 	// box piece texture
 	AnimatedTexture* mBoxPieceTexture = nullptr;
-
-	// collider
-	Collider* mCollider = nullptr;
 
 	float mMoveSpeed;
 	Timer* mTimer = nullptr;

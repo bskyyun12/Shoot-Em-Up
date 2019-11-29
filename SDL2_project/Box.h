@@ -1,15 +1,18 @@
 #pragma once
 
 #include "AnimatedTexture.h"
-#include "Collider.h"
 #include "BoxPiece.h"
 #include "Bullet.h"
 #include "AudioManager.h"
+#include "PhysicsEntity.h"
+#include "BoxCollider.h"
+#include "PhysicsManager.h"
 
-class Box : public GameEntity
+class Box : public PhysicsEntity
 {
 private:
 
+	Timer* mTimer = nullptr;
 	AudioManager* mAudioManager = nullptr;
 
 	// box texture
@@ -29,14 +32,9 @@ private:
 	float mFireRate;
 
 	// collider
-	Collider* mCollider = nullptr;
-	bool mGetDamage;
 	bool mWasHit;
 
-	bool hit = false;
 	float mMoveSpeed;
-	Timer* mTimer = nullptr;
-
 	int hp;
 	bool playOnce;
 
@@ -51,8 +49,17 @@ public:
 
 	void Impact();
 
+	// collider
+	void Hit(PhysicsEntity* other) override;
+
 	void Update();
 	void Render();
+
+
+private:
+
+	// collider
+	bool IgnoreCollisions() override;
 
 };
 

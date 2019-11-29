@@ -66,10 +66,11 @@ Player2::Player2()
 	mRocketFireTimer = 2.0f;
 	mRocketFireRate = 2.0f;
 
-	// collider 
-	mCollider = Collider::Instance();
-	mCollider->AddCollider(mPlayer2, Collider::TAG::player2);
-	mCollider->AddCollider(mPlayerShip2, Collider::TAG::player2);
+	// collider 	
+	mWasHit = false;
+	AddCollider(new BoxCollider(mPlayer2->ScaledDimensions(), Collider::TAG::player2));
+	mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Player);
+
 }
 
 Player2::~Player2()
@@ -77,9 +78,6 @@ Player2::~Player2()
 	mTimer = nullptr;
 	mInputManager = nullptr;
 	mAudioManager = nullptr;
-
-	// collider
-	mCollider = nullptr;
 
 	// textures
 	delete mPlayer2;
@@ -342,13 +340,13 @@ void Player2::ToggleTexture()
 
 	if (ship)
 	{
-		mCollider->RemoveCollider(mPlayer2);
-		mCollider->AddCollider(mPlayerShip2, Collider::TAG::player1);
+		//mCollider->RemoveCollider(mPlayer2);
+		//mCollider->AddCollider(mPlayerShip2, Collider::TAG::player1);
 	}
 	else
 	{
-		mCollider->RemoveCollider(mPlayerShip2);
-		mCollider->AddCollider(mPlayer2, Collider::TAG::player1);
+		//mCollider->RemoveCollider(mPlayerShip2);
+		//mCollider->AddCollider(mPlayer2, Collider::TAG::player1);
 	}
 }
 
@@ -372,6 +370,26 @@ void Player2::RemoveHealth()
 	mLives--;
 }
 
+void Player2::Hit(PhysicsEntity* other)
+{
+	std::cout << "Player2 got hit." << std::endl;
+	mWasHit = true;
+	Impact();
+	if (!shield)
+	{
+		RemoveHealth();
+		if (mLives <= 0)
+		{
+			exploded = true;
+		}
+	}
+}
+
+bool Player2::IgnoreCollisions()
+{
+	return !Active();
+}
+
 void Player2::Update()
 {
 	mFireTimer += mTimer->DeltaTime();
@@ -380,44 +398,10 @@ void Player2::Update()
 	// player won't do anything during stage preparation
 	if (Active())
 	{
+		if (mWasHit)
+			mWasHit = false;
+
 		HandleMovement();
-
-#pragma region Collision detection
-
-		if (!mPlayerShip2->Active())
-		{
-			std::cout << "mPlayerShip2 gets damage." << std::endl;
-
-			// here do things like losing life
-			Impact();
-			if (!shield)
-			{
-				RemoveHealth();
-				if (mLives <= 0)
-				{
-					exploded = true;
-				}
-			}
-			mPlayerShip2->Active(true);
-		}
-		else if (!mPlayer2->Active())
-		{
-			std::cout << "mPlayer2 gets damage." << std::endl;
-
-			// here do things like losing life
-			Impact();
-			if (!shield)
-			{
-				RemoveHealth();
-				if (mLives <= 0)
-				{
-					exploded = true;
-				}
-			}
-			mPlayer2->Active(true);
-		}
-
-#pragma endregion Collision detection
 
 		if (impact && !exploded)
 		{
@@ -501,4 +485,7 @@ void Player2::Render()
 	{
 		mShield->Render();
 	}
+
+	// Debug colliderbox
+	PhysicsEntity::Render();
 }

@@ -37,11 +37,13 @@ GameManager::GameManager()
 
 	mTimer = Timer::Instance();
 
-	// STEP 3 : Create new instance
 	mScreenManager = ScreenManager::Instance();
-	mCollider = Collider::Instance();
 
-	// STEP 3 : Create new instance
+	mPhysicsManager = PhysicsManager::Instance();
+	mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Player, PhysicsManager::CollisionFlags::Enemy | PhysicsManager::CollisionFlags::EnemyProjectiles);
+	mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::PlayerProjectiles, PhysicsManager::CollisionFlags::Enemy);
+	mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Enemy, PhysicsManager::CollisionFlags::Player | PhysicsManager::CollisionFlags::PlayerProjectiles);
+	mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::EnemyProjectiles, PhysicsManager::CollisionFlags::Player);
 
 	mInputManager->CleanJoysticks();
 	mInputManager->InitialiseJoysticks();
@@ -49,14 +51,11 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
-	// STEP 4 : Delete instance
+	PhysicsManager::Release();
+	mPhysicsManager = nullptr;
+
 	ScreenManager::Release();
 	mScreenManager = nullptr;
-
-	Collider::Release();
-	mCollider = nullptr;
-
-	// STEP 4 : Delete instance
 
 	AudioManager::Release();
 	mAudioManager = nullptr;
@@ -81,16 +80,12 @@ void GameManager::EarlyUpdate()
 
 void GameManager::Update() 
 {
-	// STEP 5 : Update the instance
 	mScreenManager->Update();
-
-	// STEP 5 : Update the instance
 }
 
 void GameManager::LateUpdate() 
 {
-	//Any collision detection should happen here
-	mCollider->Update();
+	mPhysicsManager->Update();
 	mInputManager->UpdatePrevInput();
 	mTimer->Reset();
 }
@@ -100,10 +95,7 @@ void GameManager::Render()
 	//Clears the last frame's render from the back buffer
 	mGraphics->ClearBackBuffer();
 
-	// STEP 6 : Render the instance
 	mScreenManager->Render();
-
-	// STEP 6 : Render the instance
 
 	//Renders the current frame
 	mGraphics->Render();

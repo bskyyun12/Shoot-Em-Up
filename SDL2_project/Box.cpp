@@ -1,4 +1,5 @@
 #include "Box.h"
+#include <iostream>
 
 Box::Box(Vector2D pos)
 {
@@ -49,10 +50,9 @@ Box::Box(Vector2D pos)
 	mFireRate = 1.0f;
 
 	// collider 
-	mCollider = Collider::Instance();
-	mCollider->AddCollider(mBox, Collider::TAG::enemy);
 	mWasHit = false;
-	mGetDamage = false;
+	AddCollider(new BoxCollider(mBox->ScaledDimensions(), Collider::TAG::enemy));
+	mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Enemy);
 
 	hp = 3;
 }
@@ -63,10 +63,6 @@ Box::~Box()
 	mAudioManager = nullptr;
 
 	playOnce = false;
-
-	// collider
-	mCollider->RemoveCollider(mBox);
-	mCollider = nullptr;
 
 	// Textures
 	delete mBox;
@@ -106,6 +102,20 @@ void Box::Impact()
 	impact = true;
 }
 
+void Box::Hit(PhysicsEntity* other)
+{
+	hp--;
+	Impact();
+	std::cout << "Box gets damage. Current hp is : " << hp << "." << std::endl;
+	mBox->Active(true);
+	mWasHit = true;
+}
+
+bool Box::IgnoreCollisions()
+{
+	return !Active();
+}
+
 void Box::Update()
 {
 	if (Active())
@@ -134,12 +144,9 @@ void Box::Update()
 
 #pragma region Collision detection
 
-		if (!mBox->Active())
+		if (mWasHit)
 		{
-			hp--;
-			Impact();
-			std::cout << "Box gets damage. Current hp is : " << hp << "." << std::endl;
-			mBox->Active(true);
+			mWasHit = false;
 		}
 
 #pragma endregion Collision detection
@@ -186,11 +193,6 @@ void Box::Update()
 				Pos(Vector2D((float)Graphics::Instance()->SCREEN_WIDTH, Pos().y));
 		}
 	}
-
-	//if (mCollider->CollisionCheck(mBox, Collider::TAG::enemy))
-	//{
-	//	std::cout << "enemy needs to lose life!!" << std::endl;
-	//}
 }
 
 void Box::Render()
@@ -218,6 +220,9 @@ void Box::Render()
 		else
 		{
 			mBox->Render();
+
+			// Debug colliderbox
+			PhysicsEntity::Render();
 		}
 	}
 

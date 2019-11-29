@@ -37,19 +37,12 @@ BoxPiece::BoxPiece(bool up, bool right, bool down)
 
 	mBoxPieceTexture->Scale(VECTOR2D_ONE * 2);	// scale up to 64x64
 	mBoxPieceTexture->Parent(this);
-
-	// collider
-	//mCollider = Collider::Instance();
-	//mCollider->AddCollider(mBoxPieceTexture, Collider::TAG::enemy);
 }
 
 BoxPiece::~BoxPiece()
 {
 	delete mBoxPieceTexture;
 	mBoxPieceTexture = nullptr;
-
-	// collider
-	mCollider = nullptr;
 }
 
 void BoxPiece::Update()

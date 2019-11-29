@@ -128,6 +128,20 @@ inline Vector2D RotateVector(Vector2D& vec, float angle)
 	return Vector2D((float)(vec.x * cos(radAngle) - vec.y * sin(radAngle)), (float)(vec.x * sin(radAngle) + vec.y * cos(radAngle)));
 }
 
+inline float Dot(const Vector2D& vec1, const Vector2D& vec2)
+{
+	return vec1.x * vec2.x + vec1.y * vec2.y;
+}
+
+inline float Clamp(const float& value, const float& min, const float& max)
+{
+	if (value > max)
+		return max;
+	if (value < min)
+		return min;
+	return value;
+}
+
 inline Vector2D Lerp(Vector2D& start_vec, Vector2D& end_vec, float time)
 {
 	if (time <= 0.0f)

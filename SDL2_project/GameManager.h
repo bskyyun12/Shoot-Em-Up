@@ -2,9 +2,8 @@
 #define _GAMEMANAGER_H
 #include "AudioManager.h"
 #include "Timer.h"
-// STEP 1 : Include the new file you made
 #include "ScreenManager.h"
-#include "Collider.h"
+#include "PhysicsManager.h"
 
 class GameManager
 {
@@ -25,11 +24,8 @@ private:
 
 	SDL_Event mEvents = {0};
 
-	// STEP 2 : Create new instance
 	ScreenManager* mScreenManager = nullptr;
-	Collider* mCollider = nullptr;
-
-	// STEP 2 : Create new instance
+	PhysicsManager* mPhysicsManager = nullptr;
 
 public:
 

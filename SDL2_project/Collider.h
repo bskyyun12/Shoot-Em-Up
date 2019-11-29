@@ -1,8 +1,6 @@
 #pragma once
 #include "Texture.h"
-#include <map>
-#include <iostream>
-
+#include <vector>
 
 class Collider : public GameEntity
 {
@@ -18,30 +16,22 @@ public:
 		enemyProjectile
 	};
 
-private:
+protected:
 
-	static Collider* sInstance;
-
-	std::map<Texture*, TAG> mColliders;
-	std::map<Texture*, TAG>::iterator it;
+	TAG mTag;
+	static const bool DEBUG_COLLIDERS = true;
+	Texture* mDebugTexture = nullptr;
 
 public:
 
-	static Collider* Instance();
-	static void Release();
+	Collider(TAG tag);
+	virtual ~Collider();
 
-	void AddCollider(Texture* tex, TAG tag);
+	virtual void Render();
 
-	void RemoveCollider(Texture* tex);
+protected:
 
-	void Update();
-
-private:
-
-	Collider();
-	~Collider();
-
-	// debug purpose
-	std::string tagEnumToStr(int index);
+	void SetDebugTexture(Texture* texture);
+	TAG GetTag();
 
 };

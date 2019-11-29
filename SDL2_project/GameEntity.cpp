@@ -24,14 +24,28 @@ Vector2D GameEntity::Pos(SPACE space)
 	if (space == local || mParent == NULL)
 		return mPos;
 
-	Vector2D parentScale = mParent->Scale(world);
+	GameEntity* parent = mParent;
+	Vector2D finalPos = mPos, parentScale = VECTOR2D_ZERO;
 
-	//The object's local position is rotated by the parent's rotation
-	//The final position also depends on the parent's scale (if the parent is scaled up, the object should be further away from the parent)
-	Vector2D childPos = Vector2D(mPos.x * parentScale.x, mPos.y * parentScale.y);
-	Vector2D rotPos = RotateVector(childPos, mParent->Rotation(local));
+	do
+	{
+		parentScale = mParent->Scale(local);
+		Vector2D childPos = Vector2D(finalPos.x * parentScale.x, finalPos.y * parentScale.y);
+		finalPos = RotateVector(childPos, parent->Rotation(local));
+		finalPos += parent->Pos(local);
 
-	return mParent->Pos(world) + rotPos;
+		parent = parent->Parent();
+
+	} while (parent);
+
+	return finalPos;
+
+		//The object's local position is rotated by the parent's rotation
+		//The final position also depends on the parent's scale (if the parent is scaled up, the object should be further away from the parent)
+		//Vector2D childPos = Vector2D(mPos.x * parentScale.x, mPos.y * parentScale.y);
+		//Vector2D rotPos = RotateVector(childPos, mParent->Rotation(local));
+
+		//return mParent->Pos(world) + rotPos;
 }
 
 void GameEntity::Rotation(float rotation)
@@ -66,12 +80,12 @@ float GameEntity::Rotation(SPACE space)
 	return mParent->Rotation(world) + mRotation;
 }
 
-void GameEntity::Scale(Vector2D scale) 
+void GameEntity::Scale(Vector2D scale)
 {
 	mScale = scale;
 }
 
-Vector2D GameEntity::Scale(SPACE space) 
+Vector2D GameEntity::Scale(SPACE space)
 {
 	if (space == local || mParent == nullptr)
 		return mScale;
@@ -96,7 +110,7 @@ bool GameEntity::Active()
 void GameEntity::Parent(GameEntity* parent)
 {
 	//If the parent is removed, The Position/Rotation/Scale are the GameEntity's world values, to keep the object looking the same after the removal of the parent;
-	if (parent == nullptr) 
+	if (parent == nullptr)
 	{
 		mPos = Pos(world);
 		mScale = Scale(world);
@@ -143,7 +157,7 @@ void GameEntity::Translate(Vector2D vec, SPACE space)
 	}
 }
 
-void GameEntity::Rotate(float amount) 
+void GameEntity::Rotate(float amount)
 {
 	mRotation += amount;
 }
