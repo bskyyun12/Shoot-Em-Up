@@ -15,28 +15,64 @@ ScoreManager::~ScoreManager()
 	ClearScore();
 }
 
-void ScoreManager::ReadHighScoreFromFile()
+void ScoreManager::ReadHighScoresFromFile()
 {
-	std::cout << "Reading HighScore from file" << std::endl;
 	std::string mHighScoreString;
-	std::ifstream mHighScoreFile("highscore.txt");
+	for (unsigned int i = 0; i < 7; i++)
+	{
+		// save to highscore vector
+		mHighScores.push_back(GetHighScoreFromFileAtPosition(i));
+		SortHighScores();
+	}
+	mHighScore = mHighScores[0]; // save first place highscore
+}
+
+unsigned int ScoreManager::GetHighScoreFromFileAtPosition(unsigned int pos)
+{
+	std::cout << "Reading " << pos << " HighScore from file" << std::endl;
+	std::string mHighScoreString;
+	std::ifstream mHighScoreFile("highscore" + std::to_string(pos) + ".txt");
 	if (mHighScoreFile.is_open())
 	{
 		getline(mHighScoreFile, mHighScoreString);
 		mHighScoreFile.close();
 	}
-	mHighScore = std::stoi(mHighScoreString); // convert string to int
+	return std::stoi(mHighScoreString); // convert string to int
 }
 
 void ScoreManager::WriteHighScoreToFile()
 {
-	std::cout << "Writing HighScore to file" << std::endl;
-	std::ofstream mHighScoreFile("highscore.txt");
+	// save the new highest highscore to last position in vector
+	if (mHighScore > mHighScores[0])
+	{
+		mHighScores[6] = mHighScore;
+	}
+	SortHighScores();
+	for (unsigned int i = 0; i < 7; i++)
+	{
+		WriteHighScoreToPosition(i);
+	}
+}
+
+void ScoreManager::WriteHighScoreToPosition(unsigned int pos)
+{
+	std::cout << "Writing " << pos << " HighScore to file" << std::endl;
+	std::ofstream mHighScoreFile("highscore" + std::to_string(pos) + ".txt");
 	if (mHighScoreFile.is_open())
 	{
-		mHighScoreFile << mHighScore;
+		mHighScoreFile << mHighScores[pos];
 		mHighScoreFile.close();
 	}
+}
+
+unsigned int ScoreManager::GetHighScoreAtPosition(unsigned int pos)
+{
+	return mHighScores[pos];
+}
+
+void ScoreManager::SortHighScores()
+{
+	std::sort(mHighScores.begin(), mHighScores.end(), std::greater<int>());
 }
 
 void ScoreManager::ClearScore()
@@ -139,8 +175,8 @@ ScoreBoard::ScoreBoard()
 	mPlayerOneScoreBoard->Pos(mPlayerOne->Pos(local) + Vector2D(0.0f, 32.0f));
 	mPlayerTwoScoreBoard->Pos(mPlayerTwo->Pos(local) + Vector2D(0.0f, 32.0f));
 	mHighScoreBoard->Pos(mHighScore->Pos(local) + Vector2D(0.0f, 32.0f));
-	mHighScoreBoard->ReadHighScoreFromFile(); // Read highscore from file
-	mHighScoreBoard->Score(mHighScoreBoard->GetCurrentHighScore());
+	mHighScoreBoard->ReadHighScoresFromFile(); // Read highscore from file
+	mHighScoreBoard->Score(mHighScoreBoard->GetCurrentHighScore()); // update score
 
 	mTopBar->Parent(this);
 }

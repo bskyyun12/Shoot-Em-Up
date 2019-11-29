@@ -17,7 +17,14 @@ private:
 
 	//Middle Bar Entities
 	GameEntity* mMiddleBar = nullptr;
-	Texture* mTop10 = nullptr;
+	Texture* mTop7 = nullptr;
+	Texture* mFirst = nullptr;
+	Texture* mSecond = nullptr;
+	Texture* mThird = nullptr;
+	Texture* mFourth = nullptr;
+	Texture* mFifth = nullptr;
+	Texture* mSixth = nullptr;
+	Texture* mSeventh = nullptr;
 
 	//Bottom Bar Entities
 	GameEntity* mBottomBar = nullptr;

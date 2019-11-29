@@ -114,6 +114,7 @@
     <ClInclude Include="EndingScreen.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="PhysicsHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -134,6 +135,16 @@
     </ClInclude>
     <ClInclude Include="Rocket.h">
       <Filter>Header Files\Game\Projectiles</Filter>
+=======
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Boxxy.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Formation.h">
+      <Filter>Header Files\Game</Filter>
+>>>>>>> 4b986f7d8f755482192996f9f346a7966d54e251
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +217,7 @@
     <ClCompile Include="EndingScreen.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="PhysicsEntity.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
@@ -223,6 +235,16 @@
     </ClCompile>
     <ClCompile Include="Rocket.cpp">
       <Filter>Source Files\Game\Projectiles</Filter>
+=======
+    <ClCompile Include="Formation.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Boxxy.cpp">
+      <Filter>Source Files\Game</Filter>
+>>>>>>> 4b986f7d8f755482192996f9f346a7966d54e251
     </ClCompile>
   </ItemGroup>
 </Project>

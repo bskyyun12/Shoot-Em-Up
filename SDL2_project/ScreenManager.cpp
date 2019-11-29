@@ -75,6 +75,10 @@ void ScreenManager::Update()
 			currentScreen = play;
 			mPlayScreen->StartNewGame(mStartScreen->GetSelectMode());
 		}
+		if (mStartScreen->IsAnimationDone() && mInputManager->KeyPressed(SDL_SCANCODE_C))
+		{
+			currentScreen = ending;
+		}
 		break;
 	case play:
 		mPlayScreen->Update();

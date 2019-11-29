@@ -5,6 +5,7 @@ Level::Level(int stage, Player* player, Player2* player2)
 	mTimer = Timer::Instance();
 	mAudioManager = AudioManager::Instance();
 	mAudioManager->PlayMusic("Audios/ready_set_go.wav", 0);
+	mAudioManager->MusicVolume(20); // Set higher volume
 
 	mCurrentState = running;
 
@@ -121,30 +122,39 @@ void Level::StartStage()
 	{
 	case 1: // Nebula_Red
 		mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
+		mAudioManager->MusicVolume(20); // Set standard volume
 		break;
 	case 2: // Mountain
 		mAudioManager->PlayMusic("Audios/airship.wav");
+		mAudioManager->MusicVolume(20); // Set standard volume
 		break;
 	case 3: // Demon
 		mAudioManager->PlayMusic("Audios/dark_fallout.wav"); // a bit low volume
+		mAudioManager->MusicVolume(20); // Set standard volume
 		break;
 	case 4: // Cyberpunk
 		mAudioManager->PlayMusic("Audios/high_tech_lab.wav");
+		mAudioManager->MusicVolume(20); // Set standard volume
 		break;
 	case 5: // Nebula_Blue
 		mAudioManager->PlayMusic("Audios/a_new_beginning.wav"); // low volume
+		mAudioManager->MusicVolume(20); // Set standard volume
 		break;
 	case 6: // Nebula_Pink
 		mAudioManager->PlayMusic("Audios/eery.wav"); // low volume
+		mAudioManager->MusicVolume(20); // Set standard volume
 		break;
 	case 7: // Planets
 		mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
+		mAudioManager->MusicVolume(20); // Set standard volume
 		break;
 	case 8: // yellowForest
 		mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
+		mAudioManager->MusicVolume(20); // Set standard volume
 		break;
 	case 9: // Forest
 		mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
+		mAudioManager->MusicVolume(20); // Set standard volume
 		break;
 	default:
 		break;
@@ -191,7 +201,22 @@ void Level::GameOver()
 	mGameOver = true;
 	//mAudioManager->PlaySFX("Audios/gameover0.wav", 0);
 	mAudioManager->PlayMusic("Audios/gameover1.wav", 0); // low volume
-	mAudioManager->MusicVolume(100); // Set max volume
+	mAudioManager->MusicVolume(100); // Set higher volume
+}
+
+void Level::Victory()
+{
+	mVictory = true;
+	mAudioManager->PlayMusic("Audios/victory.wav", -1);
+	mAudioManager->MusicVolume(10); // Set lower volume
+}
+
+void Level::LevelWon()
+{
+	mAudioManager->PauseMusic();
+	mAudioManager->PlayMusic("Audios/victory.wav", 0);
+	mAudioManager->MusicVolume(10); // Set lower volume
+	mCurrentState = finished;
 }
 
 void Level::Update()
@@ -212,16 +237,13 @@ void Level::Update()
 		// todo : victory condition
 		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_V))
 		{
-			mVictory = true;
-			mAudioManager->PlayMusic("Audios/victory.wav", 0);
+			Victory();
 		}
 
 		// condition needs to be changed -> if all enemies have died,
 		if (mBoxes.size() == 0 || InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
 		{
-			mAudioManager->PauseMusic();
-			mAudioManager->PlayMusic("Audios/victory.wav", 0);
-			mCurrentState = finished;
+			LevelWon();
 		}
 
 		for (int i = 0; i < mBoxes.size(); i++)

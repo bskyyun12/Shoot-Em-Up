@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream> // Used for reading and writing highscore to a file
 #include <iostream> // Used for debug
+#include <algorithm> // Used for sorting highscores
 
 class ScoreManager : public GameEntity
 {
@@ -15,6 +16,8 @@ private:
 	SDL_Color mColor = { 0, 0, 0, 0 };
 
 	unsigned int mHighScore = 0;
+
+	std::vector<unsigned int> mHighScores;
 
 public:
 
@@ -30,9 +33,15 @@ public:
 
 	void Score(unsigned int score);
 	unsigned int GetCurrentHighScore();
-	void ReadHighScoreFromFile();
-	void WriteHighScoreToFile();
+	unsigned int GetHighScoreAtPosition(unsigned int pos);
+	void SortHighScores();
 
+	// Read and write to highscore .txt files
+	void ReadHighScoresFromFile();
+	void WriteHighScoreToFile();
+	unsigned int GetHighScoreFromFileAtPosition(unsigned int pos);
+	void WriteHighScoreToPosition(unsigned int pos);
+	
 private:
 
 	void ClearScore();

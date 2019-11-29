@@ -16,6 +16,8 @@ Player::Player()
 	// init current score and lives
 	mScore = 0;
 	mLives = 3;
+	mScoreTimer = 0.5f;
+	mScoreRate = 0.5f;
 
 	// player texture
 	mPlayer = new Texture("jumpOrange.png");
@@ -37,9 +39,21 @@ Player::Player()
 	impact = false;
 
 	// Shield texture
-	mShield = new AnimatedTexture("shieldBlue.png", 0, 0, 45, 100, 4, 0.25f, AnimatedTexture::horizontal);
-	mShield->Parent(this);
-	mShield->Translate(VECTOR2D_RIGHT * 40);
+	mShieldFront = new AnimatedTexture("shieldBlue.png", 0, 0, 45, 100, 4, 0.25f, AnimatedTexture::horizontal);
+	mShieldBack = new AnimatedTexture("shieldBlue.png", 0, 0, 45, 100, 4, 0.25f, AnimatedTexture::horizontal);
+	mShieldUp = new AnimatedTexture("shieldBlue.png", 0, 0, 45, 100, 4, 0.25f, AnimatedTexture::horizontal);
+	mShieldDown = new AnimatedTexture("shieldBlue.png", 0, 0, 45, 100, 4, 0.25f, AnimatedTexture::horizontal);
+	mShieldFront->Parent(this);
+	mShieldBack->Parent(this);
+	mShieldUp->Parent(this);
+	mShieldDown->Parent(this);
+	mShieldFront->Translate(VECTOR2D_RIGHT * 40);
+	mShieldBack->Translate(VECTOR2D_LEFT * 40);
+	mShieldBack->Rotate(180);
+	mShieldUp->Translate(VECTOR2D_UP * 40);
+	mShieldUp->Rotate(270);
+	mShieldDown->Translate(VECTOR2D_DOWN * 40);
+	mShieldDown->Rotate(90);
 	shield = false;
 
 	// Explosion Texture
@@ -89,8 +103,15 @@ Player::~Player()
 	delete mImpact;
 	mImpact = nullptr;
 
-	delete mShield;
-	mShield = nullptr;
+	// Shields
+	delete mShieldFront;
+	mShieldFront = nullptr;
+	delete mShieldBack;
+	mShieldBack = nullptr;
+	delete mShieldUp;
+	mShieldUp = nullptr;
+	delete mShieldDown;
+	mShieldDown = nullptr;
 
 	delete mExplosion;
 	mExplosion = nullptr;
@@ -151,14 +172,17 @@ void Player::HandleMovement()
 		if (mInputManager->KeyDown(SDL_SCANCODE_RETURN) && !shield)
 		{
 			FireRocket();
-			AddScore(1);
 		}
 
 		// Raise Shield 
-		if (mInputManager->KeyDown(SDL_SCANCODE_BACKSPACE))
+		if (mInputManager->KeyDown(SDL_SCANCODE_BACKSPACE) && mScore > 0)
 		{
-			mShield->Update();
+			mShieldFront->Update();
+			mShieldBack->Update();
+			mShieldUp->Update();
+			mShieldDown->Update();
 			shield = true;
+			RemoveScore(1);
 		}
 
 		// Lower Shield
@@ -220,10 +244,14 @@ void Player::HandleMovement()
 		}
 
 		// LB button
-		if (InputManager::Instance()->GetButtonState(0, 4)) 
+		if (InputManager::Instance()->GetButtonState(0, 4) && mScore > 0) 
 		{
-			mShield->Update();
+			mShieldFront->Update();
+			mShieldBack->Update();
+			mShieldUp->Update();
+			mShieldDown->Update();
 			shield = true;		// Raise Shield
+			RemoveScore(1);
 		}
 
 		// Released LB button
@@ -242,15 +270,13 @@ void Player::HandleMovement()
 		// Back/Select button
 		if (InputManager::Instance()->GetButtonState(0, 6)) 
 		{
-			AddHealth();
-			cout << "Player 1 Lives : " << mLives << endl;
+
 		}
 
 		// Start button
 		if (InputManager::Instance()->GetButtonState(0, 7)) 
 		{
-			RemoveHealth();
-			cout << "Player 1 Lives : " << mLives << endl;
+
 		}
 
 		// Left Stick button
@@ -268,8 +294,7 @@ void Player::HandleMovement()
 		// XBOX button
 		if (InputManager::Instance()->GetButtonState(0, 10)) 
 		{
-			AddScore(1);
-			cout << "Player 1 Score : " << mScore << endl;
+
 		}
 
 #pragma endregion
@@ -336,7 +361,23 @@ int Player::Lives()
 
 void Player::AddScore(unsigned int score)
 {
-	mScore += score;
+	if (mScoreTimer > mScoreRate)
+	{
+		mScore += score;
+		mScoreTimer = 0.0f;
+	}
+}
+
+void Player::RemoveScore(unsigned int score)
+{
+	if (mScoreTimer > mScoreRate)
+	{
+		mScore -= score;
+		if (mScore <= 0)
+		{
+			shield = false;
+		}
+	}
 }
 
 void Player::ToggleTexture()
@@ -399,6 +440,7 @@ void Player::Update()
 {
 	mFireTimer += mTimer->DeltaTime();
 	mRocketFireTimer += mTimer->DeltaTime();
+	mScoreTimer += mTimer->DeltaTime();
 
 	// player won't do anything during stage preparation
 	if (Active())
@@ -407,6 +449,8 @@ void Player::Update()
 			mWasHit = false;
 
 		HandleMovement();
+
+		AddScore(1);
 
 		if (impact && !exploded)
 		{
@@ -488,7 +532,10 @@ void Player::Render()
 
 	if (shield)
 	{
-		mShield->Render();
+		mShieldFront->Render();
+		mShieldBack->Render();
+		mShieldUp->Render();
+		mShieldDown->Render();
 	}
 
 	// Debug colliderbox
