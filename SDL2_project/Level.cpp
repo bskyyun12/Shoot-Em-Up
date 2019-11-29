@@ -228,7 +228,7 @@ void Level::Update()
 	}
 	else
 	{
-		if ((mPlayer->Lives() <= 0 && mPlayer->Lives() <= 0) || InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
+		if ((mPlayer->Lives() <= 0 && mPlayer2->Lives() <= 0) || InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
 		{
 			GameOver();
 		}
