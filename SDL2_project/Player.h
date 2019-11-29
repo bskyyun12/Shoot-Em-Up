@@ -49,6 +49,8 @@ private:
 	float mRocketFireRate;
 
 	// collider
+	std::map<BoxCollider*, Vector2D> mShipColliders;
+	std::map<BoxCollider*, Vector2D> mPlayerColliders;
 	bool mWasHit;
 
 	// Impact

@@ -21,13 +21,13 @@ Player::Player()
 
 	// player texture
 	mPlayer = new Texture("jumpOrange.png");
-	mPlayer->Scale(VECTOR2D_ONE * 2);	// scale up to 64x64
+	mPlayer->Scale(Vector2D(64.0f / mPlayer->ScaledDimensions().x, 64.0f / mPlayer->ScaledDimensions().y));	// scale up to 64x64
 	mPlayer->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 
 	// PlayerShip AnimatedTexture
 	mPlayerShip = new AnimatedTexture("shipRed.png", 32, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
+	mPlayerShip->Scale(Vector2D(64.0f / mPlayerShip->ScaledDimensions().x, 96.0f / mPlayerShip->ScaledDimensions().y));	// scale up to 64x96
 	mPlayerShip->Rotate(90);
-	mPlayerShip->Scale(VECTOR2D_ONE * 4);	// scale up to 64x64
 	mPlayerShip->Parent(this);	// set mPlayer as a child of this script(in this way, it's easier to change the player's transform in other scripts)
 	ship = false;
 
@@ -81,9 +81,16 @@ Player::Player()
 	mRocketFireRate = 2.0f;
 
 	// collider 	
-	mWasHit = false;
-	AddCollider(new BoxCollider(mPlayer->ScaledDimensions(), Collider::TAG::player1));
+	mShipColliders.insert(std::make_pair(new BoxCollider(Vector2D(50.0f, 20.0f), Collider::TAG::player1), Vector2D(10.0f, -20.0f)));
+	mShipColliders.insert(std::make_pair(new BoxCollider(Vector2D(66.0f, 34.0f), Collider::TAG::player1), Vector2D(15.0f, 0.0f)));
+	mShipColliders.insert(std::make_pair(new BoxCollider(Vector2D(50.0f, 20.0f), Collider::TAG::player1), Vector2D(10.0f, 20.0f)));
+
+	mPlayerColliders.insert(std::make_pair(new BoxCollider(Vector2D(40.0f, 30.0f), Collider::TAG::player1), Vector2D(0.0f, -10.0f)));
+	mPlayerColliders.insert(std::make_pair(new BoxCollider(Vector2D(35.0f, 34.0f), Collider::TAG::player1), Vector2D(0.0f, 15.0f)));
+
 	mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Player);
+
+	mWasHit = false;
 
 }
 
@@ -131,6 +138,21 @@ Player::~Player()
 		delete mRockets[i];
 		mRockets[i] = nullptr;
 	}
+
+	// Collider
+	for (auto col : mShipColliders)
+	{
+		delete col.first;
+		mShipColliders.erase(col.first);
+	}
+	mShipColliders.clear();
+
+	for (auto col : mPlayerColliders)
+	{
+		delete col.first;
+		mPlayerColliders.erase(col.first);
+	}
+	mPlayerColliders.clear();
 }
 
 void Player::HandleMovement()
@@ -386,13 +408,19 @@ void Player::ToggleTexture()
 
 	if (ship)
 	{
-		//mCollider->RemoveCollider(mPlayer);
-		//mCollider->AddCollider(mPlayerShip, Collider::TAG::player1);
+		for (auto col : mPlayerColliders)
+			RemoveCollider(col.first);
+
+		for (auto col : mShipColliders)
+			AddCollider(col.first, col.second);
 	}
 	else
 	{
-		//mCollider->RemoveCollider(mPlayerShip);
-		//mCollider->AddCollider(mPlayer, Collider::TAG::player1);
+		for (auto col : mShipColliders)
+			RemoveCollider(col.first);
+
+		for (auto col : mPlayerColliders)
+			AddCollider(col.first, col.second);
 	}
 }
 

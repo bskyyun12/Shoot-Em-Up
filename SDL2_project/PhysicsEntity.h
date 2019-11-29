@@ -9,6 +9,7 @@ protected:
 
 	std::vector<Collider*> mColliders;
 
+
 public:
 	PhysicsEntity();
 	virtual ~PhysicsEntity();
@@ -26,5 +27,6 @@ protected:
 	virtual bool IgnoreCollisions();
 
 	void AddCollider(Collider* collider, Vector2D localPos = VECTOR2D_ZERO);
+	void RemoveCollider(Collider* collider);
 };
 

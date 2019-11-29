@@ -1,6 +1,7 @@
 #include "PhysicsEntity.h"
 #include "PhysicsHelper.h"
 #include "PhysicsManager.h"
+#include <iostream>
 
 PhysicsEntity::PhysicsEntity()
 {
@@ -56,10 +57,37 @@ bool PhysicsEntity::IgnoreCollisions()
 
 void PhysicsEntity::AddCollider(Collider* collider, Vector2D localPos)
 {
-	collider->Parent(this);
-	collider->Pos(localPos);
+	std::vector<Collider*>::iterator it;
+	it = std::find(mColliders.begin(), mColliders.end(), collider);
 
-	mColliders.push_back(collider);
+	// not found
+	if (it == mColliders.end())
+	{
+		collider->Parent(this);
+		collider->Pos(localPos);
+
+		mColliders.push_back(collider);
+	}
+	else
+	{
+		std::cout << "AddCollider fail - already exists." << std::endl;
+	}
+}
+
+void PhysicsEntity::RemoveCollider(Collider* collider)
+{
+	std::vector<Collider*>::iterator it;
+	it = std::find(mColliders.begin(), mColliders.end(), collider);
+
+	// found
+	if (it != mColliders.end())
+	{
+		mColliders.erase(it);
+	}
+	else
+	{
+		std::cout << "RemoveCollider fail - doesn't exists." << std::endl;
+	}
 }
 
 void PhysicsEntity::Render()
