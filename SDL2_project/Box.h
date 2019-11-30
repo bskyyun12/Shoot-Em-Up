@@ -19,11 +19,16 @@ private:
 	Texture* mBox = nullptr;
 	AnimatedTexture* mExplosion = nullptr;
 
+	// broken box pieces textures
 	BoxPiece* mBoxPieceUp = nullptr;
 	BoxPiece* mBoxPieceDown = nullptr;
 	BoxPiece* mBoxPieceDownRight = nullptr;
 	BoxPiece* mBoxPieceUpRight = nullptr;
 	BoxPiece* mBoxPieceRight = nullptr;
+
+	// Impact
+	AnimatedTexture* mImpact = nullptr;
+	bool impact;
 
 	// bullet
 	static const int MAX_BULLETS = 5;
@@ -34,13 +39,12 @@ private:
 	// collider
 	bool mWasHit;
 
+	float mMoveYTimer;
+	bool mMoveUp;
 	float mMoveSpeed;
 	int hp;
 	bool playOnce;
 
-	// Impact
-	AnimatedTexture* mImpact = nullptr;
-	bool impact;
 
 public:
 

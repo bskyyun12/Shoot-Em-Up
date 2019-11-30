@@ -43,7 +43,7 @@ void Formation::Update()
 		if (mOffsetTimer >= mOffsetDelay)
 		{
 			mOffsetCounter++;
-			Translate(VECTOR2D_UP * mOffsetDirection * mOffsetAmount, world);
+			Translate(VECTOR2D_UP * (float)mOffsetDirection * mOffsetAmount, world);
 
 			if (mOffsetCounter == 8)
 			{

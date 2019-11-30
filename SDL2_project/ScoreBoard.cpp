@@ -134,6 +134,8 @@ unsigned int ScoreManager::GetCurrentHighScore()
 	return mHighScore;
 }
 
+// mTopBar Y offset + mPlayerOneScoreBoard Y offset + half of score's font size
+float ScoreBoard::mScoreBoardHeight = 40.0f + 32.0f + 16.0f;
 ScoreBoard* ScoreBoard::sInstance = nullptr;
 
 ScoreBoard* ScoreBoard::Instance()
@@ -179,6 +181,7 @@ ScoreBoard::ScoreBoard()
 	mHighScoreBoard->Score(mHighScoreBoard->GetCurrentHighScore()); // update score
 
 	mTopBar->Parent(this);
+
 }
 
 ScoreBoard::~ScoreBoard()
@@ -198,6 +201,11 @@ ScoreBoard::~ScoreBoard()
 	mPlayerTwoScoreBoard = nullptr;
 	delete mHighScoreBoard;
 	mHighScoreBoard = nullptr;
+}
+
+float ScoreBoard::GetScoreBoardHeight()
+{
+	return mScoreBoardHeight;
 }
 
 void ScoreBoard::Render()

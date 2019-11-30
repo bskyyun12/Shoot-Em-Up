@@ -66,6 +66,10 @@ private:
 	float mVictoryLabelOnScreen;
 
 	// Enemy
+	float mSpawnTime;
+	float mSpawnTimer;
+	float mCurrentEnemiesCount;
+	float mMaxEnemies;
 	std::vector<Box*> mBoxes;
 
 private:
@@ -80,6 +84,7 @@ public:
 
 	LEVEL_STATES State();
 
+	bool HasAllPlayersDied();
 	void GameOver();
 	void Victory();
 	void LevelWon();

@@ -68,6 +68,12 @@ public:
 	ScoreManager* mPlayerTwoScoreBoard = nullptr;
 	ScoreManager* mHighScoreBoard = nullptr;
 
+	static float mScoreBoardHeight;
+
+public:
+
+	static float GetScoreBoardHeight();
+
 	void Render();
 
 private:

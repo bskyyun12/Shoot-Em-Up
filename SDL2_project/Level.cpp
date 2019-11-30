@@ -1,4 +1,5 @@
 #include "Level.h"
+#include <random>
 
 Level::Level(int stage, Player* player, Player2* player2)
 {
@@ -60,7 +61,7 @@ Level::Level(int stage, Player* player, Player2* player2)
 	mVictory = false;
 	mVictoryDelay = 6.0f;
 	mVictoryTimer = 0.0f;
-	mGameOverLabelOnScreen = 1.5f;
+	mVictoryLabelOnScreen = 1.5f;
 
 	// Player
 	mPlayer = player;
@@ -72,12 +73,10 @@ Level::Level(int stage, Player* player, Player2* player2)
 	}
 
 	// Enemy
-	for (int i = 0; i < mCurrentStage; i++)
-	{
-		float ranX = (float)(rand() % 8 + 7) * 100; // 700 ~ 1400
-		float ranY = (float)(rand() % 5 + 2) * 100; // 200 ~ 600
-		mBoxes.push_back(new Box(Vector2D(ranX, ranY)));
-	}
+	mSpawnTime = 2.0f;
+	mSpawnTimer = mSpawnTime;
+	mCurrentEnemiesCount = 0;
+	mMaxEnemies = 1;
 }
 
 Level::~Level()
@@ -123,42 +122,73 @@ void Level::StartStage()
 	case 1: // Nebula_Red
 		mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
 		mAudioManager->MusicVolume(20); // Set standard volume
+
+		mSpawnTime = 2.0f;
+		mMaxEnemies = 2;
 		break;
 	case 2: // Mountain
 		mAudioManager->PlayMusic("Audios/airship.wav");
 		mAudioManager->MusicVolume(20); // Set standard volume
+
+		mSpawnTime = 1.8f;
+		mMaxEnemies = 4;
 		break;
 	case 3: // Demon
 		mAudioManager->PlayMusic("Audios/dark_fallout.wav"); // a bit low volume
 		mAudioManager->MusicVolume(20); // Set standard volume
+
+		mSpawnTime = 1.7f;
+		mMaxEnemies = 6;
 		break;
 	case 4: // Cyberpunk
 		mAudioManager->PlayMusic("Audios/high_tech_lab.wav");
 		mAudioManager->MusicVolume(20); // Set standard volume
+
+		mSpawnTime = 1.6f;
+		mMaxEnemies = 8;
 		break;
 	case 5: // Nebula_Blue
 		mAudioManager->PlayMusic("Audios/a_new_beginning.wav"); // low volume
 		mAudioManager->MusicVolume(20); // Set standard volume
+
+		mSpawnTime = 1.5f;
+		mMaxEnemies = 10;
 		break;
 	case 6: // Nebula_Pink
 		mAudioManager->PlayMusic("Audios/eery.wav"); // low volume
 		mAudioManager->MusicVolume(20); // Set standard volume
+
+		mSpawnTime = 1.4f;
+		mMaxEnemies = 12;
 		break;
 	case 7: // Planets
 		mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
 		mAudioManager->MusicVolume(20); // Set standard volume
+
+		mSpawnTime = 1.3f;
+		mMaxEnemies = 14;
 		break;
 	case 8: // yellowForest
 		mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
 		mAudioManager->MusicVolume(20); // Set standard volume
+
+		mSpawnTime = 1.2f;
+		mMaxEnemies = 16;
 		break;
 	case 9: // Forest
 		mAudioManager->PlayMusic("Audios/b_sean_retro.wav");
 		mAudioManager->MusicVolume(20); // Set standard volume
+
+		mSpawnTime = 1.1f;
+		mMaxEnemies = 18;
 		break;
 	default:
 		break;
 	}
+
+	if (mPlayer2 == nullptr)  // increase spawn time if solo(reduce the difficulty)
+		mSpawnTime *= 2.0f;
+	mSpawnTimer = mSpawnTime; // spawn as soon as the stage starts
 
 	mPlayer->Active(true);
 	if (mPlayer2 != nullptr)
@@ -196,6 +226,25 @@ Level::LEVEL_STATES Level::State()
 	return mCurrentState;
 }
 
+bool Level::HasAllPlayersDied()
+{
+	if (mPlayer2 != nullptr)
+	{
+		if (mPlayer->Lives() <= 0 && mPlayer2->Lives() <= 0)
+		{
+			return true;
+		}
+	}
+	else
+	{
+		if (mPlayer->Lives() <= 0)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void Level::GameOver()
 {
 	mGameOver = true;
@@ -228,7 +277,24 @@ void Level::Update()
 	}
 	else
 	{
-		if ((mPlayer->Lives() <= 0 && mPlayer2->Lives() <= 0) || InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
+		// Spawning boxes
+		mSpawnTimer += mTimer->DeltaTime();
+
+		if (mSpawnTimer > mSpawnTime && mCurrentEnemiesCount < mMaxEnemies)
+		{
+			std::random_device rd; // obtain a random number from hardware
+			std::mt19937 eng(rd()); // seed the generator
+			std::uniform_int_distribution<> distr(122, 732); // define the range
+
+			float posX = (float)Graphics::Instance()->SCREEN_WIDTH;
+			float ranY = (float)distr(eng); // get random widthin the range
+			mBoxes.push_back(new Box(Vector2D(posX, ranY)));
+
+			mCurrentEnemiesCount++;
+			mSpawnTimer = 0.0f;
+		}
+
+		if (HasAllPlayersDied() || InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
 		{
 			GameOver();
 		}
@@ -241,6 +307,7 @@ void Level::Update()
 			LevelWon();
 		}
 
+		// removing dead boxes from the vector
 		for (int i = 0; i < mBoxes.size(); i++)
 		{
 			if (!mBoxes[i]->Active())

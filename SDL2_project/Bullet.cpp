@@ -29,7 +29,7 @@ Bullet::Bullet(Collider::TAG tag) : mTag(tag)
 	Reload();
 
 	//collider
-	AddCollider(new BoxCollider(mBullet->ScaledDimensions(), mTag));
+	AddCollider(new BoxCollider(Vector2D(mBullet->ScaledDimensions().x, mBullet->ScaledDimensions().y * 0.7f), mTag));
 	if (mTag == Collider::player1Projectile || mTag == Collider::player2Projectile)
 	{
 		mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::PlayerProjectiles);
