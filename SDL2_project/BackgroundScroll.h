@@ -6,9 +6,6 @@ class BackgroundScroll : public GameEntity
 {
 private:
 
-	// Timer
-	Timer* mTimer = nullptr;
-
 	// Background Variables
 	Vector2D mBackgroundStartPos;
 	Vector2D mBackgroundEndPos;
