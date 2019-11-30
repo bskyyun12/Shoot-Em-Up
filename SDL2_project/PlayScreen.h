@@ -17,7 +17,6 @@ private:
 	bool m1UPVisible;
 
 	// Life
-	GameEntity* mLives = nullptr;
 	static const int MAX_LIFE_TEXTURES = 3;
 	int mPlayerLives;
 	int mPlayer2Lives;
