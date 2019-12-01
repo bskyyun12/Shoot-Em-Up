@@ -464,7 +464,11 @@ void Player2::Update()
 	if (Active())
 	{
 		if (mWasHit)
+		{
+			mAudioManager->PlaySFX("Audios/laserHit.wav", 0, 4);
+			mAudioManager->SFXVolume(4, 80);
 			mWasHit = false;
+		}
 
 		HandleMovement();
 
@@ -473,8 +477,6 @@ void Player2::Update()
 		if (impact && !exploded)
 		{
 			mImpact->Update();
-			mAudioManager->PlaySFX("Audios/laserHit.wav", 0, 4);
-			mAudioManager->SFXVolume(4, 80);
 		}
 
 		if (mImpact->IsAnimationDone())

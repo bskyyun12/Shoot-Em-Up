@@ -151,6 +151,8 @@ void Box::Update()
 
 		if (mWasHit)
 		{
+			mAudioManager->PlaySFX("Audios/laserHit.wav", 0, 4);
+			mAudioManager->SFXVolume(4, 80);
 			mWasHit = false;
 		}
 
@@ -159,8 +161,6 @@ void Box::Update()
 		if (impact)
 		{
 			mImpact->Update();
-			mAudioManager->PlaySFX("Audios/laserHit.wav", 0, 4);
-			mAudioManager->SFXVolume(4, 80);
 		}
 
 		if (mImpact->IsAnimationDone())

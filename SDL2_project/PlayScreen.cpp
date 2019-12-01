@@ -14,24 +14,19 @@ PlayScreen::PlayScreen()
 	mBlinkInterval = 0.5f;
 	m1UPVisible = true;
 
-	// Life
-	mLives = new GameEntity();
-	mLives->Parent(mScoreBoard);
-	mLives->Pos(Vector2D(0.0f, 0.0f));
-
 	for (int i = 0; i < MAX_LIFE_TEXTURES; i++)
 	{
 		// Player 1
 		mLifeTextures[i] = new Texture("HeartOrange.png");
-		mLifeTextures[i]->Parent(mLives);
+		mLifeTextures[i]->Parent(mScoreBoard->mPlayerOne);
 		mLifeTextures[i]->Scale(VECTOR2D_ONE * 0.5f);
-		mLifeTextures[i]->Pos(mScoreBoard->mPlayerOne->Pos() + Vector2D(60.0f * (i % 3) + 120.0f, 70.0f * (i / 3)));
+		mLifeTextures[i]->Pos(Vector2D(60.0f * (i % 3) + 120.0f, 70.0f * (i / 3)));
 
 		// Player 2
 		mLifeTextures2[i] = new Texture("HeartBlue.png");
-		mLifeTextures2[i]->Parent(mLives);
+		mLifeTextures2[i]->Parent(mScoreBoard->mPlayerTwo);
 		mLifeTextures2[i]->Scale(VECTOR2D_ONE * 0.5f);
-		mLifeTextures2[i]->Pos(mScoreBoard->mPlayerTwo->Pos() + Vector2D(60.0f * (i % 3) + 120.0f, 70.0f * (i / 3)));
+		mLifeTextures2[i]->Pos(Vector2D(-60.0f * (i % 3) - 120.0f, 70.0f * (i / 3)));
 	}
 	mPlayerLives = 3;
 	mPlayer2Lives = 3;
@@ -72,10 +67,6 @@ PlayScreen::~PlayScreen()
 
 	delete mPlayer2;
 	mPlayer2 = nullptr;
-
-	// Life
-	delete mLives;
-	mLives = nullptr;
 
 	for (int i = 0; i < MAX_LIFE_TEXTURES; i++)
 	{
@@ -380,7 +371,6 @@ void PlayScreen::Render()
 			mBackgroundScroll->Render();
 			mLevel->Render();
 			mScoreBoard->Render();
-
 
 			// Player 1
 			for (int i = 0; i < MAX_LIFE_TEXTURES && i < mPlayerLives; i++)
