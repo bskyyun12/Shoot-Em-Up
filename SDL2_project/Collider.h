@@ -27,11 +27,12 @@ public:
 	Collider(TAG tag);
 	virtual ~Collider();
 
+	TAG GetTag();
+
 	virtual void Render();
 
 protected:
 
 	void SetDebugTexture(Texture* texture);
-	TAG GetTag();
 
 };

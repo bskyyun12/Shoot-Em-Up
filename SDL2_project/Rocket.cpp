@@ -3,7 +3,7 @@
 
 std::vector<std::vector<Vector2D>> Rocket::sPaths;
 
-Rocket::Rocket(Collider::TAG tag) : mTag(tag)
+Rocket::Rocket(Collider::TAG tag)
 {
 	mTimer = Timer::Instance();
 	mAudioManager = AudioManager::Instance();
@@ -23,12 +23,12 @@ Rocket::Rocket(Collider::TAG tag) : mTag(tag)
 	Reload();
 
 	//collider
-	AddCollider(new BoxCollider(mRocket->ScaledDimensions(), mTag));
-	if (mTag == Collider::player1Projectile || mTag == Collider::player2Projectile)
+	AddCollider(new BoxCollider(mRocket->ScaledDimensions(), tag));
+	if (tag == Collider::player1Projectile || tag == Collider::player2Projectile)
 	{
 		mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::PlayerProjectiles);
 	}
-	else if (mTag == Collider::enemyProjectile)
+	else if (tag == Collider::enemyProjectile)
 	{
 		mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::EnemyProjectiles);
 	}

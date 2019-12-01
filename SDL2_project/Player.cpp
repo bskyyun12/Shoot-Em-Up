@@ -4,6 +4,8 @@
 using std::cout;
 using std::endl;
 
+unsigned int Player::mScore = 0;
+
 Player::Player()
 {
 	// handle movement
@@ -16,8 +18,6 @@ Player::Player()
 	// init current score and lives
 	mScore = 0;
 	mLives = 3;
-	mScoreTimer = 0.5f;
-	mScoreRate = 0.5f;
 
 	// player texture
 	mPlayer = new Texture("jumpOrange.png");
@@ -153,54 +153,54 @@ void Player::HandleMovement()
 
 	//if (!(mInputManager->JoysticksInitialiased()))
 	//{
-		if (mInputManager->KeyDown(SDL_SCANCODE_RIGHT))
-		{
-			Translate(VECTOR2D_RIGHT * mMoveSpeed * mTimer->DeltaTime(), world);
-		}
+	if (mInputManager->KeyDown(SDL_SCANCODE_RIGHT))
+	{
+		Translate(VECTOR2D_RIGHT * mMoveSpeed * mTimer->DeltaTime(), world);
+	}
 
-		if (mInputManager->KeyDown(SDL_SCANCODE_LEFT))
-		{
-			Translate(VECTOR2D_LEFT * mMoveSpeed * mTimer->DeltaTime(), world);
-		}
+	if (mInputManager->KeyDown(SDL_SCANCODE_LEFT))
+	{
+		Translate(VECTOR2D_LEFT * mMoveSpeed * mTimer->DeltaTime(), world);
+	}
 
-		if (mInputManager->KeyDown(SDL_SCANCODE_UP))
-		{
-			Translate(VECTOR2D_UP * mMoveSpeed * mTimer->DeltaTime(), world);
-		}
+	if (mInputManager->KeyDown(SDL_SCANCODE_UP))
+	{
+		Translate(VECTOR2D_UP * mMoveSpeed * mTimer->DeltaTime(), world);
+	}
 
-		if (mInputManager->KeyDown(SDL_SCANCODE_DOWN))
-		{
-			Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
-		}
+	if (mInputManager->KeyDown(SDL_SCANCODE_DOWN))
+	{
+		Translate(VECTOR2D_DOWN * mMoveSpeed * mTimer->DeltaTime(), world);
+	}
 
-		// Fire Bullet
-		if (mInputManager->KeyDown(SDL_SCANCODE_RCTRL) && !shield)
-		{
-			FireBullet();
-		}
+	// Fire Bullet
+	if (mInputManager->KeyDown(SDL_SCANCODE_P) && !shield)
+	{
+		FireBullet();
+	}
 
-		// Fire Rocket
-		if (mInputManager->KeyDown(SDL_SCANCODE_RETURN) && !shield)
-		{
-			FireRocket();
-		}
+	// Fire Rocket
+	if (mInputManager->KeyDown(SDL_SCANCODE_RCTRL) && !shield)
+	{
+		FireRocket();
+	}
 
-		// Raise Shield 
-		if (mInputManager->KeyDown(SDL_SCANCODE_BACKSPACE) && mScore > 0)
-		{
-			mShieldFront->Update();
-			mShieldBack->Update();
-			mShieldUp->Update();
-			mShieldDown->Update();
-			shield = true;
-			RemoveScore(1);
-		}
+	// Raise Shield 
+	if (mInputManager->KeyDown(SDL_SCANCODE_RSHIFT) && mScore > 0)
+	{
+		mShieldFront->Update();
+		mShieldBack->Update();
+		mShieldUp->Update();
+		mShieldDown->Update();
+		shield = true;
+		RemoveScore(1);
+	}
 
-		// Lower Shield
-		if (mInputManager->KeyReleased(SDL_SCANCODE_BACKSPACE))
-		{
-			shield = false;
-		}
+	// Lower Shield
+	if (mInputManager->KeyReleased(SDL_SCANCODE_RSHIFT))
+	{
+		shield = false;
+	}
 	//}
 
 #pragma endregion
@@ -231,31 +231,31 @@ void Player::HandleMovement()
 #pragma region Buttons
 
 		// Green (A) button
-		if (InputManager::Instance()->GetButtonState(0, 0)) 
+		if (InputManager::Instance()->GetButtonState(0, 0))
 		{
 			mPlayer->Rotate(90);
 		}
 
 		// Red (B) button
-		if (InputManager::Instance()->GetButtonState(0, 1)) 
+		if (InputManager::Instance()->GetButtonState(0, 1))
 		{
 
 		}
 
 		// Blue (X) button
-		if (InputManager::Instance()->GetButtonState(0, 2) && !shield) 
+		if (InputManager::Instance()->GetButtonState(0, 2) && !shield)
 		{
 			FireBullet(); // Fire bullet
 		}
 
 		// Yellow (Y) button
-		if (InputManager::Instance()->GetButtonState(0, 3)) 
+		if (InputManager::Instance()->GetButtonState(0, 3))
 		{
 
 		}
 
 		// LB button
-		if (InputManager::Instance()->GetButtonState(0, 4) && mScore > 0) 
+		if (InputManager::Instance()->GetButtonState(0, 4) && mScore > 0)
 		{
 			mShieldFront->Update();
 			mShieldBack->Update();
@@ -266,44 +266,44 @@ void Player::HandleMovement()
 		}
 
 		// Released LB button
-		if (!(InputManager::Instance()->GetButtonState(0, 4)) && 
+		if (!(InputManager::Instance()->GetButtonState(0, 4)) &&
 			shield && !(mInputManager->KeyDown(SDL_SCANCODE_BACKSPACE)))
 		{
 			shield = false;		// Lower Shield
 		}
 
 		// RB button
-		if (InputManager::Instance()->GetButtonState(0, 5) && !shield) 
+		if (InputManager::Instance()->GetButtonState(0, 5) && !shield)
 		{
 			FireRocket();		// Fire Rocket
 		}
 
 		// Back/Select button
-		if (InputManager::Instance()->GetButtonState(0, 6)) 
+		if (InputManager::Instance()->GetButtonState(0, 6))
 		{
 
 		}
 
 		// Start button
-		if (InputManager::Instance()->GetButtonState(0, 7)) 
+		if (InputManager::Instance()->GetButtonState(0, 7))
 		{
 
 		}
 
 		// Left Stick button
-		if (InputManager::Instance()->GetButtonState(0, 8)) 
+		if (InputManager::Instance()->GetButtonState(0, 8))
 		{
 
 		}
 
 		// Right Stick button
-		if (InputManager::Instance()->GetButtonState(0, 9)) 
+		if (InputManager::Instance()->GetButtonState(0, 9))
 		{
 
 		}
 
 		// XBOX button
-		if (InputManager::Instance()->GetButtonState(0, 10)) 
+		if (InputManager::Instance()->GetButtonState(0, 10))
 		{
 
 		}
@@ -372,22 +372,15 @@ int Player::Lives()
 
 void Player::AddScore(unsigned int score)
 {
-	if (mScoreTimer > mScoreRate)
-	{
-		mScore += score;
-		mScoreTimer = 0.0f;
-	}
+	mScore += score;
 }
 
 void Player::RemoveScore(unsigned int score)
 {
-	if (mScoreTimer > mScoreRate)
+	mScore -= score;
+	if (mScore <= 0)
 	{
-		mScore -= score;
-		if (mScore <= 0)
-		{
-			shield = false;
-		}
+		shield = false;
 	}
 }
 
@@ -433,6 +426,11 @@ void Player::RemoveHealth()
 	mLives--;
 }
 
+void Player::SetShield(bool s)
+{
+	shield = s;
+}
+
 void Player::Hit(PhysicsEntity* other)
 {
 	std::cout << "Player1 got hit." << std::endl;
@@ -457,7 +455,6 @@ void Player::Update()
 {
 	mFireTimer += mTimer->DeltaTime();
 	mRocketFireTimer += mTimer->DeltaTime();
-	mScoreTimer += mTimer->DeltaTime();
 
 	// player won't do anything during stage preparation
 	if (Active())
@@ -469,10 +466,7 @@ void Player::Update()
 			mWasHit = false;
 		}
 
-
 		HandleMovement();
-
-		AddScore(1);
 
 		if (impact && !exploded)
 		{

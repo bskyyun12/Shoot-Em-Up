@@ -9,12 +9,15 @@ protected:
 
 	std::vector<Collider*> mColliders;
 
+	Collider::TAG mTag;
 
 public:
 	PhysicsEntity();
 	virtual ~PhysicsEntity();
 
 	unsigned long GetId();
+
+	Collider::TAG GetTag();
 
 	bool CheckCollision(PhysicsEntity* other);
 

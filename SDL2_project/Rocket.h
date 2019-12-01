@@ -25,9 +25,6 @@ private:
 
 	AnimatedTexture* mRocket = nullptr;
 
-	//collider
-	Collider::TAG mTag;
-
 public:
 
 	Rocket(Collider::TAG tag);

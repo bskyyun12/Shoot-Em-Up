@@ -19,10 +19,8 @@ private:
 	float mBoundsOffset;
 
 	// init current score and lives
-	unsigned int mScore;
+	static unsigned int mScore;
 	int mLives;
-	float mScoreTimer;
-	float mScoreRate;
 
 	// player texture
 	Texture* mPlayer2 = nullptr;
@@ -84,6 +82,9 @@ public:
 	void AddHealth();
 	void RemoveHealth();
 
+	// shield
+	void SetShield(bool s);
+
 	// Collider
 	void Hit(PhysicsEntity* other) override;
 	bool IgnoreCollisions();
@@ -94,7 +95,7 @@ public:
 	int Lives();
 
 	// Add and remove score to Player's current score
-	void AddScore(unsigned int score);
+	static void AddScore(unsigned int score);
 	void RemoveScore(unsigned int score);
 
 	void Update();

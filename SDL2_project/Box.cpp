@@ -2,6 +2,8 @@
 #include <iostream>
 #include <random>
 #include "ScoreBoard.h"
+#include "Player.h"
+#include "Player2.h"
 
 Box::Box(Vector2D pos)
 {
@@ -114,6 +116,18 @@ void Box::Hit(PhysicsEntity* other)
 	std::cout << "Box gets damage. Current hp is : " << hp << "." << std::endl;
 	mBox->Active(true);
 	mWasHit = true;
+	std::cout << other->GetTag() << std::endl;
+	switch (other->GetTag())
+	{
+	case Collider::TAG::player1Projectile:
+		Player::AddScore(1000);
+		break;
+	case Collider::TAG::player2Projectile:
+		Player2::AddScore(1000);
+		break;
+	default:
+		break;
+	}
 }
 
 bool Box::IgnoreCollisions()

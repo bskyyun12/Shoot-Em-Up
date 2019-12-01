@@ -66,11 +66,14 @@ Level::Level(int stage, Player* player, Player2* player2)
 	// Player
 	mPlayer = player;
 	mPlayer->Active(false);
+	mPlayer->SetShield(false);
 	mPlayer2 = player2;
 	if (mPlayer2 != nullptr)
 	{
 		mPlayer2->Active(false);
+		mPlayer2->SetShield(false);
 	}
+
 
 	// Enemy
 	mSpawnTime = 2.0f;
@@ -391,7 +394,7 @@ void Level::Render()
 		if (mVictory)
 		{
 			// wait 1.5 sec and display VICTORY
-			if (mGameOverTimer >= mVictoryLabelOnScreen)
+			if (mVictoryTimer >= mVictoryLabelOnScreen)
 			{
 				mVictoryLabel->Render();
 			}

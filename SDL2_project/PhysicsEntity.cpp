@@ -28,6 +28,11 @@ unsigned long PhysicsEntity::GetId()
 	return mId;
 }
 
+Collider::TAG PhysicsEntity::GetTag()
+{
+	return mTag;
+}
+
 bool PhysicsEntity::CheckCollision(PhysicsEntity* other)
 {
 	if (IgnoreCollisions() || other->IgnoreCollisions())
@@ -57,6 +62,8 @@ bool PhysicsEntity::IgnoreCollisions()
 
 void PhysicsEntity::AddCollider(Collider* collider, Vector2D localPos)
 {
+	mTag = collider->GetTag();
+
 	std::vector<Collider*>::iterator it;
 	it = std::find(mColliders.begin(), mColliders.end(), collider);
 
