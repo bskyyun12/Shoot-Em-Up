@@ -163,6 +163,7 @@
     <ClInclude Include="PlayScreen.h" />
     <ClInclude Include="Rocket.h" />
     <ClInclude Include="ScoreBoard.h" />
+    <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="Texture.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="PlayScreen.cpp" />
     <ClCompile Include="Rocket.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
+    <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="Texture.cpp" />

@@ -153,6 +153,9 @@
     <ClInclude Include="EndingScreen.h">
       <Filter>Header Files\Game\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="ScoreManager.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logger.cpp">
@@ -253,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="EndingScreen.cpp">
       <Filter>Source Files\Game\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
