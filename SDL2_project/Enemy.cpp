@@ -1,5 +1,7 @@
-#include "Enemy.h"
+#pragma warning( push )
+#pragma warning (disable : 4244 )
 
+#include "Enemy.h"
 
 std::vector<std::vector<Vector2D>> Enemy::sPaths;
 Formation* Enemy::sFormation = NULL;
@@ -156,3 +158,5 @@ void Enemy::Render()
 		}
 	}
 }
+
+#pragma warning( pop )

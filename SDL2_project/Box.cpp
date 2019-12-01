@@ -1,9 +1,4 @@
 #include "Box.h"
-#include <iostream>
-#include <random>
-#include "ScoreBoard.h"
-#include "Player.h"
-#include "Player2.h"
 
 Box::Box(Vector2D pos)
 {

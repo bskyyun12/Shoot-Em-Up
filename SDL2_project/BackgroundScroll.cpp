@@ -1,5 +1,4 @@
 #include "BackgroundScroll.h"
-#include <iostream>
 
 bool BackgroundScroll::mScroll = true;
 

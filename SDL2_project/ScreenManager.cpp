@@ -1,5 +1,4 @@
 #include "ScreenManager.h"
-#include "InputManager.h"
 #include "GameManager.h"
 
 ScreenManager* ScreenManager::sInstance = nullptr;

@@ -1,10 +1,9 @@
-#include "PhysicsEntity.h"
 #include "PhysicsHelper.h"
 #include "PhysicsManager.h"
-#include <iostream>
 
 PhysicsEntity::PhysicsEntity()
 {
+	mTag = Collider::TAG::player1;
 	mId = 0;
 }
 
@@ -75,10 +74,6 @@ void PhysicsEntity::AddCollider(Collider* collider, Vector2D localPos)
 
 		mColliders.push_back(collider);
 	}
-	else
-	{
-		std::cout << "AddCollider fail - already exists." << std::endl;
-	}
 }
 
 void PhysicsEntity::RemoveCollider(Collider* collider)
@@ -90,10 +85,6 @@ void PhysicsEntity::RemoveCollider(Collider* collider)
 	if (it != mColliders.end())
 	{
 		mColliders.erase(it);
-	}
-	else
-	{
-		std::cout << "RemoveCollider fail - doesn't exists." << std::endl;
 	}
 }
 

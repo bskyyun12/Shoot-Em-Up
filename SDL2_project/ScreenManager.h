@@ -3,6 +3,7 @@
 #include "PlayScreen.h"
 #include "EndingScreen.h"
 #include "KeyOptionScreen.h"
+#include "InputManager.h"
 
 class ScreenManager
 {

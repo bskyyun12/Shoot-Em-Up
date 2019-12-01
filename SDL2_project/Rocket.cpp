@@ -1,5 +1,7 @@
+#pragma warning( push )
+#pragma warning (disable : 4244 )
+
 #include "Rocket.h"
-#include <iostream>
 
 std::vector<std::vector<Vector2D>> Rocket::sPaths;
 
@@ -14,7 +16,6 @@ Rocket::Rocket(Collider::TAG tag)
 	mRocket->Parent(this);
 	mRocket->Scale(VECTOR2D_ONE * 1.5f);
 	mRocket->Pos(VECTOR2D_ZERO);
-	//Rotate(-45); // bullet will be fired with -45 angle
 
 	mCurrentPath = 0;
 	mCurrentWayPoint = 0;
@@ -152,3 +153,4 @@ void Rocket::Render()
 		//PhysicsEntity::Render();
 	}
 }
+#pragma warning( pop )

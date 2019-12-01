@@ -2,7 +2,10 @@
 
 #include "Bullet.h"
 #include "BoxPiece.h"
-#include "PhysicsManager.h"
+#include "ScoreBoard.h"
+#include "Player.h"
+#include "Player2.h"
+#include <random>
 
 class Box : public PhysicsEntity
 {
