@@ -1,8 +1,6 @@
 #pragma once
-#include "Timer.h"
 #include "ScoreBoard.h"
 #include "BackgroundScroll.h"
-#include "AudioManager.h"
 #include "Player.h"
 #include "Player2.h"
 #include "Box.h"

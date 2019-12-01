@@ -1,7 +1,5 @@
 #pragma once
-
 #include "AnimatedTexture.h"
-#include "Timer.h"
 
 class BoxPiece : public GameEntity
 {

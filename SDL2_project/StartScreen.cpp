@@ -1,5 +1,4 @@
 #include "StartScreen.h"
-#include "InputManager.h"
 
 StartScreen::StartScreen()
 {

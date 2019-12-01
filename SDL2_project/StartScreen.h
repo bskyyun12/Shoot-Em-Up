@@ -1,6 +1,4 @@
 #pragma once
-#include "AnimatedTexture.h"
-#include "InputManager.h"
 #include "ScoreBoard.h"
 #include "AudioManager.h"
 #include "BackgroundScroll.h"

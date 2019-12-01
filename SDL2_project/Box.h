@@ -1,11 +1,7 @@
 #pragma once
 
-#include "AnimatedTexture.h"
-#include "BoxPiece.h"
 #include "Bullet.h"
-#include "AudioManager.h"
-#include "PhysicsEntity.h"
-#include "BoxCollider.h"
+#include "BoxPiece.h"
 #include "PhysicsManager.h"
 
 class Box : public PhysicsEntity

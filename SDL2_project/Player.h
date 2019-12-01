@@ -1,10 +1,7 @@
 #pragma once
-#include "AnimatedTexture.h"
 #include "InputManager.h"
 #include "Bullet.h"
 #include "Rocket.h"
-#include "PhysicsEntity.h"
-#include "BoxCollider.h"
 #include "PhysicsManager.h"
 
 class Player : public PhysicsEntity

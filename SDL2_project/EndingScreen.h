@@ -1,9 +1,5 @@
 #pragma once
-#include "AnimatedTexture.h"
-#include "InputManager.h"
-#include "ScoreBoard.h"
-#include "AudioManager.h"
-#include "BackgroundScroll.h"
+#include "StartScreen.h"
 
 class EndingScreen : public GameEntity
 {
