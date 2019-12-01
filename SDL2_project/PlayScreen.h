@@ -30,6 +30,7 @@ private:
 	Level* mLevel = nullptr;
 	float mLevelStartTimer;
 	float mLevelStartDelay;
+	float mGameStartTimer;
 	bool mGameStarted;
 	bool mLevelStarted;
 	int mCurrentStage;

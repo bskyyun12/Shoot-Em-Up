@@ -4,6 +4,10 @@
 
 class AudioManager
 {
+public:
+	static bool sIsMusicOn;
+	static bool sIsSFXOn;
+
 private:
 
 	static AudioManager* sInstance;

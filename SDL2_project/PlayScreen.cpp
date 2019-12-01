@@ -35,6 +35,7 @@ PlayScreen::PlayScreen()
 	mLevel = nullptr;
 	mLevelStartTimer = 0.0f;
 	mLevelStartDelay = 1.0f;
+	mGameStartTimer = 0.0f;
 	mGameStarted = true;
 	mLevelStarted = false;
 	mCurrentStage = 0;
@@ -313,9 +314,13 @@ void PlayScreen::Update()
 	}
 	else
 	{
-		// if music is done, game starts
-		if (!Mix_PlayingMusic())
+		mGameStartTimer += mTimer->DeltaTime();
+		// if music is done || wait 2.5 sec to game starts
+		if (!Mix_PlayingMusic() || mGameStartTimer > 2.5f)
+		{
 			mGameStarted = true;
+			mGameStartTimer = 0.0f;
+		}
 	}
 
 	// Blinker logic

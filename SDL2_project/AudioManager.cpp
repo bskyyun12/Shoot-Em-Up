@@ -1,6 +1,8 @@
 #include "AudioManager.h"
 
 AudioManager* AudioManager::sInstance = nullptr;
+bool AudioManager::sIsMusicOn = true;
+bool AudioManager::sIsSFXOn = true;
 
 AudioManager* AudioManager::Instance()
 {
@@ -37,13 +39,15 @@ AudioManager::~AudioManager()
 
 void AudioManager::PlayMusic(std::string fileName, int loops)
 {
-	Mix_PlayMusic(mAssetManager->GetMusic(fileName), loops);
+	if (sIsMusicOn)
+		Mix_PlayMusic(mAssetManager->GetMusic(fileName), loops);
 }
 
 void AudioManager::PauseMusic()
 {
 	if (Mix_PlayingMusic() != 0)
 	{
+		sIsMusicOn = false;
 		Mix_PauseMusic();
 	}
 }
@@ -52,6 +56,7 @@ void AudioManager::ResumeMusic()
 {
 	if (Mix_PausedMusic() != 0)
 	{
+		sIsMusicOn = true;
 		Mix_ResumeMusic();
 	}
 }
@@ -80,17 +85,18 @@ void AudioManager::SFXVolume(int channel, int volume)
 
 void AudioManager::PlaySFX(std::string fileName, int loops, int channel)
 {
-	Mix_PlayChannel(channel, mAssetManager->GetSFX(fileName), loops);
+	if (sIsSFXOn)
+		Mix_PlayChannel(channel, mAssetManager->GetSFX(fileName), loops);
 }
 
 void AudioManager::PauseSFX(int channel)
 {
-	if (Mix_Playing(channel) != 0)
-		Mix_Pause(channel);
+	sIsSFXOn = false;
+	Mix_Pause(channel);
 }
 
 void AudioManager::ResumeSFX(int channel)
 {
-	if (Mix_Playing(channel) != 0)
-		Mix_Resume(channel);
+	sIsSFXOn = true;
+	Mix_Resume(channel);
 }
