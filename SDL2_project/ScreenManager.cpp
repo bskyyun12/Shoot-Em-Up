@@ -87,6 +87,7 @@ void ScreenManager::Update()
 				break;
 			case 3:
 				currentScreen = ending;
+				mEndingScreen->mHighScoreUpdate = false;
 				break;
 			case 4:
 				currentScreen = keyOption;
