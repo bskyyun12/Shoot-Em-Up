@@ -49,9 +49,6 @@ PlayScreen::PlayScreen()
 
 PlayScreen::~PlayScreen()
 {
-	// Write highscore to file
-	mScoreBoard->mHighScoreBoard->WriteHighScoreToFile();
-
 	mTimer = nullptr;
 	mAudioManager = nullptr;
 	mScoreBoard = nullptr;
@@ -258,7 +255,6 @@ bool PlayScreen::GameOver()
 	if (mLevel->State() == Level::gameover)
 	{
 		// Write highscore to file
-		// Do we want this behaviour?
 		mScoreBoard->mHighScoreBoard->WriteHighScoreToFile();
 		return true;
 	}
@@ -304,8 +300,6 @@ void PlayScreen::Update()
 			mLevel->Update();
 			if (mLevel->State() == Level::finished)
 			{
-				// Write highscore to file
-				mScoreBoard->mHighScoreBoard->WriteHighScoreToFile();
 				mLevelStarted = false;
 			}
 

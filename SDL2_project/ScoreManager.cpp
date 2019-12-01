@@ -18,12 +18,12 @@ ScoreManager::~ScoreManager()
 void ScoreManager::ReadHighScoresFromFile()
 {
 	std::string mHighScoreString;
-	for (unsigned int i = 0; i < 7; i++)
+	for (unsigned int i = 0; i < HIGHSCORE_LIST_SIZE; i++)
 	{
 		// save to highscore vector
 		mHighScores.push_back(GetHighScoreFromFileAtPosition(i));
-		SortHighScores();
 	}
+	SortHighScores();
 	mHighScore = mHighScores[0]; // save first place highscore
 }
 
@@ -42,13 +42,20 @@ unsigned int ScoreManager::GetHighScoreFromFileAtPosition(unsigned int pos)
 
 void ScoreManager::WriteHighScoreToFile()
 {
-	// save the new highest highscore to last position in vector
-	if (mHighScore > mHighScores[0])
+	mCurrentPlayerScore = Player::Score();
+	mCurrentPlayer2Score = Player2::Score();
+	// save the players score to last position in vector and sort
+	if (mCurrentPlayerScore > mHighScores[6])
 	{
-		mHighScores[6] = mHighScore;
+		mHighScores[6] = mCurrentPlayerScore;
+		SortHighScores();
 	}
-	SortHighScores();
-	for (unsigned int i = 0; i < 7; i++)
+	if (mCurrentPlayer2Score > mHighScores[6])
+	{
+		mHighScores[6] = mCurrentPlayer2Score;
+		SortHighScores();
+	}
+	for (unsigned int i = 0; i < HIGHSCORE_LIST_SIZE; i++)
 	{
 		WriteHighScoreToPosition(i);
 	}

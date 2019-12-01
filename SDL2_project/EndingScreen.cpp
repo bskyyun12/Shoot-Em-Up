@@ -68,7 +68,8 @@ EndingScreen::~EndingScreen()
 	}
 	mRanks.clear();
 
-	delete mTmpTexture;
+	// The Line below causes a breakpoint when you close the game
+	//delete mTmpTexture;
 	mTmpTexture = nullptr;
 
 	//Freeing Bottom Bar Entities
@@ -101,7 +102,6 @@ void EndingScreen::UpdateHighScore()
 		}
 		mRanks.clear();
 
-		mScoreBoard->mHighScoreBoard->WriteHighScoreToFile();
 		for (int i = 0; i < 7; i++)
 		{
 			mTmpTexture = new Texture(std::to_string(mScoreBoard->mHighScoreBoard->GetHighScoreAtPosition(i)), Graphics::Instance()->FONT_Emulogic, 36, { 255, 255, 255 });

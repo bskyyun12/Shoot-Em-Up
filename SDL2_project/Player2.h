@@ -87,7 +87,7 @@ public:
 	bool IgnoreCollisions();
 
 	// Get Player's current score
-	unsigned int Score();
+	static unsigned int Score();
 	// Get Player's current Lives
 	int Lives();
 
