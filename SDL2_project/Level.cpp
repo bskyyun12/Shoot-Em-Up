@@ -264,7 +264,8 @@ void Level::Victory()
 
 void Level::LevelWon()
 {
-	mAudioManager->PauseMusic();
+	// Pausing the music here causes no more sounds to play
+	//mAudioManager->PauseMusic();
 	mAudioManager->PlayMusic("Audios/victory.wav", 0);
 	mAudioManager->MusicVolume(10); // Set lower volume
 	mCurrentState = finished;
