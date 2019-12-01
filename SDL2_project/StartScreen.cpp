@@ -19,7 +19,7 @@ StartScreen::StartScreen()
 
 	mLogo->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.3f));
 	mAnimatedLogo->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.3f));
-	
+
 	mLogo->Scale(VECTOR2D_ONE * 4);
 	mAnimatedLogo->Scale(VECTOR2D_ONE * 4);
 
@@ -30,17 +30,25 @@ StartScreen::StartScreen()
 	mPlayModes = new GameEntity(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 	mOnePlayerMode = new Texture("1 Player", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
 	mTwoPlayerMode = new Texture("2 Players", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
+	mCredit = new Texture("Credits", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
+	mKeysOption = new Texture("Keys & Option", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
 	mCursor = new AnimatedTexture("shipRed.png", 0, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
 	mSelectMode = 1;
 
 	mOnePlayerMode->Parent(mPlayModes);
 	mTwoPlayerMode->Parent(mPlayModes);
+	mCredit->Parent(mPlayModes);
+	mKeysOption->Parent(mPlayModes);
 	mCursor->Parent(mPlayModes);
 
 	mOnePlayerMode->Pos(Vector2D(-18.0f, -35.0f));
 	mTwoPlayerMode->Pos(Vector2D(0.0f, 35.0f));
+	mCredit->Pos(Vector2D(-32.0f, 105.0f));
+	mKeysOption->Pos(Vector2D(64.0f, 175.0f));
 	mCursorPos1 = mOnePlayerMode->Pos(local) + Vector2D(-150.0f, 0);
 	mCursorPos2 = mTwoPlayerMode->Pos(local) + Vector2D(-168.0f, 0);
+	mCursorPos3 = mCredit->Pos(local) + Vector2D(-136.0f, 0);
+	mCursorPos4 = mKeysOption->Pos(local) + Vector2D(-232.0f, 0);
 	mCursor->Pos(mCursorPos1);
 
 	mCursor->Scale(VECTOR2D_ONE * 1.3f);
@@ -49,16 +57,13 @@ StartScreen::StartScreen()
 
 	//Bottom Bar Entities
 	mBottomBar = new GameEntity(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.7f));
-	mNamco = new Texture("PROGRAMMERS", Graphics::Instance()->FONT_Emulogic, 36, { 200, 0, 0 });
 	mDates = new Texture("2019 FUTUREGAMES", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
 	mRights = new Texture("ALL RIGHTS WAIVED", Graphics::Instance()->FONT_Emulogic, 32, { 200, 0, 0 });
 
-	mNamco->Parent(mBottomBar);
 	mDates->Parent(mBottomBar);
 	mRights->Parent(mBottomBar);
 
-	mNamco->Pos(Vector2D(0.0f, 0.0f));
-	mDates->Pos(Vector2D(0.0f, 90.0f));
+	mDates->Pos(Vector2D(0.0f, 130.0f));
 	mRights->Pos(Vector2D(0.0f, 180.0f));
 
 	mBottomBar->Parent(this);
@@ -87,14 +92,16 @@ StartScreen::~StartScreen()
 	mOnePlayerMode = nullptr;
 	delete mTwoPlayerMode;
 	mTwoPlayerMode = nullptr;
+	delete mCredit;
+	mCredit = nullptr;
+	delete mKeysOption;
+	mKeysOption = nullptr;
 	delete mCursor;
 	mCursor = nullptr;
 
 	//Freeing Bottom Bar Entities
 	delete mBottomBar;
 	mBottomBar = nullptr;
-	delete mNamco;
-	mNamco = nullptr;
 	delete mDates;
 	mDates = nullptr;
 	delete mRights;
@@ -134,7 +141,7 @@ int StartScreen::GetSelectMode()
 
 void StartScreen::ChangeSelectedMode(int change)
 {
-	if (change == 1)
+	if (change == 1 || change == 5)
 	{
 		mSelectMode = 1;
 		mCursor->Pos(mCursorPos1);
@@ -143,6 +150,16 @@ void StartScreen::ChangeSelectedMode(int change)
 	{
 		mSelectMode = 2;
 		mCursor->Pos(mCursorPos2);
+	}
+	else if (change == 3)
+	{
+		mSelectMode = 3;
+		mCursor->Pos(mCursorPos3);
+	}
+	else if (change == 4 || change == 0)
+	{
+		mSelectMode = 4;
+		mCursor->Pos(mCursorPos4);
 	}
 }
 
@@ -160,7 +177,7 @@ void StartScreen::Update()
 			mAnimationDone = true;
 		}
 
-		if (mInputManager->KeyPressed(SDL_SCANCODE_UP) || mInputManager->KeyPressed(SDL_SCANCODE_DOWN))
+		if (mInputManager->KeyPressed(SDL_SCANCODE_UP) || mInputManager->KeyPressed(SDL_SCANCODE_DOWN) || mInputManager->KeyPressed(SDL_SCANCODE_RETURN))
 		{
 			mAnimationTimer = mAnimationTotalTime;
 		}
@@ -173,24 +190,28 @@ void StartScreen::Update()
 
 		if (mInputManager->KeyPressed(SDL_SCANCODE_UP))
 		{
-			ChangeSelectedMode(1);
+			mSelectMode--;
+			ChangeSelectedMode(mSelectMode);
 		}
 		else if (mInputManager->KeyPressed(SDL_SCANCODE_DOWN))
 		{
-			ChangeSelectedMode(2);
+			mSelectMode++;
+			ChangeSelectedMode(mSelectMode);
 		}
 
 		if (mInputManager->JoysticksInitialiased())
 		{
 			if (mInputManager->yValue(0, 1) < 0 || mInputManager->yValue(0, 2) < 0)
-		   //|| mInputManager->xValue(0, 1) < 0 || mInputManager->xValue(0, 2) < 0)
+				//|| mInputManager->xValue(0, 1) < 0 || mInputManager->xValue(0, 2) < 0)
 			{
-				ChangeSelectedMode(1);
+				mSelectMode--;
+				ChangeSelectedMode(mSelectMode);
 			}
 			else if (mInputManager->yValue(0, 1) > 0 || mInputManager->yValue(0, 2) > 0)
 				//|| mInputManager->xValue(0, 1) > 0 || mInputManager->xValue(0, 2) > 0)
 			{
-				ChangeSelectedMode(2);
+				mSelectMode++;
+				ChangeSelectedMode(mSelectMode);
 			}
 		}
 	}
@@ -218,10 +239,10 @@ void StartScreen::Render()
 	//Render Play Mode Entities
 	mOnePlayerMode->Render();
 	mTwoPlayerMode->Render();
-	mCursor->Render();
+	mCredit->Render();
+	mKeysOption->Render();
 
 	//Render Bottom Bar Entities
-	mNamco->Render();
 	mDates->Render();
 	mRights->Render();
 

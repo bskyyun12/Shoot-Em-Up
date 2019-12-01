@@ -43,6 +43,12 @@
     <Filter Include="Source Files\Game\Projectiles">
       <UniqueIdentifier>{9d3af9eb-9f02-42df-9c0c-df1efd81f258}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game\Screens">
+      <UniqueIdentifier>{abee8e1b-c6b7-4804-8ff9-a7411310eca4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Screens">
+      <UniqueIdentifier>{6d2252ff-2801-4e6d-bada-e0c0112a4ccb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
@@ -78,13 +84,7 @@
     <ClInclude Include="Graphics.h">
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="StartScreen.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="ScoreBoard.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayScreen.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="BackgroundScroll.h">
@@ -109,9 +109,6 @@
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
     <ClInclude Include="BoxPiece.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="EndingScreen.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsHelper.h">
@@ -143,6 +140,18 @@
     </ClInclude>
     <ClInclude Include="Formation.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScreen.h">
+      <Filter>Header Files\Game\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScreen.h">
+      <Filter>Header Files\Game\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyOptionScreen.h">
+      <Filter>Header Files\Game\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingScreen.h">
+      <Filter>Header Files\Game\Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -179,13 +188,7 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="StartScreen.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="ScoreBoard.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayScreen.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="BackgroundScroll.cpp">
@@ -210,9 +213,6 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="BoxPiece.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="EndingScreen.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsEntity.cpp">
@@ -242,5 +242,26 @@
     <ClCompile Include="Boxxy.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="KeyOptionScreen.cpp">
+      <Filter>Source Files\Game\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScreen.cpp">
+      <Filter>Source Files\Game\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="StartScreen.cpp">
+      <Filter>Source Files\Game\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingScreen.cpp">
+      <Filter>Source Files\Game\Screens</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="highscore0.txt" />
+    <Text Include="highscore1.txt" />
+    <Text Include="highscore2.txt" />
+    <Text Include="highscore3.txt" />
+    <Text Include="highscore4.txt" />
+    <Text Include="highscore5.txt" />
+    <Text Include="highscore6.txt" />
   </ItemGroup>
 </Project>

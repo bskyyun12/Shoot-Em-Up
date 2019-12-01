@@ -9,6 +9,8 @@ class EndingScreen : public GameEntity
 {
 private:
 
+	BackgroundScroll* mBackgroundScroll;
+
 	Timer* mTimer = nullptr;
 	InputManager* mInputManager = nullptr;
 	AudioManager* mAudioManager = nullptr;
@@ -33,8 +35,6 @@ private:
 	AnimatedTexture* mFredrik = nullptr;
 	AnimatedTexture* mGwangyeong = nullptr;
 	AnimatedTexture* mMattias = nullptr;
-
-	BackgroundScroll* mBackgroundScroll;
 
 public:
 

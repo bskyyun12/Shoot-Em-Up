@@ -3,6 +3,7 @@
 #include "StartScreen.h"
 #include "PlayScreen.h"
 #include "EndingScreen.h"
+#include "KeyOptionScreen.h"
 
 class ScreenManager
 {
@@ -12,7 +13,8 @@ private:
 	{
 		start,
 		play,
-		ending
+		ending,
+		keyOption
 	};
 
 	static ScreenManager* sInstance;
@@ -22,6 +24,7 @@ private:
 	StartScreen* mStartScreen = nullptr;
 	PlayScreen* mPlayScreen = nullptr;
 	EndingScreen* mEndingScreen = nullptr;
+	KeyOptionScreen* mKeyOptionScreen = nullptr;
 	
 
 	SCREENS currentScreen;

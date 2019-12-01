@@ -45,6 +45,8 @@ public:
 	//on the given channel (default: 0)
 	//--------------------------------------------------
 	void PlaySFX(std::string filename, int loops = 0, int channel = 0);
+	void PauseSFX(int channel = -1);
+	void ResumeSFX(int channel = -1);
 
 private:
 	

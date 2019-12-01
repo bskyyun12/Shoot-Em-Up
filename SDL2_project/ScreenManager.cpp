@@ -25,6 +25,7 @@ ScreenManager::ScreenManager()
 	mStartScreen = new StartScreen();
 	mPlayScreen = new PlayScreen();
 	mEndingScreen = new EndingScreen();
+	mKeyOptionScreen = new KeyOptionScreen();
 
 	currentScreen = start;
 }
@@ -41,6 +42,9 @@ ScreenManager::~ScreenManager()
 
 	delete mEndingScreen;
 	mEndingScreen = nullptr;
+
+	delete mKeyOptionScreen;
+	mKeyOptionScreen = nullptr;
 }
 
 
@@ -67,17 +71,29 @@ void ScreenManager::Update()
 	{
 	case start:
 		mStartScreen->Update();
-		if (mStartScreen->IsAnimationDone() && mInputManager->KeyPressed(SDL_SCANCODE_RETURN) ||
+		if (
+			mStartScreen->IsAnimationDone() && mInputManager->KeyPressed(SDL_SCANCODE_RETURN) ||
 		   (mStartScreen->IsAnimationDone() && mInputManager->JoysticksInitialiased() && /* Joysticks initialised */
 		   (mInputManager->GetButtonState(0, 7) || /* Player 1 Start button */
-			mInputManager->GetButtonState(0, 0)))) /* Player 1 A button */
+			mInputManager->GetButtonState(0, 0)))/* Player 1 A button */
+			) 
 		{
-			currentScreen = play;
-			mPlayScreen->StartNewGame(mStartScreen->GetSelectMode());
-		}
-		if (mStartScreen->IsAnimationDone() && mInputManager->KeyPressed(SDL_SCANCODE_C))
-		{
-			currentScreen = ending;
+			switch (mStartScreen->GetSelectMode())
+			{
+			case 1:
+			case 2:
+				currentScreen = play;
+				mPlayScreen->StartNewGame(mStartScreen->GetSelectMode());
+				break;
+			case 3:
+				currentScreen = ending;
+				break;
+			case 4:
+				currentScreen = keyOption;
+				break;
+			default:
+				break;
+			}
 		}
 		break;
 	case play:
@@ -103,6 +119,20 @@ void ScreenManager::Update()
 			mStartScreen->ResetAnimation();
 		}
 		break;
+	case keyOption:
+		mKeyOptionScreen->Update();
+		if (mInputManager->KeyPressed(SDL_SCANCODE_RETURN) ||
+			(mInputManager->JoysticksInitialiased() && /* Joysticks initialised */
+			(mInputManager->GetButtonState(0, 7) || /* Player 1 Start button */
+				mInputManager->GetButtonState(0, 0)))) /* Player 1 A button */
+		{
+			if (mKeyOptionScreen->Return())
+			{
+				currentScreen = start;
+				mStartScreen->ResetAnimation();
+			}
+		}
+		break;
 	default:
 		break;
 	}
@@ -120,6 +150,9 @@ void ScreenManager::Render()
 		break;
 	case ending:
 		mEndingScreen->Render();
+		break;
+	case keyOption:
+		mKeyOptionScreen->Render();
 		break;
 	default:
 		break;

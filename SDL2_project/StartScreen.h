@@ -24,14 +24,18 @@ protected:
 	GameEntity* mPlayModes = nullptr;
 	Texture* mOnePlayerMode = nullptr;
 	Texture* mTwoPlayerMode = nullptr;
+	Texture* mCredit = nullptr;
+	Texture* mKeysOption = nullptr;
 	AnimatedTexture* mCursor = nullptr;
 	Vector2D mCursorPos1;
 	Vector2D mCursorPos2;
+	Vector2D mCursorPos3;
+	Vector2D mCursorPos4;
 	int mSelectMode;
 	
 	//Bottom Bar Entities
 	GameEntity* mBottomBar = nullptr;
-	Texture* mNamco = nullptr;
+	//Texture* mNamco = nullptr;
 	Texture* mDates = nullptr;
 	Texture* mRights = nullptr;
 

@@ -144,6 +144,7 @@
     <ClInclude Include="Boxxy.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="KeyOptionScreen.h" />
     <ClInclude Include="PhysicsEntity.h" />
     <ClInclude Include="EndingScreen.h" />
     <ClInclude Include="Enemy.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Boxxy.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="KeyOptionScreen.cpp" />
     <ClCompile Include="PhysicsEntity.cpp" />
     <ClCompile Include="EndingScreen.cpp" />
     <ClCompile Include="Enemy.cpp" />

@@ -82,3 +82,15 @@ void AudioManager::PlaySFX(std::string fileName, int loops, int channel)
 {
 	Mix_PlayChannel(channel, mAssetManager->GetSFX(fileName), loops);
 }
+
+void AudioManager::PauseSFX(int channel)
+{
+	if (Mix_Playing(channel) != 0)
+		Mix_Pause(channel);
+}
+
+void AudioManager::ResumeSFX(int channel)
+{
+	if (Mix_Playing(channel) != 0)
+		Mix_Resume(channel);
+}
