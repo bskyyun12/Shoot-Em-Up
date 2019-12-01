@@ -99,6 +99,6 @@ void Bullet::Render()
 		mBullet->Render();
 
 		// Debug colliderbox
-		PhysicsEntity::Render();
+		//PhysicsEntity::Render();
 	}
 }

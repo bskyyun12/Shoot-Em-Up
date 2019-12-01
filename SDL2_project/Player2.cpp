@@ -553,5 +553,5 @@ void Player2::Render()
 	}
 
 	// Debug colliderbox
-	PhysicsEntity::Render();
+	//PhysicsEntity::Render();
 }

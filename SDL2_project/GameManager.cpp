@@ -101,6 +101,10 @@ void GameManager::Render()
 	mGraphics->Render();
 }
 
+void GameManager::Quit()
+{
+	mQuit = true;
+}
 
 void GameManager::Run()
 {
@@ -114,7 +118,7 @@ void GameManager::Run()
 			switch (mEvents.type)
 			{
 			case SDL_QUIT:
-				mQuit = true;
+				Quit();
 			default:
 				break;
 			}

@@ -305,7 +305,7 @@ void Level::Update()
 		{
 			Victory();
 		}
-		else if (mBoxes.size() == 0 || InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
+		else if ((mBoxes.size() == 0 && !mGameOver && !mVictory) || InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
 		{
 			LevelWon();
 		}

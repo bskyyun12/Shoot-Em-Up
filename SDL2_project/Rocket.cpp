@@ -149,6 +149,6 @@ void Rocket::Render()
 		mRocket->Render();
 
 		// Debug colliderbox
-		PhysicsEntity::Render();
+		//PhysicsEntity::Render();
 	}
 }

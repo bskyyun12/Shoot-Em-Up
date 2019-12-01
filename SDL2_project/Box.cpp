@@ -268,7 +268,7 @@ void Box::Render()
 			mBox->Render();
 
 			// Debug colliderbox
-			PhysicsEntity::Render();
+			//PhysicsEntity::Render();
 		}
 	}
 

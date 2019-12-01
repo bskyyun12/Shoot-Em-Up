@@ -1,5 +1,6 @@
 #include "ScreenManager.h"
 #include "InputManager.h"
+#include "GameManager.h"
 
 ScreenManager* ScreenManager::sInstance = nullptr;
 
@@ -92,6 +93,8 @@ void ScreenManager::Update()
 			case 4:
 				currentScreen = keyOption;
 				break;
+			case 5:
+				GameManager::Instance()->Quit();
 			default:
 				break;
 			}

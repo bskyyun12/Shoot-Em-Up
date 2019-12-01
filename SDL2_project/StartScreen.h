@@ -24,11 +24,13 @@ protected:
 	Texture* mTwoPlayerMode = nullptr;
 	Texture* mCredit = nullptr;
 	Texture* mKeysOption = nullptr;
+	Texture* mExit = nullptr;
 	AnimatedTexture* mCursor = nullptr;
 	Vector2D mCursorPos1;
 	Vector2D mCursorPos2;
 	Vector2D mCursorPos3;
 	Vector2D mCursorPos4;
+	Vector2D mCursorPos5;
 	int mSelectMode;
 	
 	//Bottom Bar Entities

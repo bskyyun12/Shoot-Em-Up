@@ -16,8 +16,8 @@ StartScreen::StartScreen()
 	mLogo = new Texture("shipRed.png", 32, 0, 16, 24);
 	mAnimatedLogo = new AnimatedTexture("shipRed.png", 0, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
 
-	mLogo->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.3f));
-	mAnimatedLogo->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.3f));
+	mLogo->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.25f));
+	mAnimatedLogo->Pos(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.25f));
 
 	mLogo->Scale(VECTOR2D_ONE * 4);
 	mAnimatedLogo->Scale(VECTOR2D_ONE * 4);
@@ -31,6 +31,7 @@ StartScreen::StartScreen()
 	mTwoPlayerMode = new Texture("2 Players", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
 	mCredit = new Texture("Credits", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
 	mKeysOption = new Texture("Keys & Option", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
+	mExit = new Texture("Exit", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
 	mCursor = new AnimatedTexture("shipRed.png", 0, 0, 16, 24, 5, 0.5f, AnimatedTexture::ANIM_DIR::horizontal);
 	mSelectMode = 1;
 
@@ -38,16 +39,19 @@ StartScreen::StartScreen()
 	mTwoPlayerMode->Parent(mPlayModes);
 	mCredit->Parent(mPlayModes);
 	mKeysOption->Parent(mPlayModes);
+	mExit->Parent(mPlayModes);
 	mCursor->Parent(mPlayModes);
 
-	mOnePlayerMode->Pos(Vector2D(-18.0f, -35.0f));
-	mTwoPlayerMode->Pos(Vector2D(0.0f, 35.0f));
-	mCredit->Pos(Vector2D(-32.0f, 105.0f));
-	mKeysOption->Pos(Vector2D(64.0f, 175.0f));
+	mOnePlayerMode->Pos(Vector2D(-18.0f, -70.0f));
+	mTwoPlayerMode->Pos(Vector2D(0.0f, 0.0f));
+	mCredit->Pos(Vector2D(-32.0f, 70.0f));
+	mKeysOption->Pos(Vector2D(64.0f, 140.0f));
+	mExit->Pos(Vector2D(-80.0f, 210.0f));
 	mCursorPos1 = mOnePlayerMode->Pos(local) + Vector2D(-150.0f, 0);
 	mCursorPos2 = mTwoPlayerMode->Pos(local) + Vector2D(-168.0f, 0);
 	mCursorPos3 = mCredit->Pos(local) + Vector2D(-136.0f, 0);
 	mCursorPos4 = mKeysOption->Pos(local) + Vector2D(-232.0f, 0);
+	mCursorPos5 = mExit->Pos(local) + Vector2D(-88.0f, 0);
 	mCursor->Pos(mCursorPos1);
 
 	mCursor->Scale(VECTOR2D_ONE * 1.3f);
@@ -56,8 +60,8 @@ StartScreen::StartScreen()
 
 	//Bottom Bar Entities
 	mBottomBar = new GameEntity(Vector2D(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.7f));
-	mDates = new Texture("2019 FUTUREGAMES", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
-	mRights = new Texture("ALL RIGHTS WAIVED", Graphics::Instance()->FONT_Emulogic, 32, { 200, 0, 0 });
+	mDates = new Texture("TEAM 3 PROGRAMMERS", Graphics::Instance()->FONT_Emulogic, 32, { 200, 0, 0 });
+	mRights = new Texture("2019 FUTUREGAMES", Graphics::Instance()->FONT_Emulogic, 32, { 230, 230, 230 });
 
 	mDates->Parent(mBottomBar);
 	mRights->Parent(mBottomBar);
@@ -95,6 +99,8 @@ StartScreen::~StartScreen()
 	mCredit = nullptr;
 	delete mKeysOption;
 	mKeysOption = nullptr;
+	delete mExit;
+	mExit = nullptr;
 	delete mCursor;
 	mCursor = nullptr;
 
@@ -140,7 +146,7 @@ int StartScreen::GetSelectMode()
 
 void StartScreen::ChangeSelectedMode(int change)
 {
-	if (change == 1 || change == 5)
+	if (change == 1 || change == 6)
 	{
 		mSelectMode = 1;
 		mCursor->Pos(mCursorPos1);
@@ -155,10 +161,15 @@ void StartScreen::ChangeSelectedMode(int change)
 		mSelectMode = 3;
 		mCursor->Pos(mCursorPos3);
 	}
-	else if (change == 4 || change == 0)
+	else if (change == 4)
 	{
 		mSelectMode = 4;
 		mCursor->Pos(mCursorPos4);
+	}
+	else if (change == 5 || change == 0)
+	{
+		mSelectMode = 5;
+		mCursor->Pos(mCursorPos5);
 	}
 }
 
@@ -240,6 +251,7 @@ void StartScreen::Render()
 	mTwoPlayerMode->Render();
 	mCredit->Render();
 	mKeysOption->Render();
+	mExit->Render();
 
 	//Render Bottom Bar Entities
 	mDates->Render();

@@ -32,6 +32,8 @@ public:
 	static GameManager* Instance();
 	static void Release();
 
+	void Quit();
+
 	void Run();
 
 private:
