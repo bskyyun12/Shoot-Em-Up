@@ -294,11 +294,11 @@ void Level::Update()
 			mSpawnTimer = 0.0f;
 		}
 
-		if (HasAllPlayersDied() || InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
+		if ((HasAllPlayersDied() && !mGameOver) || InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
 		{
 			GameOver();
 		}
-		else if ((mBoxes.size() == 0 && mCurrentStage == 9) || InputManager::Instance()->KeyPressed(SDL_SCANCODE_V))
+		else if ((mBoxes.size() == 0 && mCurrentStage == 9 && !mVictory) || InputManager::Instance()->KeyPressed(SDL_SCANCODE_V))
 		{
 			Victory();
 		}
