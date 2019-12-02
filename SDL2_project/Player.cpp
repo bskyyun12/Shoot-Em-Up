@@ -233,7 +233,7 @@ void Player::HandleMovement()
 		// Green (A) button
 		if (InputManager::Instance()->GetButtonState(0, 0))
 		{
-			mPlayer->Rotate(90);
+			//mPlayer->Rotate(90);
 		}
 
 		// Red (B) button
